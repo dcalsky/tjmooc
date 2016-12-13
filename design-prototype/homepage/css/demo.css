@@ -75,9 +75,6 @@ a {
 	top: 0;
 	position: fixed !important;
 }
-.header-top .codrops-demos {
-	padding-top: 0;
-}
 
 .container > header,
 .footer {
@@ -92,8 +89,9 @@ a {
 
 .container > header {
 	position: absolute;
-	padding: 10px 10%;
+	padding: 4px 10%;
 	opacity: 0.9;
+	height: 64px;
 }
 
 .footer {
@@ -119,8 +117,8 @@ a {
 
 .container > header h1,
 .logo-box h1 {
-	font-size: 34px;
-	line-height: 38px;
+	font-size: 23px;
+	line-height: 28px;
 	margin: 4px 0;
 	font-weight: 700;
 	color: #333;
@@ -130,11 +128,11 @@ a {
 .container > header h1 span,
 .logo-box h1 span {
 	display: block;
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: 800;
 	background-color: #883d59;
     color: #fff;
-    line-height: 1.5;
+    line-height: 1.2;
 	text-align: center;
 }
 
@@ -142,11 +140,11 @@ a {
 	display: inline-block;
 	float: left;
 	text-align: center;
-	width: 76px;
-	height: 76px;
+	width: 56px;
+	height: 56px;
 	background: #302;
 	color: #fff;
-	font-size: 70px;
+	font-size: 50px;
 	overflow: hidden;
 }
 
@@ -186,7 +184,7 @@ a {
 /* Demo Buttons Style */
 .codrops-demos {
 	float: right;
-	padding-top: 20px;
+	padding-top: 6px;
 	font-size: 20px;
 }
 
@@ -204,6 +202,18 @@ a {
 .codrops-demos a:hover {
 	color: #883d59;
 	border-color: #883d59;
+}
+
+
+.top-label {
+	display: inline-block;
+    font-size: 18px;
+    margin-top: 21px;
+    margin-left: 10px;
+    font-weight: bold;
+} 
+.top-label a {
+	margin-left: 10px;
 }
 
 ul {
@@ -230,7 +240,7 @@ ul li:last-child:after {
 }
 
 .logo-box {
-	height: 76px;
+	height: 64px;
 	width: auto;
 	display: inline-block;
 }
@@ -260,7 +270,7 @@ ul li:last-child:after {
 	float: right;
 	text-align: right;
 	right: 10%;
-	margin-top: 40px;
+	margin-top: 22px;
 	padding-bottom: 25px;
 	font-size: 14px;
 	letter-spacing: 1px;

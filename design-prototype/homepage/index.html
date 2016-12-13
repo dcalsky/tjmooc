@@ -20,7 +20,12 @@
 	<header class="clearfix">
 		<div class="logo">M</div>
 		<h1>&nbsp;TONGJI MOOC <span>同济大学慕课网站</span></h1>
-		
+		<div class="top-label">
+			<a href="">最新信息</a>
+			<a href="">我的课表</a>
+			<a href="">网上课程</a>
+			<a href="">课堂论坛</a>
+		</div>
 		<nav class="codrops-demos">
 			<a href="">注册</a>
 			<a href="">登录</a>
@@ -177,7 +182,7 @@
 		</div>
 		<div class="divide"></div>
 		<ul>
-			<li>最新信息</li><li>全部课程</li><li>课堂论坛</li><li>版权声明</li><li>关于我们</li>
+			<li>最新信息</li><li>我的课表</li><li>网上课程</li><li>课堂论坛</li><li>版权声明</li><li>关于我们</li>
 		</ul>
 	</div>
 
@@ -188,7 +193,7 @@
 <script type="text/javascript">	
 	$(window)
     .scroll(function(e) {
-        if ($('header').css('height') != '60px' && window.scrollY > 96) {
+        if ($('header').css('height') != '60px' && window.scrollY > 36) {
             $('header').addClass('header-top');
         }
 		else {
