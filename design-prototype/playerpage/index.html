@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>flv.js demo</title>
+
+    <style>
+    
+        @import url(http://fonts.useso.com/css?family=Lato:300,400,700);
+
+        @font-face {
+            font-family: 'AnimalsNormal';
+            src: url('fonts/animals-webfont.eot');
+            src: url('fonts/animals-webfont.eot?#iefix') format('embedded-opentype'),
+                url('fonts/animals-webfont.woff') format('woff'),
+                url('fonts/animals-webfont.ttf') format('truetype'),
+                url('fonts/animals-webfont.svg#AnimalsNormal') format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        html { height: 100%; min-width: 1024px;}
+
+        *,
+        *:after,
+        *:before {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Lato', Calibri, Arial, sans-serif;
+            background: #fff;
+            font-weight: 300;
+            font-size: 15px;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+            min-width: 1024px;
+        }
+                
+        a {
+            color: #555;
+            text-decoration: none;
+        }
+        .mainContainer {
+            display: block;
+            width: 1024px;
+            margin: 0 auto;
+        }
+        .centeredVideo {
+            display: block;
+            width: 100%;
+            height: 576px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: auto;
+            background-color: #000;
+        }
+
+        .controls {
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+
+        header,
+        .footer {
+            padding: 50px 10% 0 10%;
+            width: 100%;
+            min-width: 1024px;
+            margin: 0;
+            background-color: #fff;
+            position: relative;
+            z-index: 20;
+        }
+
+        header {
+            position: absolute;
+            padding: 4px 10%;
+            opacity: 0.9;
+            height: 64px;
+            top: 0;
+            left: 0;
+            box-shadow: 0 0 20px -3px #000;
+        }
+
+        .footer {
+            background: #883d59;
+            padding: 40px 10% 20px 10%;
+            color: #fff;
+            z-index: 1;
+        }
+
+        header h1,
+        .logo-box h1 {
+            font-size: 23px;
+            line-height: 28px;
+            margin: 4px 0;
+            font-weight: 700;
+            color: #333;
+            float: left;
+        }
+        header:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        header h1 span,
+        .logo-box h1 span {
+            display: block;
+            font-size: 18px;
+            font-weight: 800;
+            background-color: #883d59;
+            color: #fff;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .logo {
+            display: inline-block;
+            float: left;
+            text-align: center;
+            width: 56px;
+            height: 56px;
+            background: #302;
+            color: #fff;
+            font-size: 50px;
+            overflow: hidden;
+        }
+        
+        .top-label {
+            display: inline-block;
+            font-size: 18px;
+            margin-top: 21px;
+            margin-left: 10px;
+            font-weight: bold;
+        } 
+        .top-label a {
+            margin-left: 10px;
+        }
+
+        nav {
+            float: right;
+            padding-top: 6px;
+            font-size: 20px;
+        }
+
+        nav a {
+            display: inline-block;
+            margin: 10px;
+            color: #333;
+            font-weight: 700;
+            line-height: 30px;
+            margin-right: 0;
+            border-bottom: 4px solid transparent;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            color: #883d59;
+            border-color: #883d59;
+        }
+
+        ul {
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            padding: 0px;
+            list-style: none;
+            opacity: 0.5;
+            font-weight: bold;
+        }
+
+        ul li {
+            display: inline-block;
+        }
+
+        ul li:after {
+            content: "|";
+            margin: 10px;
+        }
+
+        ul li:last-child:after {
+            content: none;
+        }
+
+        .logo-box {
+            height: 64px;
+            width: auto;
+            display: inline-block;
+        }
+
+        .logo-box h1 {
+            color: #fff;
+            opacity: 0.8;
+        }
+
+        .logo-box .logo {
+            background-color: #fff;
+            color: #883d59;
+            opacity: 0.5;
+        }
+
+        .logo-box h1 span {
+            background-color: #fff;
+            color: #883d59;
+        }
+
+        .law-information {
+            display: inline-block;
+            float: right;
+            text-align: right;
+            right: 10%;
+            margin-top: 22px;
+            padding-bottom: 25px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            opacity: 0.5;
+            font-weight: bold;
+        }
+        .school {
+            position: relative;
+        }
+
+        .school:before {
+            content: "同济大学软件学院";
+            display: inline-block;
+            margin: 0;
+            position: absolute;
+            top: 0px;
+            background-color: #883d59;
+            width: 100%;
+            right: 0;
+            opacity: 0;
+            transition: all 0.2s;
+        }
+
+        .footer:hover .school:before {
+            opacity: 1;
+        }
+
+        .divide {
+            width: 100%;
+            height: 2px;
+            margin-top: 10px;
+
+            background-color: #fff;
+            opacity: 0.3;
+        }
+
+
+        .section {
+            padding-top: 160px;
+            padding-bottom: 30px;
+            z-index: 10;
+            position: relative;
+            top: 0;
+            box-shadow: 0 0 20px -3px #000;
+        }
+        .section:before {
+            content: "";
+            position: absolute;
+            background-color: #883d59;
+            bottom: 0;
+            width: 100%;
+            height: 616px;
+            z-index: -1;
+            border: 0 #502 solid;
+            border-bottom-width: 1px;
+            opacity: 0.2;
+        }
+        .videoTitle {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 10px;
+            margin-bottom: 15px;
+            position: absolute;
+            top: 75px;
+        }
+        .videoContent {
+            height: 30px;
+            font-size: 15px;
+            color: #302;
+            opacity: 0.5;
+            font-weight: bold;
+            margin: 10px;
+            position: absolute;
+            top: 105px;
+        }
+        .videoDir {
+            height: 30px;
+            line-height: 30px;
+        }
+        .videoDir > span {
+        }
+        .videoDir > span:after {
+            content: ">";
+            padding: 0 5px;
+            font-size: 12px;
+            top: -1px;
+            position: relative;
+        }
+        .videoDir > span:first-child:before {
+            content: "·";
+            font-size: 30px;
+            line-height: 10px;
+            margin-right: 15px;
+            position: relative;
+            top: 4px;
+            left: 1px;
+
+        }
+        .videoDir > span:last-child:after {
+            content: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+		<div class="logo">M</div>
+		<h1>&nbsp;TONGJI MOOC <span>同济大学数学慕课网</span></h1>
+		<div class="top-label">
+			<a href="">最新信息</a>
+			<a href="">我的课表</a>
+			<a href="">网上课程</a>
+			<a href="">课堂论坛</a>
+		</div>
+		<nav>
+			<a href="">注册</a>
+			<a href="">登录</a>
+		</nav>
+	</header>
+    
+    <div class="section">
+        <div class="mainContainer">
+            <div class="videoTitle">
+                高等数学主题曲 - 摇滚版
+            </div>
+            <div class="videoContent">
+                <div class="videoDir">
+                    <span>数学</span><span>高等数学</span><span>音乐</span>
+                </div>
+            </div>
+
+            <video name="videoElement" class="centeredVideo" controls autoplay width="1024" height="576">
+                Your browser is too old which doesn't support HTML5 video.
+            </video>
+        </div>
+    </div>
+
+
+	<div class="footer">
+		<div class="logo-box">
+			<div class="logo">M</div>
+			<h1>&nbsp;TONGJI MOOC <span>同济大学数学慕课网</span></h1>
+		</div>
+		<div class="law-information">
+			<div class="school">同济大学数学系</div>
+			<div>沪ICP备160000xx号</div> 
+		</div>
+		<div class="divide"></div>
+		<ul>
+			<li>最新信息</li><li>我的课表</li><li>网上课程</li><li>课堂论坛</li><li>版权声明</li><li>关于我们</li>
+		</ul>
+	</div>
+
+
+    <script src="./js/flv.js"></script>
+    
+    <script>
+        function flv_load() {
+            var element = document.getElementsByName('videoElement')[0];
+                player = flvjs.createPlayer({
+                    type: 'mp4',
+                    url: 'http://ohp6g3bar.bkt.clouddn.com/job_IMG_1603.MOV'
+                }, {
+                    enableWorker: false,
+                    lazyLoadMaxDuration: 3 * 60,
+                    seekType: 'range',
+                });
+                player.attachMediaElement(element);
+                player.load();
+        }
+
+        function flv_start() {
+            player.play();
+        }
+
+        function flv_pause() {
+            player.pause();
+        }
+
+        function flv_destroy() {
+            player.pause();
+            player.unload();
+            player.detachMediaElement();
+            player.destroy();
+            player = null;
+        }
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            flv_load();
+        });
+    </script>
+    
+</body>
+
+</html>
