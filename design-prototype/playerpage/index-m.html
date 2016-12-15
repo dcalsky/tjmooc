@@ -48,7 +48,7 @@
         }
         .mainContainer {
             display: block;
-            width: 800px;
+            width: 1024px;
             margin: 0 auto;
         }
         .centeredVideo {
@@ -84,7 +84,7 @@
 
         header {
             position: absolute;
-            padding: 4px 2px;
+            padding: 4px 10%;
             opacity: 0.9;
             height: 64px;
             top: 0;
@@ -97,7 +97,6 @@
             padding: 40px 10% 20px 10%;
             color: #fff;
             z-index: 1;
-            margin-top: 766px;
         }
 
         header h1,
@@ -262,12 +261,10 @@
         .section {
             padding-top: 160px;
             padding-bottom: 30px;
-            width: calc(100% - 224px);
-            min-width: 800px;
-            left: 224px;
-            z-index: 0;
-            position: absolute;
+            z-index: 10;
+            position: relative;
             top: 0;
+            box-shadow: 0 0 20px -3px #000;
         }
         .section:before {
             content: "";
@@ -277,7 +274,9 @@
             width: 100%;
             height: 616px;
             z-index: -1;
-            opacity: 1;
+            border: 0 #502 solid;
+            border-bottom-width: 1px;
+            opacity: 0.2;
         }
         .videoTitle {
             font-size: 25px;
@@ -324,47 +323,6 @@
             content: none;
         }
 
-        .left-bar {
-            width: 224px;
-            height: 702px;
-            position: absolute;
-            left: 0;
-            /*background-color: rgba(136, 61, 89, 1);*/
-            background-color: #161013;
-            top: 64px;
-            z-index: 2;
-            box-shadow: 0 0 20px -3px #000;
-        }
-        .left-bar-item {
-            width: 100%;
-            height: 60px;
-            border: 0 solid currentColor;
-            border-bottom-width: 0px;
-            font-size: 25px;
-            text-align: center;
-            line-height: 60px;
-            color: #fde;
-            font-weight: bold;
-            position: relative;
-        }   
-        .left-bar-item-now {
-            background-color: #fde;
-            color: #302;
-        }
-        .left-bar-item:after {
-            content: "";
-            position: absolute;
-            width: 70%;
-            left: 15%;
-            background-color: currentColor;
-            height: 2px;
-            bottom: -2px;
-            opacity: 0.5;
-        }
-        .left-bar-item:last-child:after {
-            content: none;
-        }
-
     </style>
 </head>
 
@@ -385,22 +343,6 @@
 		</nav>
 	</header>
     
-    <div class="left-bar">
-        <div class="left-bar-item left-bar-item-now">
-            课件视频
-        </div>
-        <div class="left-bar-item">
-            课下讨论
-        </div>
-        <div class="left-bar-item">
-            课堂笔记
-        </div>
-        <div class="left-bar-item">
-            课后作业
-        </div>
-        
-    </div>
-
     <div class="section">
         <div class="mainContainer">
             <div class="videoTitle">
@@ -412,7 +354,7 @@
                 </div>
             </div>
 
-            <video name="videoElement" class="centeredVideo" controls autoplay width="800" height="600">
+            <video name="videoElement" class="centeredVideo" controls autoplay width="1024" height="576">
                 Your browser is too old which doesn't support HTML5 video.
             </video>
         </div>
