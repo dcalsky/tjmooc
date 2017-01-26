@@ -6,9 +6,9 @@ class Course(models.Model):
     subtitle = models.TextField(help_text='副标题')
     introduction = models.TextField(help_text='内容介绍')
     cover_image = models.ImageField(help_text='封面图')
-    sections = models.TextField(help_text='章')  # store a string for (de)serialization
+    sections = models.TextField(default='', help_text='章')  # store a string for (de)serialization
     update_time = models.DateTimeField(auto_now_add=True, help_text='更新时间')
-    participants_count = models.IntegerField(help_text='参与人数')
+    participants_count = models.IntegerField(default=0, help_text='参与人数')
     # 负责老师ID
 
 
