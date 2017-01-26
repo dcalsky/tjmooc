@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'homework',
     'course',
-    'video',
     'user',
     'bbs',
+    'session'
 ]
 
 MIDDLEWARE = [
