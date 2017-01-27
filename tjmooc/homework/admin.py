@@ -1,3 +1,3 @@
 from django.contrib import admin
-
-# Register your models here.
+from .models import Homework, HomeworkSubmit, Test, TestSubmit
+admin.site.register(Homework, HomeworkSubmit, TestSubmit, Test)
