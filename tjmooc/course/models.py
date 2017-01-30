@@ -1,4 +1,5 @@
 from django.db import models
+from user.models import User
 
 
 class Course(models.Model):
@@ -9,7 +10,7 @@ class Course(models.Model):
     sections = models.TextField(default='', help_text='章')  # store a string for (de)serialization
     update_time = models.DateTimeField(auto_now_add=True, help_text='更新时间')
     participants_count = models.IntegerField(default=0, help_text='参与人数')
-    # 负责老师ID
+    obligator = models.ForeignKey(User)
 
 
 class Chapter(models.Model):
@@ -30,11 +31,11 @@ class Video(models.Model):
     description = models.TextField(help_text='说明')
     upload_time = models.DateTimeField(auto_now_add=True, help_text='创建时间')
     url = models.URLField(help_text='链接')
-    # 授课老师ID
+    teacher = models.ForeignKey(User)
 
 
 class CourseParticipation(models.Model):
-    # 参与者ID
+    participant = models.ForeignKey(User)
     course_id = models.ForeignKey(Course, help_text='课程ID')
     finished = models.BooleanField(default=False, help_text='是否完成')
     time = models.DateTimeField(auto_now_add=True)

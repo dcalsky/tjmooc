@@ -1,4 +1,3 @@
-
 ### OSX template
 *.DS_Store
 .AppleDouble
@@ -181,3 +180,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+tjmooc/.idea
+tjmooc/db.sqlite3
