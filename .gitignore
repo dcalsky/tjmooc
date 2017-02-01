@@ -134,7 +134,7 @@ ENV/
 # Rope project settings
 .ropeproject
 ### JetBrains template
-.idea
+.idea/
 
 ## File-based project format:
 *.iws
