@@ -21,6 +21,6 @@ urlpatterns = [
     url(r'^users/', include('user.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^avatar/', include('avatar.urls')),
-    # url(r'^session/', include('session.urls')),
-    url(r'^session/', obtain_jwt_token),
+    url(r'^sessions/', include('session.urls')),
+    # url(r'^sessions/', obtain_jwt_token),
 ]
