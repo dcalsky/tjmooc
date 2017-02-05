@@ -1,5 +1,5 @@
 from django.db import models
-from tjmooc.user.models import User
+from user.models import User
 
 
 def homework_problem_path(instance, filename):

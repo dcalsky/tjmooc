@@ -1,27 +1,26 @@
 from rest_framework import serializers
 from .models import Homework, HomeworkSubmit, Test, TestSubmit
 
-class HomeworkSerializer(serializers.HyperlinkedModelSerializer):
+class HomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Homework
-        fields = ('title', 'introduction', 'problem_file', 'answer_file', 'deadline')
+        fields = '__all__'
 
-class HomeworkSubmitSerializer(serializers.HyperlinkedModelSerializer):
+class HomeworkSubmitSerializer(serializers.ModelSerializer):
     class Meta:
         model = HomeworkSubmit
-        fields = ('homework_id', 'submit_user_id', 'judge_user_id',
-                  'comment', 'score', 'submit_time', 'judge_time', 'submit_file')
+        fields = '__all__'
 
-class TestSerializer(serializers.HyperlinkedModelSerializer):
+class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test
-        fields = ('title', 'introduction', 'problem_file', 'answer_file', 'deadline')
+        fields = '__all__'
 
 
-class TestSubmitSerializer(serializers.HyperlinkedModelSerializer):
+class TestSubmitSerializer(serializers.ModelSerializer):
     class Meta:
         model = TestSubmit
-        fields = ('test_id', 'submit_user_id', 'submit_time', 'submit', 'score')
+        fields = '__all__'
 
 
 

@@ -46,9 +46,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 - 成功：
 
   ```javascript
-  {
-      homework added
-  }
+  {}
   Status code: 201
   ```
 
@@ -58,9 +56,9 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
   ```javascript
   {
-      "detail":error message
+      error message
   }
-  Status code: 403
+  Status code: 403/401
   ```
 
   ​
@@ -68,12 +66,13 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 错误列表：
 
 - 无权限 403
+- 未登录 401
 
 ## 作业信息
 
 路径：
 
-`GET/PUT /<unit>/homework/<homework_id> `
+`GET/PUT /<unit>/homework/<homework_id>/ `
 
 参数(`PUT`)：
 
@@ -96,23 +95,20 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
     Status code: 200
     ```
 
-
   - `PUT`
 
     ```javascript
     {
-        homework updated
+         ···
     }
     Status code: 201
     ```
-
-    ​
 
 - 失败：
 
   ```javascript
   {
-      "detail":error message
+      error message
   }
   Status code: 401/403
   ```
@@ -142,7 +138,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
   ```javascript
   {
-      submit succeed
+       ···
   }
   Status code: 201
   ```
@@ -151,7 +147,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
   ```javascript
   {
-      "datail":error messsage
+      error messsage
   }
   Status code: 401
   ```
@@ -167,7 +163,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
 路径：
 
-`PUT /<unit>/homework/<homework_id>/<submit_id>`
+`GET/PUT /<unit>/homework/<homework_id>/<submit_id>/`
 
 参数：
 
@@ -182,7 +178,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
   ```javascript
   {
-      judge succeed
+      ···
   }
   Status code: 201
   ```
@@ -191,7 +187,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
   ```javascript
   {
-      "detail":error message
+      error message
   }
   Status code 401
   ```
@@ -224,7 +220,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
   ```javascript
   {
-      test added
+      ···
   }
   Status code: 201
   ```
@@ -235,7 +231,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
   ```javascript
   {
-      "detail":error message
+      error message
   }
   Status code: 401/403
   ```
@@ -249,7 +245,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
 路径：
 
-`GET/PUT /<unit>/test/<test_id> `
+`GET/PUT /<unit>/test/<test_id>/ `
 
 参数(`PUT`)：
 
@@ -272,25 +268,24 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
     Status code: 200
     ```
 
-
   - `PUT`
 
     ```javascript
-    {
-        homework updated
-    }
-    Status code: 201
+      {
+          ···
+      }
+      Status code: 201
     ```
 
-    ​
+  ​
 
 - 失败：
 
   ```javascript
-  {
-      "detail":error message
-  }
-  Status code: 401/403
+    {
+        :error message
+    }
+    Status code: 401/403
   ```
 
 错误列表:
@@ -318,7 +313,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
   ```javascript
   {
-      submit succeed
+     ···
   }
   Status code: 201
   ```
@@ -327,7 +322,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
   ```javascript
   {
-      "datail":error messsage
+      error messsage
   }
   Status code: 401
   ```
