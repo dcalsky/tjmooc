@@ -31,7 +31,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
 路径：
 
-`POST /<unit>/homework/add`
+`POST /<unit>/homework/`
 
 参数：
 
@@ -128,7 +128,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
 路径：
 
-`POST /<unit>/homework/<homeword_id>/add`
+`POST /<unit>/homework/<homeword_id>/`
 
 参数：
 
@@ -208,7 +208,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
 路径：
 
-`POST /<class>/test/add`
+`POST /<class>/test/`
 
 参数：
 
@@ -304,7 +304,7 @@ Status Code依据HTTP的规则设置。参考文档中的具体说明。
 
 路径：
 
-`POST /<unit>/test/<test_id>/add`
+`POST /<unit>/test/<test_id>/`
 
 参数：
 
