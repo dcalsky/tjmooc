@@ -1,12 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.contrib.auth import get_user_model
 
-
-def new(request):
-    """Render Login Page"""
-    return render(request, 'session.new.html')
+User = get_user_model()
 
 
 def create(request):
     """Handle Login Post Request"""
+
     return JsonResponse({})

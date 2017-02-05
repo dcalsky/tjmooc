@@ -1,8 +1,11 @@
-from .models import Account
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
+from django.core.validators import MinLengthValidator
+
+User = get_user_model()
 
 
-class AccountSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Account
-        fields = '__all__'
+        model = User
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'avatar', 'phone')
