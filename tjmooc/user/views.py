@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
-from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -19,15 +18,16 @@ class UserViewList(APIView):
         return Response(users.data)
 
     def post(self, request):
-        user = UserSerializer(data=request.data)
-        if user.is_valid():
-            User.objects.create_user(
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = User.objects.create(
                 username=request.data['username'],
                 password=request.data['password']
             )
-            return Response(user.data, status=status.HTTP_201_CREATED)
+            user.save()  # todo mv them to serializer.py
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def show(request):
