@@ -1,14 +1,30 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
+from rest_framework.decorators import api_view
 from rest_framework.generics import CreateAPIView
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import status
+from django.core.exceptions import NON_FIELD_ERRORS
 from .serializers import UserRegistrationSerializer
 
 User = get_user_model()
 
+@api_view(['GET'])
+def check_user_name(request):
+    if 'username' in request.query_params:
+        username = request.query_params['username']
+        if not User.objects.filter(username=username):
+            return Response({
+                'message': 'ok'
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                'message': 'error'
+            })
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class UserRegistrationAPIView(CreateAPIView):
     authentication_classes = ()
@@ -27,30 +43,6 @@ class UserRegistrationAPIView(CreateAPIView):
 
         headers = self.get_success_headers(serializer.data)
         return Response(data, status=status.HTTP_201_CREATED, headers=headers)
-
-# class UserViewList(APIView):
-#     def get(self, request):
-#         if not request.query_params:
-#             return Response(status=status.HTTP_400_BAD_REQUEST)  # todo
-#         accounts = User.objects.filter(username=request.query_params['username'])
-#         users = UserSerializer(accounts, many=True)
-#         return Response(users.data)
-#
-#     def post(self, request):
-#         serializer = UserSerializer(data=request.data)
-#         if serializer.is_valid():
-#             user = User.objects.create(
-#                 username=request.data['username'],
-#                 password=request.data['password']
-#             )
-#             user.save()  # todo mv them to serializer.py
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-#
-# def show(request):
-#     return render(request, 'user.show.html')
 
 
 def new(request):
