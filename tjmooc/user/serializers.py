@@ -6,15 +6,15 @@ User = get_user_model()
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(min_length=6, max_length=20)
-    password = serializers.CharField(write_only=True)
+    username = serializers.CharField(min_length=4, max_length=16)
+    password = serializers.CharField(write_only=True, min_length=6, max_length=20)
 
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'nickname', 'password', 'avatar', 'last_login', 'date_joined')
 
-    def create(self, validated_data):
-        return super(UserRegistrationSerializer, self).create(validated_data)
+    # def create(self, validated_data):
+    #     return super(UserRegistrationSerializer, self).create(validated_data)
 
     # def validate(self, attrs):
     #     # todo Password length limitation

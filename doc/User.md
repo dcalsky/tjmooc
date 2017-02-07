@@ -1,12 +1,25 @@
 # 用户接口 /profile
 
+## 检查用户名是否已存在
+
+`GET /users/check?username=<username>`
+
+### Response
+
+200
+
+{
+    "message": "ok" or "existed"
+}
+
+
 ## 用户列表
 
 前端无法使用，请在django后台管理系统中查看。
 
 ## 获取个人信息
 
-`GET /profile`
+`GET /users/<username>`
 
 ### Header
 
@@ -26,7 +39,7 @@ token从用户登录注册后的返回
 
 ## 修改个人信息(除密码外)
 
-`PUT /profile`
+`PATCH /users/<username>`
 
 ### Header
 
@@ -48,7 +61,7 @@ token
 
 ## 修改密码
 
-`PUT /profile/password`
+`PUT /users/password`
 
 ### Header
 
