@@ -10,21 +10,6 @@ from user.serializers import UserRegistrationSerializer, TokenSerializer
 
 User = get_user_model()
 
-#
-# class SessionViewList(APIView):
-#     def post(self, request):
-#         username = request.data['username']
-#         password = request.data['password']
-#         user = authenticate(username=username, password=password)
-#         if user is not None:
-#             serializer = UserRegistrationAPIView(user)
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-#         else:
-#             return Response(status=status.HTTP_401_UNAUTHORIZED)
-#
-#     def delete(self, request):
-#         pass
-
 
 class UserLoginAPIView(GenericAPIView):
     authentication_classes = ()

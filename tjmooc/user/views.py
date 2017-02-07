@@ -9,6 +9,7 @@ from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin
 from rest_framework import status
 from django.core.exceptions import NON_FIELD_ERRORS
 from .serializers import UserRegistrationSerializer
+from .permissions import IsOwnerOrReadOnly
 
 User = get_user_model()
 
@@ -42,6 +43,7 @@ class UserRegistration(CreateModelMixin, GenericAPIView):
 
 
 class UserDetail(RetrieveUpdateAPIView):
+    permission_classes = (IsOwnerOrReadOnly,)
     serializer_class = UserRegistrationSerializer
     queryset = User.objects.all()
     lookup_field = 'username'
