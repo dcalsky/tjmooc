@@ -156,9 +156,10 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-tjmooc/.idea
+.idea
 tjmooc/db.sqlite3
 
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -214,3 +215,6 @@ jspm_packages/
 .env
 
 dist/
+=======
+migrations
+>>>>>>> feature/controller/user

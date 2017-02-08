@@ -1,14 +1,39 @@
-from django.shortcuts import render, HttpResponse
-from django.http import JsonResponse
+from django.contrib.auth import get_user_model
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
+from rest_framework.response import Response
+from rest_framework.mixins import CreateModelMixin
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+from .serializers import UserRegistrationSerializer
+from .permissions import IsOwnerOrReadOnly
+
+User = get_user_model()
+
+@api_view(['GET'])
+@permission_classes((AllowAny,))
+def check_user_name(request, username):
+    if not User.objects.filter(username=username):
+        return Response({
+            'detail': 'ok'
+        }, status=status.HTTP_200_OK)
+    else:
+        return Response({
+            'detail': 'existed'
+        })
 
 
-def new(request):
-    return render(request, 'user.new.html')
+class UserRegistration(CreateModelMixin, GenericAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = UserRegistrationSerializer
+    queryset = User.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
-def create(request):
-    """
-    Handle post request
-    return Json
-    """
-    return JsonResponse({})
+class UserDetail(RetrieveUpdateAPIView):
+    permission_classes = (IsOwnerOrReadOnly,)
+    serializer_class = UserRegistrationSerializer
+    queryset = User.objects.all()
+    lookup_field = 'username'
