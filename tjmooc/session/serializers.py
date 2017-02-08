@@ -6,24 +6,14 @@ from django.utils.translation import ugettext_lazy as _
 User = get_user_model()
 
 
-# class SessionSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ('id', 'username', 'email', 'nickname', 'avatar', 'last_login', 'date_joined')
-
-
 class SessionSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
 
     default_error_messages = {
-        'inactive_account': _('用户名不允许！'),
-        'invalid_credentials': _('用户名或密码错误！')
+        'inactive_account': _('inactive account'),
+        'invalid_credentials': _('invalid credentials')
     }
-
-    def __init__(self, *args, **kwargs):
-        super(SessionSerializer, self).__init__(*args, **kwargs)
-        self.user = None
 
     def validate(self, attrs):
         self.user = authenticate(username=attrs.get("username"), password=attrs.get('password'))

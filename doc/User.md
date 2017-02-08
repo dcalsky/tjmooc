@@ -1,8 +1,8 @@
-# 用户接口 /profile
+# 用户接口 /users
 
 ## 检查用户名是否已存在
 
-`GET /users/check?username=<username>`
+`GET /users/<username>/check`
 
 ### Response
 
