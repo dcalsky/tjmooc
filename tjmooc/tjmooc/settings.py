@@ -139,6 +139,7 @@ AUTH_USER_MODEL = 'user.User'
 
 
 REST_FRAMEWORK = {
+    'PAGE_SIZE': 15,
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
