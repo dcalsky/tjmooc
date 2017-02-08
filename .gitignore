@@ -159,7 +159,6 @@ fabric.properties
 .idea
 tjmooc/db.sqlite3
 
-<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -215,6 +214,6 @@ jspm_packages/
 .env
 
 dist/
-=======
-migrations
->>>>>>> feature/controller/user
+
+*.pyc
+
