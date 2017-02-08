@@ -18,6 +18,7 @@ from django.contrib import admin
 from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
+    url(r'^docs/', include('rest_framework_docs.urls')),
     url(r'^users/', include('user.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^avatar/', include('avatar.urls')),
