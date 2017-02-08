@@ -156,7 +156,7 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-tjmooc/.idea
+.idea
 tjmooc/db.sqlite3
 
 # Logs
@@ -214,3 +214,6 @@ jspm_packages/
 .env
 
 dist/
+
+*.pyc
+
