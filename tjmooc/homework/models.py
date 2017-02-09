@@ -28,11 +28,11 @@ class Homework(models.Model):
 class HomeworkSubmit(models.Model):
     homework_id = models.ForeignKey(Homework)
     submit_user_id = models.ForeignKey(User, related_name='homework_submit_user_id')
-    judge_user_id = models.ForeignKey(User, related_name='homework_judge_user_id')
-    comment = models.TextField(null=True)
-    score = models.IntegerField(null=True)
+    judge_user_id = models.ForeignKey(User, related_name='homework_judge_user_id', null = True, blank = True)
+    comment = models.TextField(null=True, blank = True)
+    score = models.IntegerField(null=True, blank = True)
     submit_time = models.DateTimeField(auto_now_add=True)
-    judge_time = models.DateTimeField(auto_now=True)
+    judge_time = models.DateTimeField(auto_now=True, null = True, blank = True)
     submit_file = models.FileField(upload_to=homework_submit_path)
 
 
