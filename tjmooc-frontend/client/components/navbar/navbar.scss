@@ -1,0 +1,82 @@
+@import "../config";
+
+.navbar {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 100) 0%,
+      rgba(255, 255, 255, 100) 20%,
+      rgba(255, 255, 255, 0) 100%
+  );
+  padding: 18px 30px 30px 30px;
+  @include respond-to(lg) {
+    padding: 18px 100px 30px 100px;
+  }
+  justify-content: space-between;
+  z-index: 10;
+
+  .link-box {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+    div {
+      margin-left: 40px;
+    }
+
+    .account-box {
+      $c: $dark;
+      display: inline-block;
+      border: 1px solid $c;
+      background-color: $c;
+      a {
+        display: inline-block;
+      }
+
+      $w: 10px;
+      .register {
+        $c: $mainColor;
+        color: white;
+        background-color: $c;
+        padding: 5px $w - 3.5px 5px $w;
+        position: relative;
+        margin-right: 2.5px;
+        &:before {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 100%;
+          bottom: 0;
+          right: -7px;
+          display: inline-block;
+          border-right: 7px solid transparent;
+          border-bottom: 28px solid $c;
+        }
+        &:hover {
+          color: white !important;
+        }
+      }
+      .login {
+        $c: white;
+        background-color: $c;
+        padding: 5px $w 5px $w - 3.5px;
+        position: relative;
+        &:before {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 100%;
+          top: 0;
+          left: -7px;
+          display: inline-block;
+          border-left: 7px solid transparent;
+          border-top: 28px solid $c;
+        }
+        &:hover {
+          color: $dark !important;
+        }
+      }
+    }
+  }
+}

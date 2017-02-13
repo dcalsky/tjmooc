@@ -1,24 +1,27 @@
 <template>
   <div class="page">
-    <counter></counter>
-    <p>
-      To get started, edit files in <code>./client</code> and save.
-    </p>
+    <navbar></navbar>
+    <slide></slide>
+    <course-select></course-select>
+    <foot-bar></foot-bar>
   </div>
 </template>
 
 <script>
-import Counter from 'components/Counter'
+  import navbar from 'components/navbar/navbar'
+  import slide from 'components/slide/slide'
+  import courseSelect from 'components/course-select/course-select'
+  import footBar from 'components/foot-bar/foot-bar'
 
-export default {
-  components: {
-    Counter
+  export default {
+    components: {
+        navbar,
+        slide,
+        courseSelect,
+        footBar,
+    },
   }
-}
 </script>
 
 <style lang="scss">
-  p {
-    color: red;
-  }
 </style>
