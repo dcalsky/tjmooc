@@ -4,7 +4,6 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from jwt import decode, DecodeError
 from .permissions import IsOwnerOrReadOnly
 from .models import Forum, Post
 from .serializers import ForumSerializer, PostSerializer
