@@ -1,9 +1,10 @@
 from django.conf import settings
-from rest_framework.generics import ListAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView
+from rest_framework.generics import RetrieveAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from .permissions import IsOwnerOrReadOnly
 from .models import Forum, Post
 from .serializers import ForumSerializer, PostSerializer
@@ -23,17 +24,18 @@ class ForumDetail(RetrieveAPIView):
     queryset = Forum.objects.all()
     lookup_field = 'id'
 
-class PostList(APIView):
+
+class PostList(ListCreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = PostSerializer
     queryset = Post.objects.all()
 
-    def get(self, request, format=None):
-        posts = Post.objects.all()
+    def list(self, request, *args, **kwargs):
+        posts = self.paginate_queryset(self.get_queryset())
         serializer = PostSerializer(posts, many=True)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return self.get_paginated_response(serializer.data)
 
-    def post(self, request, format=None):
+    def create(self, request, *args, **kwargs):
         data = request.data
         data['owner'] = request.user.id
         serializer = PostSerializer(data=data)
