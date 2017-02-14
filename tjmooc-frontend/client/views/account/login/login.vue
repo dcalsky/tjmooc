@@ -61,15 +61,8 @@
         console.log('logging...');
         console.log(this.form)
         this.submitting = true;
-        // Ajax
-        request
-          .post(`${server.session}`)
-          .set('Content-Type', 'application/json')
-          .send({ username: this.form.studentId, password: this.form.password })
-          .end(function(err, res){
-            console.log(res)
-            // Calling the end function will send the request
-        });
+        // Ajax, login
+        this.$store.dispatch('login', { username: this.form.studentId, password: this.form.password })
       }
     },
     computed: {

@@ -1,6 +1,9 @@
 const server = {
   host: 'http://localhost:8000',
-  session: '/sessions'
+  session: '/sessions/',
+  post: '/bbs/posts/',
+  forum: '/bbs/forums/',
+  user: '/users/'
 }
 
 Object.keys(server).map((key) => {

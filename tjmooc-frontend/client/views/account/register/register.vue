@@ -28,6 +28,9 @@
 </template>
 
 <script>
+  import request from 'superagent';
+  import { server } from '../../../config'
+
   export default {
     name: "register",
     data: function () {
@@ -117,6 +120,18 @@
       },
       onFinish: function () {
         this.finish = true;
+        // Ajax, register
+        request
+          .post(`${server.user}`)
+          .set('Content-Type', 'application/json')
+          .send({ 
+            username: this.form.studentId, 
+            password: this.form.password,
+            nickname: this.form.username
+          })
+          .end(function(err, res){
+            console.log(res)
+         });
       }
     },
     computed: {

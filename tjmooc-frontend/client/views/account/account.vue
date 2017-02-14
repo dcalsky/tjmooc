@@ -3,7 +3,7 @@
     <div class="account" :style="scrStyle">
       <div class="paper">
         <router-view></router-view>
-        <div id="account-logo-tie"></div>
+
       </div>
     </div>
     <foot-bar></foot-bar>

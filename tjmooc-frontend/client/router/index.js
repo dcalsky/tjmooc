@@ -20,33 +20,30 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'home',
       component: Home
-    },
-    {
+    }, {
       path: '/about',
+      name: 'about',
       component: About
-    },
-
-    {
+    }, {
       path: '/copyright',
       component: Copyright
-    },
-
-    {
+    }, {
       path: '/account',
       component: Account,
       children: [
         {
           path: 'register',
           component: AccountRegister
-        },
-        {
+        }, {
           path: 'login',
           component: AccountLogin
-        }
-      ]
-    },
-    {
+        }]
+    }, {
+      path: '/profile',
+      component: Home
+    }, {
       path: '/course',
       component: Course,
       children: [
@@ -58,8 +55,7 @@ export default new Router({
           path: 'list',
           component: CourseList
         }
-      ]
-    },
+      ] },
     {
       path: '/forum',
       component: Forum
