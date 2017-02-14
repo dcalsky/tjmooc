@@ -32,7 +32,6 @@ const user = {
   }
 }
 
-
 export {
   session,
   user

@@ -29,12 +29,17 @@
 </template>
 
 <script>
-  import request from 'superagent';
   import { server } from '../../../config'
 
   export default {
     name: "register",
-    data: function () {
+    beforeCreate() {
+      // If has logged, return home page
+      if (this.$store.state.session.token) {
+        this.$router.replace({name: 'home'})
+      }
+    },
+    data () {
       return {
         step: 0,
         stepMax: 0,
@@ -75,7 +80,7 @@
           {
             name: '完成',
             type: 'finish',
-            info: '恭喜，注册完成'
+            info: '恭喜，注册完成！正在进入登录界面...'
           }
         ],
 
@@ -122,17 +127,11 @@
       onFinish: function () {
         this.finish = true;
         // Ajax, register
-        request
-          .post(`${server.user}`)
-          .set('Content-Type', 'application/json')
-          .send({ 
-            username: this.form.studentId, 
-            password: this.form.password,
-            nickname: this.form.username
-          })
-          .end(function(err, res){
-            console.log(res)
-         });
+        this.$store.dispatch('register', { 
+          username: this.form.studentId, 
+          password: this.form.password, 
+          nickname: this.form.username 
+        })
       }
     },
     computed: {

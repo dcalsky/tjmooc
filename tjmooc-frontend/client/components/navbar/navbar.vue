@@ -5,9 +5,13 @@
       <div v-for="link in links" >
         <router-link :to="link[1]">{{link[0]}}</router-link>
       </div>
-      <div class="account-box" v-if="!login">
+      <div class="account-box" v-if="!login" >
         <router-link to="/account/register" class="register">注册</router-link>
         <router-link to="/account/login" class="login">登录</router-link>
+      </div>
+      <div class="account-box" v-if="login">
+        <router-link to="/profile">{{ username }}</router-link>
+        <button @click="logout">退出</button>
       </div>
     </div>
   </div>
@@ -20,20 +24,28 @@
     components: {
       logo
     },
-    data: function() {
-      let
-        login = false,
-        links = [
-          ['全部课程', '/course/list'],
-          ['课堂论坛', '/forum'],
-        ];
-      if (login)
-        links += [
-            ['我的课程', '/my/courses']
-        ];
-      return {
-        links: links,
-        login: login
+    computed: {
+      login () {
+        return this.$store.state.session.token !== null
+      },
+      username() {
+        return this.$store.state.session.username
+      },
+      links() {
+        let
+          links = [
+            ['全部课程', '/course/list'],
+            ['课堂论坛', '/forum'],
+          ];
+        if (this.login) {
+          links.push(['我的课程', '/profile/courses']);
+        }
+        return links
+      }
+    },
+    methods: {
+      logout() {
+        this.$store.dispatch('logout')
       }
     }
   }

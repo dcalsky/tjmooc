@@ -11,8 +11,6 @@ import About from '../views/About.vue'
 import Copyright from '../views/Copyright.vue'
 import Forum from '../views/forum/forum.vue'
 
-
-
 Vue.use(Router)
 
 export default new Router({
@@ -35,17 +33,21 @@ export default new Router({
       children: [
         {
           path: 'register',
-          component: AccountRegister
+          component: AccountRegister,
+          name: 'register'
         }, {
           path: 'login',
-          component: AccountLogin
+          component: AccountLogin,
+          name: 'login'
         }]
     }, {
       path: '/profile',
+      name: 'profile',
       component: Home
     }, {
       path: '/course',
       component: Course,
+      name: 'course',
       children: [
         {
           path: 'display/:courseId',
@@ -57,8 +59,9 @@ export default new Router({
         }
       ] },
     {
-      path: '/forum',
-      component: Forum
+      path: '/bbs',
+      component: Forum,
+      name: 'bbs'
     }
   ]
 })

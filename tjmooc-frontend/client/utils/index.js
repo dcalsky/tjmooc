@@ -1,5 +1,44 @@
+import { translation } from '../config'
+
+
 function find (list, f) {
   return list.filter(f)[0]
+}
+
+function eng2zh (value) {
+  if (value in translation) {
+    return translation[value]
+  } else {
+    return value
+  }
+}
+
+// Format error object:
+// {
+//   "field1": [
+//     "error1",
+//     "error2"
+//   ],
+//   "field2": [
+//     "error1",
+//     "error2"
+//   ]
+// }
+// to:
+// ["field1(zh): error1(zh).", "field1(zh): error2(zh)" ...]
+export function errorHandler (obj) {
+  const messages = []
+  if (obj instanceof Object) {
+    Object.keys(obj).map((key) => {
+      let field = eng2zh(key)
+      const value = eng2zh(obj[key])
+      if (field.length > 0) field += ':'
+      messages.push(`${field} ${value}`)
+    })
+  } else if (typeof (obj) === 'string') {
+    messages.push(eng2zh(obj))
+  }
+  return messages
 }
 
 export function deepCopy (obj, cache = []) {
@@ -28,3 +67,6 @@ export function deepCopy (obj, cache = []) {
 
   return copy
 }
+
+
+

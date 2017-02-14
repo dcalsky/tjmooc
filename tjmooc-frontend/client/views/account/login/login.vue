@@ -16,7 +16,9 @@
           </div>
         </div>
 
-        <div class="error" v-if="errorInfo">{{errorInfo}}</div>
+        <div class="error" v-for="(message, index) in messages">
+          <p>{{message}}</p>
+        </div>
         <div class="login" v-if="!errorInfo" @click="onLoginBtnClicked" :class="{submitting: submitting}">
           <span>登</span><span>录</span><span v-if="submitting">中</span><span v-if="submitting">…</span>
         </div>
@@ -31,11 +33,15 @@
 </template>
 
 <script>
-  import request from 'superagent';
-  import { server } from '../../../config'
   export default {
     name: "login",
-    data: function () {
+    beforeCreate () {
+      // If has logged, return home page
+      if (this.$store.state.session.token) {
+        this.$router.replace({name: 'home'})
+      }
+    },
+    data () {
       return {
         list: [
           {
@@ -61,7 +67,6 @@
         if (this.submitting)
             return;
         console.log('logging...');
-        console.log(this.form)
         this.submitting = true;
         // Ajax, login
         this.$store.dispatch('login', { username: this.form.studentId, password: this.form.password })
@@ -83,6 +88,10 @@
           return "请填写您的学号！";
         if (this.form.password == '')
           return "请填写您的密码！";
+      },
+      messages () {
+        this.submitting = false
+        return this.$store.state.session.messages
       }
     }
   }
