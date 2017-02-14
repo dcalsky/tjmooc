@@ -19,7 +19,7 @@
         <div class="error" v-for="(message, index) in messages">
           <p>{{message}}</p>
         </div>
-        <div class="login" v-if="!errorInfo" @click="onLoginBtnClicked" :class="{submitting: submitting}">
+        <div class="login" @click="onLoginBtnClicked" :class="{submitting: submitting}">
           <span>登</span><span>录</span><span v-if="submitting">中</span><span v-if="submitting">…</span>
         </div>
       </div>
