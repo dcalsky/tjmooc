@@ -40,6 +40,7 @@
             time: 159,
             color: '#EEEEEE',
             imgUrl: '/slide/gdsx.jpg',
+            courseId: 'gaodengshuxue',
           },
           {
             title: '线性代数',
@@ -48,6 +49,7 @@
             time: 159,
             color: '#800080',
             imgUrl: '/slide/xxds.jpg',
+            courseId: 'xianxingdaishu',
           },
           {
             title: '概率论',
@@ -56,6 +58,7 @@
             time: 155,
             color: '#FFFF00',
             imgUrl: '/slide/gll.jpg',
+            courseId: 'gailvlun',
           },
           {
             title: '复变函数',
@@ -64,6 +67,7 @@
             time: 154,
             color: '#FFC0CB',
             imgUrl: '/slide/fbhs.jpg',
+            courseId: 'fubianhanshu',
           },
 
         ],
@@ -110,6 +114,8 @@
         if (this.timeoutFunc)
           clearTimeout(this.timeoutFunc);
         console.log(this.displayNow);
+        window.r = this.$router;
+        this.$router.push({ path: '/course/display/' + this.sections[this.displayNow].courseId })
       }
     },
     mounted: function () {

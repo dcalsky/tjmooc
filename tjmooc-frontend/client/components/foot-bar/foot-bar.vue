@@ -1,7 +1,7 @@
 <template>
   <div class="foot-bar">
     <div class="link-box">
-      <a :href="l[1]" v-for="l in links">{{l[0]}}</a>
+      <router-link :to="l[1]" v-for="l in links">{{l[0]}}</router-link>
     </div>
     <div class="brand" @click="eggshell">
       <logo :height="35" componentId="foot-logo"></logo>

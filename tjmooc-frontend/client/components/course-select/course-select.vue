@@ -22,7 +22,7 @@
         <div class="course" v-for="(c, index) in course">
           <div class="title">{{c.name}}</div><div class="teacher">妮可</div>
           <p class="desc">啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高啦啦赛高</p>
-          <a class="btn" :href="c.url">参与这门课</a>
+          <router-link class="btn" :to="'/course/display/' + c.courseId">参与这门课</router-link>
         </div>
       </div>
     </div>
@@ -41,11 +41,11 @@
             courses: [
               {
                 name: "子",
-                url: "/shu"
+                courseId: "shu"
               },
               {
                 name: "丑",
-                url: "/niu"
+                courseId: "niu"
               },
             ]
           },
@@ -54,35 +54,35 @@
             courses: [
               {
                 name: "辰",
-                url: "/long"
+                courseId: "long"
               },
               {
                 name: "巳",
-                url: "/she"
+                courseId: "she"
               },
               {
                 name: "辰",
-                url: "/long"
+                courseId: "long"
               },
               {
                 name: "巳",
-                url: "/she"
+                courseId: "she"
               },
               {
                 name: "辰",
-                url: "/long"
+                courseId: "long"
               },
               {
                 name: "巳",
-                url: "/she"
+                courseId: "she"
               },
               {
                 name: "辰",
-                url: "/long"
+                courseId: "long"
               },
               {
                 name: "巳",
-                url: "/she"
+                courseId: "she"
               },
             ]
           },
@@ -96,11 +96,11 @@
             courses: [
               {
                 name: "申",
-                url: "/hou"
+                courseId: "hou"
               },
               {
                 name: "酉",
-                url: "/ji"
+                courseId: "ji"
               },
             ]
           },
