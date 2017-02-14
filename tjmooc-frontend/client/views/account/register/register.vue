@@ -16,12 +16,13 @@
 
     </div>
     <div class="left" :style="{flexBasis: leftWidth + 'px'}">
-
-      <h1 class="title"><router-link to="/account/login">登录</router-link>注册</h1>
-      <div @click="onStepClicked(index)" v-for="(s, index) in stepList" :class="{now: index == step, been: index <= stepMax }">
-        <span>{{s.name}}</span>
-        <span v-if="form[s.key]">{{form[s.key] | hidePassword(stepList[index].type)}}</span>
-        <span class="bar"></span>
+      <div>
+        <h1 class="title"><router-link to="/account/login">登录</router-link>注册</h1>
+        <div @click="onStepClicked(index)" v-for="(s, index) in stepList" :class="{now: index == step, been: index <= stepMax }">
+          <span>{{s.name}}</span>
+          <span v-if="form[s.key]">{{form[s.key] | hidePassword(stepList[index].type)}}</span>
+          <span class="bar"></span>
+        </div>
       </div>
     </div>
   </div>

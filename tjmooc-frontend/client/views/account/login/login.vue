@@ -23,7 +23,9 @@
       </div>
     </div>
     <div class="left" :style="{flexBasis: leftWidth + 'px'}">
+      <div>
       <h1 class="title"><router-link to="/account/register">注册</router-link>登录</h1>
+      </div>
     </div>
   </div>
 </template>
