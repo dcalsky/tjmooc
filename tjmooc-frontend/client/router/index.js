@@ -13,7 +13,7 @@ import Forum from '../views/forum/forum.vue'
 
 
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
   mode: 'hash',
@@ -24,12 +24,12 @@ export default new Router({
     },
     {
       path: '/about',
-      component: About,
+      component: About
     },
 
     {
       path: '/copyright',
-      component: Copyright,
+      component: Copyright
     },
 
     {
@@ -38,12 +38,12 @@ export default new Router({
       children: [
         {
           path: 'register',
-          component: AccountRegister,
+          component: AccountRegister
         },
         {
           path: 'login',
-          component: AccountLogin,
-        },
+          component: AccountLogin
+        }
       ]
     },
     {
@@ -52,17 +52,17 @@ export default new Router({
       children: [
         {
           path: 'display/:courseId',
-          component: CourseDisplay,
+          component: CourseDisplay
         },
         {
           path: 'list',
-          component: CourseList,
-        },
+          component: CourseList
+        }
       ]
     },
     {
       path: '/forum',
-      component: Forum,
-    },
+      component: Forum
+    }
   ]
 })

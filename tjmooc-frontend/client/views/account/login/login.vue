@@ -29,6 +29,8 @@
 </template>
 
 <script>
+  import request from 'superagent';
+  import { server } from '../../../config'
   export default {
     name: "login",
     data: function () {
@@ -56,8 +58,18 @@
       onLoginBtnClicked: function () {
         if (this.submitting)
             return;
-        console.log('login submit');
+        console.log('logging...');
+        console.log(this.form)
         this.submitting = true;
+        // Ajax
+        request
+          .post(`${server.session}`)
+          .set('Content-Type', 'application/json')
+          .send({ username: this.form.studentId, password: this.form.password })
+          .end(function(err, res){
+            console.log(res)
+            // Calling the end function will send the request
+        });
       }
     },
     computed: {
@@ -73,9 +85,9 @@
       },
       errorInfo: function () {
         if (this.form.studentId == '')
-          return "请工整填写学号！";
+          return "请填写您的学号！";
         if (this.form.password == '')
-          return "请认真填写密码！";
+          return "请填写您的密码！";
       }
     }
   }
