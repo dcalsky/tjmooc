@@ -5,17 +5,18 @@ from rest_framework.response import Response
 from .models import Homework, HomeworkSubmit, Test, TestSubmit
 from .serializer import HomeworkSerializer, HomeworkSubmitSerializer, TestSerializer, TestSubmitSerializer
 from rest_framework.views import APIView
+from .permissions import IsTeacherOrManagerOrReadOnly
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
 class HomeworkList(generics.ListCreateAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly, )
+    permission_classes = (IsTeacherOrManagerOrReadOnly, )
     queryset = Homework.objects.all()
     serializer_class = HomeworkSerializer
 
 
 class HomeworkDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly, )
+    permission_classes = (IsTeacherOrManagerOrReadOnly, )
     queryset = Homework.objects.all()
     serializer_class = HomeworkSerializer
     lookup_field = 'id'
@@ -36,13 +37,13 @@ class HomeworkSubmitDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class TestList(generics.ListCreateAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsTeacherOrManagerOrReadOnly,)
     queryset = Test.objects.all()
     serializer_class = TestSerializer
 
 
 class TestDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsTeacherOrManagerOrReadOnly,)
     queryset = Test.objects.all()
     serializer_class = TestSerializer
     lookup_field = 'id'
