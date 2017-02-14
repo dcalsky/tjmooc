@@ -1,6 +1,25 @@
-@import "../../config";
+@import "../../components/config";
 
-.account-register {
+.account {
+  background-color: $dark;
+  display: block;
+  top: 0;
+  padding: 50px 50px 70px 50px;
+  .paper {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: relative;
+
+    #account-logo-tie {
+      position: absolute;
+      bottom: -2.2%;
+      right: 0;
+    }
+  }
+}
+
+.account-register, .account-login {
   width: 100%;
   height: 100%;
   display: flex;
@@ -27,6 +46,16 @@
       margin: 60px $right 40px 0;
       font-size: 50px;
       position: relative;
+      a {
+        font-size: 20px;
+        opacity: .6;
+        cursor: pointer;
+        &:after {
+          content: "|";
+          margin: 0 10px;
+          color: $dark;
+        }
+      }
       &:after {
         content: "";
         position: absolute;
@@ -36,6 +65,7 @@
         right: 12px;
         bottom: -30px;
         opacity: .8;
+        transition: all .3s;
       }
     }
 
@@ -179,6 +209,95 @@
     }
     .error {
       line-height: 43px;
+      letter-spacing: 2px;
+    }
+
+    .slice {
+      width: 80%;
+      background-color: white;
+      display: flex;
+      text-align: center;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      border-radius: 4px 4px 0 0;
+      box-shadow: 0 10px 60px -30px $dark;
+      padding: 50px 0;
+      $bottomHeight: 40px;
+      margin-bottom: $bottomHeight / 2;
+
+      .title {
+        letter-spacing: 5px;
+        div {
+          padding: 2px 0;
+        }
+      }
+
+      .form {
+        margin-bottom: 10px;
+        div {
+          margin: 20px 0;
+          font-size: 21px;
+          font-weight: 300;
+          letter-spacing: 2px;
+          font-family: sans-serif;
+          input {
+            border-width: 0 0 2px 0;
+            transition: all .3s;
+            font-size: 21px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            font-family: sans-serif;
+            padding: 0 5px;
+            &:hover, &:focus {
+              border-color: $dark;
+            }
+          }
+        }
+      }
+
+      .login {
+        border-radius: 4px;
+        background-color: $dark;
+        color: white;
+        padding: 0 50px;
+        line-height: 43px;
+        display: flex;
+        width: 50px;
+        justify-content: space-between;
+        cursor: pointer;
+
+        &:hover {
+          opacity: .6;
+        }
+        transition: all .3s;
+      }
+      .submitting {
+        width: 70px;
+        padding: 0 40px;
+        cursor: not-allowed;
+        opacity: .5;
+      }
+
+      &:after {
+        $h: $bottomHeight;
+        $c: white;
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: $h;
+        left: 0;
+        bottom: -$h;
+        background-image: linear-gradient(-135deg, $c 25%, transparent 25%, transparent), linear-gradient(-45deg, transparent 75%, $c 75%);
+        background-size: 40px 40px;
+        background-repeat: repeat-x;
+        background-position: 0 100%;
+      }
     }
   }
+}
+
+.account-login .left h1:after {
+  opacity: 0;
 }

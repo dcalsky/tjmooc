@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import footBar from "../foot-bar/foot-bar.vue"
+  import footBar from "../../components/foot-bar/foot-bar.vue"
   export default {
     name: "account",
     components: {
