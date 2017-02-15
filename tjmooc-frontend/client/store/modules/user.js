@@ -1,35 +1,49 @@
 import * as types from '../mutation-types'
 import { user } from '../../api'
 import router from '../../router'
+import { errorHandler } from '../../utils'
 
 // state
 const state = {
-  profile: null
+  profile: null,
+  messages: []
 }
-
-// getters
 
 // actions
 const actions = {
-  register ({ commit, rootState }, data) {
+  register({ commit, rootState }, data) {
     user.register(data, (err, res) => {
-      // error handle
-      commit(types.REGISTER, res.body)
-      // Success: enter login page
-      router.push({ name: 'login' })
-      // Fail: return fail message
-      // todo
+      // error handle todo
+      if (err) {
+        console.log(err)
+        commit(types.LOGIN_FAILED, errorHandler('error'))
+      }
+      if ('token' in res.body) {
+        commit(types.REGISTER_SUCCESS, res.body)
+        // Success: enter login page
+        router.push({ name: 'login' })
+      } else {
+        // Fail: return fail message
+        commit(types.REGISTER_FAILED, errorHandler(res.body))
+      }
     })
   },
-  getProfile ({ commit, rootState }) {
+  getProfile({ commit, rootState }) {
     console.log(rootState)
   }
 
 }
 
 const mutations = {
-  [types.REGISTER] (state, profile) {
+  [types.REGISTER_REQUEST](state) {
+    state.messages = []
+  },
+  [types.REGISTER_SUCCESS](state, profile) {
     state.profile = profile
+    // state.messages = something...
+  },
+  [types.REGISTER_FAILED](state, messages) {
+    state.messages = messages
   }
 }
 

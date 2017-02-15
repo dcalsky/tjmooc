@@ -26,7 +26,8 @@
     </div>
     <div class="left" :style="{flexBasis: leftWidth + 'px'}">
       <div>
-      <h1 class="title"><router-link to="/account/register">注册</router-link>登录</h1>
+        <h1 class="title">
+          <router-link to="/account/register">注册</router-link>登录</h1>
       </div>
     </div>
   </div>
@@ -35,26 +36,24 @@
 <script>
   export default {
     name: "login",
-    beforeCreate () {
+    beforeCreate() {
       // If has logged, return home page
       if (this.$store.state.session.token) {
-        this.$router.replace({name: 'home'})
+        this.$router.replace({ name: 'home' })
       }
     },
-    data () {
+    data() {
       return {
         list: [
           {
             name: "学号",
             key: "studentId",
             type: "number",
-          },
-          {
+          }, {
             name: "密码",
             key: "password",
             type: "password",
-          },
-        ],
+          }],
         form: {
           studentId: "",
           password: "",
@@ -65,7 +64,7 @@
     methods: {
       onLoginBtnClicked: function () {
         if (this.submitting)
-            return;
+          return;
         console.log('logging...');
         this.submitting = true;
         // Ajax, login
@@ -79,7 +78,7 @@
       },
       time: function () {
         let d = new Date(), y = d.getFullYear(), m = d.getMonth() + 1, t = "一";
-        if (m >= 9) ++y;
+        if (m >= 9)++y;
         if (2 <= m && m < 9) t = "二";
         return [y, t];
       },
@@ -89,7 +88,7 @@
         if (this.form.password == '')
           return "请填写您的密码！";
       },
-      messages () {
+      messages() {
         this.submitting = false
         return this.$store.state.session.messages
       }

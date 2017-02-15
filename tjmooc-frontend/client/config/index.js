@@ -11,7 +11,8 @@ const translation = {
   'Unable to login with provided credentials.': '账户密码错误',
   username: '学号',
   password: '密码',
-  nickname: '姓名'
+  nickname: '姓名',
+  error: '与服务器通信错误'
 }
 
 Object.keys(server).map((key) => {

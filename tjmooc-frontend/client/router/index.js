@@ -38,8 +38,9 @@ export default new Router({
         }, {
           path: 'login',
           component: AccountLogin,
-          name: 'login'
-        }]
+          name: 'login',
+        }
+      ]
     }, {
       path: '/profile',
       name: 'profile',
@@ -57,7 +58,8 @@ export default new Router({
           path: 'list',
           component: CourseList
         }
-      ] },
+      ]
+    },
     {
       path: '/bbs',
       component: Forum,

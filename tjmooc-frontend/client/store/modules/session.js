@@ -12,13 +12,13 @@ const state = {
 
 // actions
 const actions = {
-  login ({ commit }, data) {
+  login({ commit }, data) {
     commit(types.LOGIN_REQUEST)
     session.login(data, (err, res) => {
       // error handle todo
       if (err) {
         console.log(err)
-        commit(types.LOGIN_FAILED, 'error')
+        commit(types.LOGIN_FAILED, errorHandler('error'))
       }
       if ('token' in res.body) {
         const token = res.body.token
@@ -34,7 +34,7 @@ const actions = {
       }
     })
   },
-  logout ({ commit }) {
+  logout({ commit }) {
     commit(types.LOGOUT)
     // Clear localStorage
     window.localStorage.clear()
@@ -44,17 +44,17 @@ const actions = {
 }
 
 const mutations = {
-  [types.LOGIN_SUCCESS] (state, { token, username }) {
+  [types.LOGIN_SUCCESS](state, { token, username }) {
     state.token = token
     state.username = username
   },
-  [types.LOGIN_FAILED] (state, messages) {
+  [types.LOGIN_FAILED](state, messages) {
     state.messages = messages
   },
-  [types.LOGIN_REQUEST] (state) {
+  [types.LOGIN_REQUEST](state) {
     state.messages = []
   },
-  [types.LOGOUT] (state) {
+  [types.LOGOUT](state) {
     state.token = null
     state.username = null
   }

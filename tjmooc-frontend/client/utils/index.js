@@ -1,11 +1,11 @@
 import { translation } from '../config'
 
 
-function find (list, f) {
+function find(list, f) {
   return list.filter(f)[0]
 }
 
-function eng2zh (value) {
+function eng2zh(value) {
   if (value in translation) {
     return translation[value]
   } else {
@@ -26,7 +26,7 @@ function eng2zh (value) {
 // }
 // to:
 // ["field1(zh): error1(zh).", "field1(zh): error2(zh)" ...]
-export function errorHandler (obj) {
+export function errorHandler(obj) {
   const messages = []
   if (obj instanceof Object) {
     Object.keys(obj).map((key) => {
@@ -41,7 +41,7 @@ export function errorHandler (obj) {
   return messages
 }
 
-export function deepCopy (obj, cache = []) {
+export function deepCopy(obj, cache = []) {
   // just return if obj is immutable value
   if (obj === null || typeof obj !== 'object') {
     return obj

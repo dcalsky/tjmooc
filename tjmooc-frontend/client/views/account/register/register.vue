@@ -13,7 +13,6 @@
 
       <div class="next" @click="onNextClicked" v-if="inputTextLegal && !finish">下一步</div>
       <div class="error" v-if="errorText && !finish">{{errorText}}</div>
-
     </div>
     <div class="left" :style="{flexBasis: leftWidth + 'px'}">
       <div>
@@ -132,6 +131,10 @@
           password: this.form.password, 
           nickname: this.form.username 
         })
+      },
+      messages () {
+        this.finish = false
+        return this.$store.state.session.messages
       }
     },
     computed: {
