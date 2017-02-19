@@ -73,16 +73,27 @@ class CourseParticipationView(APIView):
 
     def get_course(self, pk):
         try:
-            Course.objects.get(id=pk)
+            return Course.objects.get(id=pk)
         except Course.DoesNotExist:
             raise Http404
+
 
     def get(self, request, pk):
         course = self.get_course(pk)
         student = request.user
 
+        participation = CourseParticipation.objects.filter(course_id=course, participant=student)
+        if participation.exists():
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            course.participants_count += 1
+            course.save()
 
-        participation = CourseParticipation.objects.get(course_id=course.id, participant=student.id)
+            participation = CourseParticipation(participant=student, course_id=course)
+            participation.save()
+
+            partcipation_serializer = CourseParticipationSerializer(participation)
+            return Response(partcipation_serializer.data, status=status.HTTP_200_OK)
 
 
 
@@ -90,7 +101,11 @@ class CourseParticipationView(APIView):
 
 
 
-        # if Course.objects.get(id=id) is None:
+
+
+
+
+            # if Course.objects.get(id=id) is None:
         #
         #     course_serializer = CourseSerializer(Course.objects.get(id=id))
         #     Response(course_serializer.data)
