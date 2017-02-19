@@ -3,6 +3,7 @@ from course.models import Course, Chapter, Unit, CourseParticipation, Video
 
 
 class CourseSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Course
         fields = '__all__'
