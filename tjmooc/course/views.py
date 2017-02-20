@@ -1,5 +1,5 @@
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView, R
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 from rest_framework.permissions import IsAuthenticated
@@ -66,7 +66,7 @@ class CourseDetail(RetrieveUpdateDestroyAPIView):
 
 
 class ChapterList(ListCreateAPIView):
-    permission_classes = (IsObligatorOrManagerReadOnly, )
+    permission_classes = (IsAuthenticated, )
     serializer_class = ChapterSerializer
     queryset = Chapter.objects.all()
 
@@ -77,11 +77,22 @@ class ChapterList(ListCreateAPIView):
 
         objects = Chapter.objects.filter(id__in=chapters)
 
-        if objects.exists():
-            serializer = ChapterSerializer(objects, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = ChapterSerializer(objects, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+    def post(self, request, *args, **kwargs):
+        course_id = kwargs['cpk']
+        course = get_course(course_id)
+
+        serializer = ChapterSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            chapters = course.sections
+            chapters.append(serializer.data['id'])
+            course.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 
@@ -122,6 +133,10 @@ class UnitList(ListCreateAPIView):
     permission_classes = (IsObligatorOrManagerReadOnly, )
     serializer_class = UnitSerializer
     queryset = Unit.objects.all()
+
+
+
+
 
 
 
