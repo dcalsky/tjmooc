@@ -11,7 +11,7 @@ class Course(models.Model):
     sections = jsonfield.JSONField(help_text='章', default=list)  # store a string for (de)serialization
     update_time = models.DateTimeField(auto_now_add=True, help_text='更新时间')
     participants_count = models.IntegerField(default=0, help_text='参与人数')
-    obligator = models.ForeignKey(User, blank=True)
+    obligator = models.ForeignKey(User)
 
 
 class Chapter(models.Model):
@@ -19,12 +19,14 @@ class Chapter(models.Model):
     title = models.TextField(help_text='标题')
     description = models.TextField(help_text='说明')
     materials = jsonfield.JSONField(help_text='课程资料', default=list)
+    leacturer = models.ForeignKey(User)
 
 
 class Unit(models.Model):
     title = models.TextField(help_text='标题')
     description = models.TextField(help_text='说明')
     lists = jsonfield.JSONField(help_text='内容', default=list)
+    leacturer = models.ForeignKey(User)
 
 
 class Video(models.Model):
