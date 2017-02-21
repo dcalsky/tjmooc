@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import User
+from course.models import Chapter
 
 
 def homework_problem_path(instance, filename):
@@ -15,6 +16,7 @@ def homework_submit_path(instance, filename):
 
 
 class Homework(models.Model):
+    chapter = models.ForeignKey(Chapter)
     title = models.CharField(max_length=50, unique=True)
     introduction = models.TextField()
     problem_file = models.FileField(upload_to=homework_problem_path)
@@ -50,3 +52,10 @@ class TestSubmit(models.Model):
     submit_time = models.DateTimeField(auto_now_add=True)
     submit = models.CharField(max_length=10)
     score = models.IntegerField(null=True)
+
+class Video(models.Model):
+    title = models.TextField(help_text='标题')
+    description = models.TextField(help_text='说明')
+    upload_time = models.DateTimeField(auto_now_add=True, help_text='创建时间')
+    url = models.URLField(help_text='链接')
+    teacher = models.ForeignKey(User)

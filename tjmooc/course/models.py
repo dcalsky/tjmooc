@@ -29,12 +29,6 @@ class Unit(models.Model):
     leacturer = models.ForeignKey(User)
 
 
-class Video(models.Model):
-    title = models.TextField(help_text='标题')
-    description = models.TextField(help_text='说明')
-    upload_time = models.DateTimeField(auto_now_add=True, help_text='创建时间')
-    url = models.URLField(help_text='链接')
-    teacher = models.ForeignKey(User)
 
 
 class CourseParticipation(models.Model):
