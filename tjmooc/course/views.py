@@ -181,17 +181,17 @@ class UnitDetail(RetrieveUpdateDestroyAPIView):
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
-# class VideoList(ListAPIView):
-#     permission_classes = (IsObligatorOrManagerReadOnly, )
-#     serializer_class = VideoSerializer
-#     queryset = Video.objects.all()
-#
-#
-# class VideoDetail(RetrieveUpdateDestroyAPIView):
-#     permission_classes = (IsObligatorOrManagerReadOnly, )
-#     serializer_class = VideoSerializer
-#     queryset = Video.objects.all()
-#     lookup_field = 'id'
+class VideoList(ListAPIView):
+    permission_classes = (IsObligatorOrLeactureOrManagerOrReadOnly, )
+    serializer_class = VideoSerializer
+    queryset = Video.objects.all()
+
+
+class VideoDetail(RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsObligatorOrLeactureOrManagerOrReadOnly, )
+    serializer_class = VideoSerializer
+    queryset = Video.objects.all()
+    lookup_field = 'id'
 
 
 class CourseParticipationView(APIView):

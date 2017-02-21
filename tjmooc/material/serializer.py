@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Homework, HomeworkSubmit, Test, TestSubmit
+from tjmooc.homework.models import Homework, HomeworkSubmit, Test, TestSubmit
 
 class HomeworkSerializer(serializers.ModelSerializer):
     class Meta:
