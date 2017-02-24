@@ -11,8 +11,10 @@
 同时使用`course` 和 `chapter` 或者仅使用 `course`
    - `course` : course id 返回该课程下的作业
    - `chapter` : chapter id 返回该课程下的章节下的作业
+
 ####权限
    注册用户
+
 ####返回
 
 ```json
@@ -71,7 +73,7 @@
 `403` ： 无权限
 
 ###修改作业信息
-`PUT/DELETE /material/homework/<id>`
+`GET/PUT/DELETE /material/homework/<id>`
 
 ####Query
 同时使用`course` 和 `chapter`
@@ -115,12 +117,10 @@
 
 
 ###获取某次作业的提交
-`GET /material/homwork/<hid>/submit`
+`GET /material/homwork/<id>/submit`
+`GET /material/homwork/submit`
 
 ####Query
-同时使用`course` 和 `chapter`
-   - `course` : course id
-   - `chapter` : chapter id
 可选
    - `user` ： user id
 
@@ -151,12 +151,13 @@
 `200`
 
 ####错误
+`400'
 `404` course或chapter或user不存在
 `403` 无权限
 
 ###提交作业
 
-`POST /material/homework/<hid>/submit/`
+`POST /material/homework/<id>/submit/`
 
 ####Query
 无
@@ -194,7 +195,7 @@
 
 ###修改作业信息
 
-`PUT/DELETE /material/homework/<hid>/submit/<sid>`
+`GET/PUT/DELETE /material/homework/<hid>/submit/<sid>`
 
 ####权限
 注册用户
@@ -226,7 +227,7 @@
     }
 ```
 
-`201/404/403`
+`202/201/404/403`
 
 ####错误
 `404` course或chapter或user或homework不存在
@@ -349,7 +350,7 @@
 
 
 ###获取某次测试的提交
-`GET /material/test/<tid>/submit`
+`GET /material/test/<id>/submit`
 
 ####Query
 同时使用`course` 和 `chapter` 和 `unit`
@@ -390,7 +391,7 @@
 
 ###提交测试
 
-`POST /material/test/<tid>/submit/`
+`POST /material/test/<id>/submit/`
 
 ####Query
 无
@@ -428,7 +429,7 @@
 
 ###修改作业信息
 
-`PUT/DELETE /material/test/<tid>/submit/<sid>`
+`PUT/DELETE /material/test/<id>/submit/<id>`
 
 ####权限
 注册用户

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from course.models import Course, Chapter, Unit, CourseParticipation, Video
+from course.models import Course, Chapter, Unit, CourseParticipation
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -58,9 +58,4 @@ class CourseParticipationSerializer(DynamicFieldsModelSerializer):
         model = CourseParticipation
         fields = '__all__'
 
-
-class VideoSerializer(DynamicFieldsModelSerializer):
-    class Meta:
-        model = Video
-        fields = '__all__'
 

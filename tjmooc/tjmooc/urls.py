@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^sessions/', include('session.urls')),
     url(r'^bbs/', include('bbs.urls')),
     url(r'^course/', include('course.urls')),
+    url(r'^material/', include('material.urls'))
     # url(r'^sessions/', obtain_jwt_token),
 ]

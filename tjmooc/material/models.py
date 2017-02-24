@@ -16,7 +16,7 @@ def homework_submit_path(instance, filename):
 
 
 class Homework(models.Model):
-    chapter = models.ForeignKey(Chapter)
+    chapter = models.ForeignKey(Chapter, related_name='homeworks')
     title = models.CharField(max_length=50, unique=True)
     introduction = models.TextField()
     problem_file = models.FileField(upload_to=homework_problem_path)

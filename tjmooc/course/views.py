@@ -6,8 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView, Response, status
 from .permissions import IsObligatorOrLeactureOrManagerOrReadOnly, IsStudent
-from .serializers import CourseSerializer, ChapterSerializer, CourseParticipationSerializer, UnitSerializer, VideoSerializer
-from .models import Course, Chapter, CourseParticipation, Video, Unit
+from .serializers import CourseSerializer, ChapterSerializer, CourseParticipationSerializer, UnitSerializer
+from .models import Course, Chapter, CourseParticipation, Unit
 from django.http import Http404
 import json
 
@@ -19,7 +19,7 @@ def get_course(course_id):
         raise Http404
 
 
-def get_chapter(chapter_id, course_id):
+def get_chapter_and_course(chapter_id, course_id):
     try:
         chapter = Chapter.objects.get(id=chapter_id)
     except Chapter.DoesNotExist:
@@ -27,15 +27,15 @@ def get_chapter(chapter_id, course_id):
     course = get_course(course_id)
     if chapter_id not in course.sections:
         raise Http404
-    return chapter
+    return chapter, course
 
 
-def get_unit(unit_id, chapter_id, course_id):
+def get_unit_and_chapter_and_course(unit_id, chapter_id, course_id):
     try:
         unit = Unit.objects.get(id=unit_id)
     except Unit.DoesNotExist:
         raise Http404
-    chapter = get_chapter(chapter_id, course_id)
+    chapter, _ = get_chapter_and_course(chapter_id, course_id)
     if unit_id not in chapter.units:
         raise Http404
     return unit
@@ -107,21 +107,19 @@ class ChapterDetail(RetrieveUpdateDestroyAPIView):
     def get(self, request, cpk, pk):
         course_id = cpk
         chapter_id = pk
-        chapter = get_chapter(chapter_id, course_id)
+        chapter, _ = get_chapter_and_course(chapter_id, course_id)
         return Response(ChapterSerializer(chapter), status=status.HTTP_200_OK)
 
     def put(self, request, cpk, pk):
         course_id = cpk
         chapter_id = pk
-        course = get_course(course_id)
 
-        chapter = get_chapter(chapter_id, course_id)
+        chapter, _ = get_chapter_and_course(chapter_id, course_id)
 
         serializer = ChapterSerializer(chapter, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-
 
 
 class UnitList(ListCreateAPIView):
@@ -133,7 +131,7 @@ class UnitList(ListCreateAPIView):
         course_id = cpk
         chapter_id = pk
 
-        chapter = get_chapter(chapter_id, course_id)
+        chapter, _ = get_chapter_and_course(chapter_id, course_id)
         objects = Unit.objects.filter(id__in=chapter.units)
         serializer = UnitSerializer(objects, many=True)
 
@@ -143,7 +141,7 @@ class UnitList(ListCreateAPIView):
         course_id = cpk
         chapter_id = pk
 
-        chapter = get_chapter(chapter_id, course_id)
+        chapter, _ = get_chapter_and_course(chapter_id, course_id)
         serializer = UnitSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -164,7 +162,7 @@ class UnitDetail(RetrieveUpdateDestroyAPIView):
         chapter_id = pk
         unit_id = upk
 
-        unit = get_unit(unit_id, chapter_id, course_id)
+        unit, _, _ = get_unit_and_chapter_and_course(unit_id, chapter_id, course_id)
 
         return Response(UnitSerializer(unit), status=status.HTTP_200_OK)
 
@@ -173,7 +171,7 @@ class UnitDetail(RetrieveUpdateDestroyAPIView):
         chapter_id = pk
         unit_id = upk
 
-        unit = get_unit(unit_id, chapter_id, course_id)
+        unit, _, _ = get_unit_and_chapter_and_course(unit_id, chapter_id, course_id)
 
         serializer = ChapterSerializer(unit, data=request.data)
         if serializer.is_valid():
@@ -181,17 +179,6 @@ class UnitDetail(RetrieveUpdateDestroyAPIView):
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
-class VideoList(ListAPIView):
-    permission_classes = (IsObligatorOrLeactureOrManagerOrReadOnly, )
-    serializer_class = VideoSerializer
-    queryset = Video.objects.all()
-
-
-class VideoDetail(RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsObligatorOrLeactureOrManagerOrReadOnly, )
-    serializer_class = VideoSerializer
-    queryset = Video.objects.all()
-    lookup_field = 'id'
 
 
 class CourseParticipationView(APIView):
