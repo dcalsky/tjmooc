@@ -254,8 +254,7 @@
         "id" : "",
         "title" : "",
         "introduction" : "",
-        "problem_file" : "",
-        "answer_file" : "",
+        "answer" : "",
         "deadline" : "",
     },
     
@@ -282,8 +281,7 @@
 ####Body
 - "title" : ""
 - "introduction" : ""
-- "problem_file" : ""
-- "answer_file" : ""
+- "answer" : ""
 - "deadline" : ""
 
 ####返回
@@ -293,8 +291,7 @@
         "id" : "",
         "title" : "",
         "introduction" : "",
-        "problem_file" : "",
-        "answer_file" : "",
+        "answer" : "",
         "deadline" : "",
     }
 ```
@@ -304,9 +301,10 @@
 ####错误代码
 `404` ： 章节或课程ID不存在
 `403` ： 无权限
+`400`
 
 ###修改测试信息
-`PUT/DELETE /material/test/<id>`
+`GET/PUT/DELETE /material/test/<id>`
 
 ####Query
 同时使用`course` 和 `chapter` 和 `unit`
@@ -320,8 +318,7 @@
 ####Body
 - "title" : ""
 - "introduction" : ""
-- "problem_file" : ""
-- "answer_file" : ""
+- "answer" : ""
 - "deadline" : ""
 
 ####返回
@@ -351,7 +348,7 @@
 
 ###获取某次测试的提交
 `GET /material/test/<id>/submit`
-
+`GET /material/test/submit`
 ####Query
 同时使用`course` 和 `chapter` 和 `unit`
    - `course` : course id
@@ -429,7 +426,7 @@
 
 ###修改作业信息
 
-`PUT/DELETE /material/test/<id>/submit/<id>`
+`PUT/DELETE /material/test/<tid>/submit/<sid>`
 
 ####权限
 注册用户
@@ -468,15 +465,9 @@
 `GET /material/video`
 
 ####Query
-同时使用`course` 和 `chapter` 和 `unit`
-   - `course` : course id 
-   - `chapter` : chapter id
-   - `unit` : unit id
-   
-可选 `user`
+
    - `user` user id
    
-分别实现查找某个课程下的某个章节下的某个单元的Video，
 某个用户的所有Video。
 ####权限
    注册用户
@@ -500,9 +491,9 @@
 
 ####错误
 
-`404` course chapter unit id 不正确
+`404` user id 不正确
 
-###添加测试
+###添加Video
 `POST /material/video/`
 
 ####Query

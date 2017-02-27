@@ -1,15 +1,18 @@
 from functools import reduce
 from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.views import Response, status
-from course.views import get_course, get_chapter_and_course, get_unit_and_chapter_and_course
-from .serializer import HomeworkSerializer, HomeworkSubmitSerializer, TestSerializer, TestSubmitSerializer
+from rest_framework.views import Response, status, APIView
+from course.views import get_course, get_chapter_and_course,\
+    get_unit_and_chapter_and_course
+from .serializer import HomeworkSerializer, HomeworkSubmitSerializer, \
+    TestSerializer, TestSubmitSerializer, VideoSerializer
 from .models import Homework, HomeworkSubmit, Test, TestSubmit, Video
 from course.models import Chapter, Course, Unit
-from itertools import chain
+from django.http import Http404
 
 
-def get_course_id_and_chapter_id(request):
+
+def get_course_chapter_unit_id(request):
     try:
         course_id = int(request.query_params.get('course'))
     except TypeError:
@@ -18,8 +21,12 @@ def get_course_id_and_chapter_id(request):
         chapter_id = int(request.query_params.get('chapter'))
     except TypeError:
         chapter_id = None
+    try:
+        unit_id = int(request.query_params.get('unit'))
+    except TypeError:
+        unit_id = None
 
-    return course_id, chapter_id
+    return course_id, chapter_id, unit_id
 
 
 
@@ -28,7 +35,7 @@ class HomeworkListView(ListCreateAPIView):
     queryset = Homework.objects.all()
 
     def get(self, request, *args, **kwargs):
-        course_id, chapter_id = get_course_id_and_chapter_id(request)
+        course_id, chapter_id, _ = get_course_chapter_unit_id(request)
         if course_id is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
         elif chapter_id is not None:
@@ -42,7 +49,7 @@ class HomeworkListView(ListCreateAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-        course_id, chapter_id = get_course_id_and_chapter_id(request)
+        course_id, chapter_id, _ = get_course_chapter_unit_id(request)
         if course_id or chapter_id is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
         else:
@@ -55,21 +62,21 @@ class HomeworkDetailView(RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
 
     def get(self, request, *args, **kwargs):
-        course_id, chapter_id = get_course_id_and_chapter_id(request)
+        course_id, chapter_id, _ = get_course_chapter_unit_id(request)
         if course_id is None or chapter_id is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
         else:
             return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        course_id, chapter_id = get_course_id_and_chapter_id(request)
+        course_id, chapter_id, _ = get_course_chapter_unit_id(request)
         if course_id is None or chapter_id is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
         else:
             return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        course_id, chapter_id = get_course_id_and_chapter_id(request)
+        course_id, chapter_id, _ = get_course_chapter_unit_id(request)
         if course_id is None or chapter_id is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
         else:
@@ -146,6 +153,169 @@ class HomeworkSubmitDetailView(RetrieveUpdateDestroyAPIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             submit.delete()
+
+
+
+class TestListView(ListCreateAPIView):
+    serializer_class = TestSerializer
+    queryset = Test.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        course_id, chapter_id, unit_id = get_course_chapter_unit_id(request)
+        tests = Test.objects.filter(unit=unit_id)
+        serializer = TestSerializer(tests, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        course_id, chapter_id, unit_id = get_course_chapter_unit_id(request)
+
+        try:
+            unit = Unit.objects.get(id=unit_id)
+        except Unit.DoesNotExist:
+            raise Http404
+
+        serializer = TestSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            test_id = serializer.data.get('id')
+            unit.lists.append({"id": test_id, "type": "test"})
+            unit.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class TestDetailView(RetrieveUpdateDestroyAPIView):
+    serializer_class = TestSerializer
+    queryset = Test.objects.all()
+    lookup_field = 'id'
+
+    def delete(self, request, *args, **kwargs):
+        test_id = kwargs.get('id')
+        _, _, unit_id = get_course_chapter_unit_id(request)
+        unit = Unit.objects.get(id=unit_id)
+        unit.lists.remove({"id": test_id, "type": "test"})
+        unit.save()
+
+        test = Test.objects.get(id=test_id)
+        test.delete()
+        return Response(status.HTTP_202_ACCEPTED)
+
+
+class TestSubmitListView(ListCreateAPIView):
+    serializer_class = TestSerializer
+    queryset = Test.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get('id')
+        user_id = request.query_params.get('user')
+        if id is None:
+            if user_id is None:
+                Response(status=status.HTTP_400_BAD_REQUEST)
+            else:
+                submits = Test.objects.filter(submit_user=user_id)
+                serializer = TestSubmitSerializer(submits, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            if user_id is None:
+                submits = TestSubmit.objects.filter(test=id)
+                serializer = TestSubmitSerializer(submits, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                submits = TestSubmit.objects.filter(test=id,
+                                                        submit_user=user_id)
+                serializer = TestSubmitSerializer(submits, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        id = kwargs.get('id')
+        if id is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            serializer = TestSubmitSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class TestSubmitDetailView(RetrieveUpdateDestroyAPIView):
+
+    serializer_class = HomeworkSubmitSerializer
+    queryset = HomeworkSubmit
+
+    def check_test_exist(self, request, *args, **kwargs):
+        test_id = kwargs.get('tid')
+        submit_id = kwargs.get('sid')
+        submit = TestSubmit.objects.get(id=submit_id)
+        return str(submit.test_id) != test_id, submit
+
+    def get(self, request, *args, **kwargs):
+        flag, submit = self.check_test_exist(request, *args, **kwargs)
+        if flag:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer = TestSubmitSerializer(submit)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, *args, **kwargs):
+        flag, submit = self.check_test_exist(request, *args, **kwargs)
+        if flag:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer = TestSubmitSerializer(submit, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    def delete(self, request, *args, **kwargs):
+        flag, submit = self.check_test_exist(request, *args, **kwargs)
+        if flag:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            submit.delete()
+
+
+class VideoListView(ListCreateAPIView):
+    serializer_class = VideoSerializer
+    queryset = Video.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        user_id = request.query_params.get('user')
+        if user_id is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            videos = Video.objects.filter(teacher=user_id)
+            serializer = VideoSerializer(videos, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        _, _, unit_id = get_course_chapter_unit_id(request)
+        unit = Unit.objects.get(id=unit_id)
+
+        serializer = VideoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            video_id = serializer.data.get('id')
+            unit.lists.append({"id": video_id, "type": "video"})
+            unit.save()
+
+
+class VideoDetailView(RetrieveUpdateDestroyAPIView):
+    serializer_class = VideoSerializer
+    queryset = Video.objects.all()
+    lookup_field = 'id'
+
+    def delete(self, request, *args, **kwargs):
+        video_id = kwargs.get('id')
+        _, _, unit_id = get_course_chapter_unit_id(request)
+        unit = Unit.objects.get(id=unit_id)
+        unit.lists.remove({"id": video_id, "type": "test"})
+        unit.save()
+
+        test = Test.objects.get(id=video_id)
+        test.delete()
+        return Response(status.HTTP_202_ACCEPTED)
+
 
 
 

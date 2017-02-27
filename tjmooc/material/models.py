@@ -1,6 +1,6 @@
 from django.db import models
 from user.models import User
-from course.models import Chapter
+from course.models import Chapter, Unit
 
 
 def homework_problem_path(instance, filename):
@@ -41,17 +41,18 @@ class HomeworkSubmit(models.Model):
 class Test(models.Model):
     title = models.CharField(max_length=50, unique=True)
     introduction = models.TextField()
-    problem_file = models.FileField(upload_to=homework_problem_path)
-    answer_file = models.FileField(upload_to=homework_answer_path)
+    answer = models.CharField(max_length=10, default='')
     deadline = models.DateTimeField()
+    unit = models.ForeignKey(Unit)
 
 
 class TestSubmit(models.Model):
-    test_id = models.ForeignKey(Test)
-    submit_user_id = models.ForeignKey(User, related_name='test_submit_user_id')
+    test = models.ForeignKey(Test)
+    submit_user = models.ForeignKey(User, related_name='test_submit_user_id')
     submit_time = models.DateTimeField(auto_now_add=True)
     submit = models.CharField(max_length=10)
     score = models.IntegerField(null=True)
+
 
 class Video(models.Model):
     title = models.TextField(help_text='标题')

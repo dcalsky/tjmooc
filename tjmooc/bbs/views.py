@@ -23,6 +23,7 @@ class ForumDetail(RetrieveAPIView):
     queryset = Forum.objects.all()
     lookup_field = 'id'
 
+
 class PostList(APIView):
     permission_classes = (AllowAny,)
     serializer_class = PostSerializer
