@@ -1,5 +1,5 @@
 <template>
-  <div class="course-display">
+  <div id="course-display">
     <player :flv="flv"></player>
     <after-class></after-class>
   </div>

@@ -35,7 +35,7 @@
         let
           links = [
             ['全部课程', '/course/list'],
-            ['课堂论坛', '/forum'],
+            ['课堂论坛', '/bbs'],
           ];
         if (this.login) {
           links.push(['我的课程', '/profile/courses']);

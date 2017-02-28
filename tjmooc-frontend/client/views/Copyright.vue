@@ -1,5 +1,5 @@
 <template>
-  <div class="copyright">
+  <div id="copyright">
     copyright
     {{$route.params}}
   </div>

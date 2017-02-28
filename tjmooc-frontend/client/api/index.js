@@ -9,6 +9,13 @@ function post(url, { data, cb }) {
     .end(cb)
 }
 
+function get(url, { query, cb }) {
+  request
+    .get(url)
+    .query(query)
+    .end(cb)
+}
+
 // Sessions
 const session = {
   login(data, cb) {
@@ -29,6 +36,30 @@ const user = {
   },
   changePassword(data, cb) {
     // todo
+  }
+}
+
+// BBS
+const forum = {
+  ForumUrl: `${server.forum}`,
+  PostUrl: `${server.post}`,
+  getForumList(query, cb) {
+    get(`${this.ForumUrl}`, {
+      query: query,
+      cb: cb
+    })
+  },
+  getForumDetail(forumId, query, cb) {
+    get(`${this.ForumUrl}/${forumId}`, {
+      query: query,
+      cb: cb
+    })
+  },
+  getPostDetail(postId, cb) {
+    get(`${this.PostUrl}/${postId}`, {
+      query: query,
+      cb: cb
+    })
   }
 }
 

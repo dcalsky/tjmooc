@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div id="about">
     about
     {{$route.params}}
   </div>

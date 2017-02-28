@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div id="page">
     <navbar></navbar>
     <slide></slide>
     <course-select></course-select>

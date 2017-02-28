@@ -1,5 +1,5 @@
 <template>
-  <div class="account-login">
+  <div id="account-login">
     <div class="right">
       <div class="slice">
         <h1 class="title">

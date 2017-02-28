@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="account" :style="scrStyle">
+    <div id="account" :style="scrStyle">
       <div class="paper">
         <div class="back-home" @click="backHome">
           <i class="fa fa-home fa-lg"></i>

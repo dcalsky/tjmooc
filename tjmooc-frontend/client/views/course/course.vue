@@ -1,5 +1,5 @@
 <template>
-  <div class="course">
+  <div id="course">
     <navbar></navbar>
     <router-view></router-view>
     <foot-bar></foot-bar>
@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .course {
+  #course {
     min-width: 900px;
   }
 </style>

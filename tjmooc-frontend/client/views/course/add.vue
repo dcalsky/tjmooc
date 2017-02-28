@@ -1,5 +1,5 @@
 <template>
-  <div class="course-add">
+  <div id="course-add">
     <h1>上传</h1>
     <div class="upload" v-for="t in row.input">
       <label :for="'add-' + t.id">{{t.name}}</label>

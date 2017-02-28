@@ -1,5 +1,5 @@
 <template>
-  <div class="account-register">
+  <div id="account-register">
     <div class="right">
       <div class="info">{{stepList[step].info}}</div>
 
