@@ -15,9 +15,8 @@ const actions = {
   login({ commit }, data) {
     commit(types.LOGIN_REQUEST)
     session.login(data, (err, res) => {
-      // error handle todo
+      // error handle
       if (err) {
-        console.log(err)
         commit(types.LOGIN_FAILED, errorHandler('error'))
       }
       if ('token' in res.body) {

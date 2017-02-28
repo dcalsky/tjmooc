@@ -10,6 +10,7 @@ import CourseList from '../views/course/list.vue'
 import About from '../views/About.vue'
 import Copyright from '../views/Copyright.vue'
 import Forum from '../views/forum/forum.vue'
+import VideoUpload from '../views/video/upload.vue'
 
 Vue.use(Router)
 
@@ -24,6 +25,10 @@ export default new Router({
       path: '/about',
       name: 'about',
       component: About
+    }, {
+      path: '/video',
+      name: 'video',
+      component: VideoUpload
     }, {
       path: '/copyright',
       component: Copyright
