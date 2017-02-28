@@ -39,7 +39,7 @@ class HomeworkSubmit(models.Model):
 
 
 class Test(models.Model):
-    title = models.CharField(max_length=50, unique=True)
+    title = models.CharField(max_length=50)
     introduction = models.TextField()
     answer = models.CharField(max_length=10, default='')
     deadline = models.DateTimeField()
@@ -57,6 +57,6 @@ class TestSubmit(models.Model):
 class Video(models.Model):
     title = models.TextField(help_text='标题')
     description = models.TextField(help_text='说明')
-    upload_time = models.DateTimeField(auto_now_add=True, help_text='创建时间')
+    upload_time = models.DateTimeField(auto_now_add=True, help_text='创建时间', blank=True)
     url = models.URLField(help_text='链接')
     teacher = models.ForeignKey(User)

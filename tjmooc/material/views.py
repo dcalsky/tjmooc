@@ -1,5 +1,6 @@
 from functools import reduce
 from django.shortcuts import render
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.views import Response, status, APIView
 from course.views import get_course, get_chapter_and_course,\
@@ -9,7 +10,7 @@ from .serializer import HomeworkSerializer, HomeworkSubmitSerializer, \
 from .models import Homework, HomeworkSubmit, Test, TestSubmit, Video
 from course.models import Chapter, Course, Unit
 from django.http import Http404
-
+from .permissions import IsLeacturerOrManagerOrReadOnly, IsTeacherOrManagerOrReadOnly
 
 
 def get_course_chapter_unit_id(request):
@@ -29,10 +30,10 @@ def get_course_chapter_unit_id(request):
     return course_id, chapter_id, unit_id
 
 
-
 class HomeworkListView(ListCreateAPIView):
     serializer_class = HomeworkSerializer
     queryset = Homework.objects.all()
+    permission_classes = (IsTeacherOrManagerOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         course_id, chapter_id, _ = get_course_chapter_unit_id(request)
@@ -59,6 +60,7 @@ class HomeworkListView(ListCreateAPIView):
 class HomeworkDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = HomeworkSerializer
     queryset = Homework.objects.all()
+    permission_classes = (IsLeacturerOrManagerOrReadOnly, )
     lookup_field = 'id'
 
     def get(self, request, *args, **kwargs):
@@ -86,6 +88,7 @@ class HomeworkDetailView(RetrieveUpdateDestroyAPIView):
 class HomeworkSubmitListView(ListCreateAPIView):
     serializer_class = HomeworkSubmitSerializer
     queryset = HomeworkSubmit.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         id = kwargs.get('id')
@@ -122,6 +125,8 @@ class HomeworkSubmitListView(ListCreateAPIView):
 class HomeworkSubmitDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = HomeworkSubmitSerializer
     queryset = HomeworkSubmit
+    permission_classes = (IsAuthenticatedOrReadOnly, )
+
 
     def check_homework_exist(self, request, *args, **kwargs):
         homework_id = kwargs.get('hid')
@@ -155,10 +160,10 @@ class HomeworkSubmitDetailView(RetrieveUpdateDestroyAPIView):
             submit.delete()
 
 
-
 class TestListView(ListCreateAPIView):
     serializer_class = TestSerializer
     queryset = Test.objects.all()
+    permission_classes = (IsTeacherOrManagerOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         course_id, chapter_id, unit_id = get_course_chapter_unit_id(request)
@@ -182,12 +187,13 @@ class TestListView(ListCreateAPIView):
             unit.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 
 class TestDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = TestSerializer
     queryset = Test.objects.all()
+    permission_classes = (IsLeacturerOrManagerOrReadOnly, )
     lookup_field = 'id'
 
     def delete(self, request, *args, **kwargs):
@@ -205,6 +211,7 @@ class TestDetailView(RetrieveUpdateDestroyAPIView):
 class TestSubmitListView(ListCreateAPIView):
     serializer_class = TestSerializer
     queryset = Test.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         id = kwargs.get('id')
@@ -222,8 +229,7 @@ class TestSubmitListView(ListCreateAPIView):
                 serializer = TestSubmitSerializer(submits, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                submits = TestSubmit.objects.filter(test=id,
-                                                        submit_user=user_id)
+                submits = TestSubmit.objects.filter(test=id, submit_user=user_id)
                 serializer = TestSubmitSerializer(submits, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -239,9 +245,9 @@ class TestSubmitListView(ListCreateAPIView):
 
 
 class TestSubmitDetailView(RetrieveUpdateDestroyAPIView):
-
     serializer_class = HomeworkSubmitSerializer
     queryset = HomeworkSubmit
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
     def check_test_exist(self, request, *args, **kwargs):
         test_id = kwargs.get('tid')
@@ -278,6 +284,7 @@ class TestSubmitDetailView(RetrieveUpdateDestroyAPIView):
 class VideoListView(ListCreateAPIView):
     serializer_class = VideoSerializer
     queryset = Video.objects.all()
+    permission_classes = (IsTeacherOrManagerOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         user_id = request.query_params.get('user')
@@ -291,18 +298,21 @@ class VideoListView(ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         _, _, unit_id = get_course_chapter_unit_id(request)
         unit = Unit.objects.get(id=unit_id)
-
         serializer = VideoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             video_id = serializer.data.get('id')
             unit.lists.append({"id": video_id, "type": "video"})
             unit.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 
 class VideoDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = VideoSerializer
     queryset = Video.objects.all()
+    permission_classes = (IsLeacturerOrManagerOrReadOnly, )
     lookup_field = 'id'
 
     def delete(self, request, *args, **kwargs):

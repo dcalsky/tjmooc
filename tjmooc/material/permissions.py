@@ -1,5 +1,6 @@
 from rest_framework import permissions
 from django.conf import settings
+from .models import Video, Test, Homework
 
 secret = settings.SECRET_KEY
 
@@ -17,4 +18,9 @@ class IsLeacturerOrManagerOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
         if request.method in permissions.SAFE_METHODS:
             return True
         else:
-            return request.user.id == obj.leacturer
+            if isinstance(obj, Video):
+                return request.user == obj.teacher
+            elif isinstance(obj, Test):
+                return request.user == obj.unit.leacturer
+            elif isinstance(obj, Homework):
+                return request.user == obj.chapter.leacturer

@@ -35,10 +35,10 @@ def get_unit_and_chapter_and_course(unit_id, chapter_id, course_id):
         unit = Unit.objects.get(id=unit_id)
     except Unit.DoesNotExist:
         raise Http404
-    chapter, _ = get_chapter_and_course(chapter_id, course_id)
+    chapter, course = get_chapter_and_course(chapter_id, course_id)
     if unit_id not in chapter.units:
         raise Http404
-    return unit
+    return unit, chapter, course
 
 
 class ResultsSetPagination(PageNumberPagination):
@@ -105,14 +105,14 @@ class ChapterDetail(RetrieveUpdateDestroyAPIView):
     queryset = Chapter.objects.all()
 
     def get(self, request, cpk, pk):
-        course_id = cpk
-        chapter_id = pk
+        course_id = int(cpk)
+        chapter_id = int(pk)
         chapter, _ = get_chapter_and_course(chapter_id, course_id)
-        return Response(ChapterSerializer(chapter), status=status.HTTP_200_OK)
+        return Response(ChapterSerializer(chapter).data, status=status.HTTP_200_OK)
 
     def put(self, request, cpk, pk):
-        course_id = cpk
-        chapter_id = pk
+        course_id = int(cpk)
+        chapter_id = int(pk)
 
         chapter, _ = get_chapter_and_course(chapter_id, course_id)
 
@@ -128,9 +128,8 @@ class UnitList(ListCreateAPIView):
     queryset = Unit.objects.all()
 
     def get(self, request, cpk, pk):
-        course_id = cpk
-        chapter_id = pk
-
+        course_id = int(cpk)
+        chapter_id = int(pk)
         chapter, _ = get_chapter_and_course(chapter_id, course_id)
         objects = Unit.objects.filter(id__in=chapter.units)
         serializer = UnitSerializer(objects, many=True)
@@ -158,18 +157,18 @@ class UnitDetail(RetrieveUpdateDestroyAPIView):
     queryset = Unit.objects.all()
 
     def get(self, request, cpk, pk, upk):
-        course_id = cpk
-        chapter_id = pk
-        unit_id = upk
+        course_id = int(cpk)
+        chapter_id = int(pk)
+        unit_id = int(upk)
 
         unit, _, _ = get_unit_and_chapter_and_course(unit_id, chapter_id, course_id)
 
-        return Response(UnitSerializer(unit), status=status.HTTP_200_OK)
+        return Response(UnitSerializer(unit).data, status=status.HTTP_200_OK)
 
     def put(self, request, cpk, pk, upk):
-        course_id = cpk
-        chapter_id = pk
-        unit_id = upk
+        course_id = int(cpk)
+        chapter_id = int(pk)
+        unit_id = int(upk)
 
         unit, _, _ = get_unit_and_chapter_and_course(unit_id, chapter_id, course_id)
 
@@ -179,13 +178,11 @@ class UnitDetail(RetrieveUpdateDestroyAPIView):
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
-
-
 class CourseParticipationView(APIView):
     permission_classes = (IsStudent, )
 
     def get(self, request, cpk):
-        course = get_course(cpk)
+        course = get_course(int(cpk))
         student = request.user
 
         participation = CourseParticipation.objects.filter(course_id=course, participant=student)
