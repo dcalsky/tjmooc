@@ -1,15 +1,90 @@
 @import "../../components/config";
 
+$rc: lighten($lightColor, 37.5%);
+
 .account {
   background-color: $dark;
   display: block;
   top: 0;
   padding: 50px 50px 70px 50px;
   .paper {
+    box-shadow: 0 0 20px 0 $dark;
     width: 100%;
     height: 100%;
     background-color: white;
     position: relative;
+
+    .back-home {
+      $w: 50px;
+      position: absolute;
+      width: $w + 4px;
+      height: $w + 4px;
+      padding: 3px;
+      background-color: $lightColor;
+      top: 0;
+      right: 0;
+      overflow: hidden;
+      text-align: right;
+      color: white;
+      transition: all .3s;
+      cursor: pointer;
+
+      span {
+        position: absolute;
+        z-index: 10;
+        color: $mainColor;
+        font-size: 13px;
+        font-weight: 300;
+        width: auto;
+        right: 0;
+        bottom: 32px;
+        letter-spacing: 1px;
+        opacity: 0;
+        transition: all .3s;
+      }
+
+      &:before, &:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border: solid;
+        transition: all .3s;
+      }
+
+      &:before {
+        top: -35px;
+        right: -35px;
+        border-width: 50px;
+        border-color: transparent transparent $rc $rc;
+      }
+      &:after {
+        $rc: lighten($lightColor, 33%);
+        top: 0;
+        right: 0;
+        border-width: 15px;
+        box-shadow: 0 0 20px -6px $dark;
+        border-color: transparent transparent $rc $rc;
+      }
+    }
+    .back-home:hover {
+      width: 50px;
+      height: 50px;
+      padding: 5px;
+      span {
+        right: 18px;
+        bottom: 13px;
+        opacity: 1;
+      }
+      &:before {
+        top: -25px;
+        right: -25px;
+      }
+      &:after {
+        border-width: 25px;
+        box-shadow: 0 0 20px -10px $dark;
+      }
+    }
 
     #account-logo-tie {
       position: absolute;
@@ -53,9 +128,11 @@
       $bc: lighten($lightColor, 15%);
       h1 {
         margin: 60px $right 40px 0;
+        width: 200px;
+        text-align: center;
         font-size: 40px;
         @include respond-to(lg) {
-          font-size: 50px;
+          font-size: 48px;
         }
         position: relative;
         a {
@@ -64,7 +141,7 @@
           cursor: pointer;
           &:after {
             content: "|";
-            margin: 0 10px;
+            margin: 0 6px;
             color: $dark;
           }
         }
@@ -74,7 +151,7 @@
           width: .6rem;
           background-color: $bc;
           height: 25px;
-          right: 12px;
+          right: 15px;
           bottom: -30px;
           opacity: .8;
           transition: all .3s;
@@ -85,7 +162,11 @@
         margin: 0 $right + 27px 0 0;
         height: 11%;
         position: relative;
-        font-size: 15px;
+        font-size: 12px;
+        @include respond-to(lg) {
+          font-size: 15px;
+          margin-right: $right + 30px;
+        }
         cursor: pointer;
         display: flex;
         flex-direction: column;
@@ -96,7 +177,11 @@
           opacity: .6;
         }
         span:nth-last-child(2) {
-          font-size: 20px;
+          font-size: 15px;
+          @include respond-to(lg) {
+            font-size: 19px;
+            font-weight: 300;
+          }
           opacity: 1;
           margin-top: 2px;
         }
@@ -123,7 +208,7 @@
   }
   .right {
     flex-grow: 1;
-    background-color: lighten($lightColor, 37.5%);
+    background-color: $rc;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -137,6 +222,7 @@
       font-weight: 300;
       letter-spacing: 2px;
       font-family: sans-serif;
+      margin-bottom: 15px;
     }
 
     .input {
@@ -144,7 +230,7 @@
       border-radius: 4px;
       overflow: hidden;
       position: relative;
-      margin: 30px 0;
+      margin: 15px 0 30px 0;
       width: 100%;
       text-align: center;
 
@@ -189,9 +275,9 @@
           left: 5px;
         }
         &:hover {
-          animation: pop .5s;
+          animation: acpop .5s;
         }
-        @keyframes pop {
+        @keyframes acpop {
           0%, 100% {
             opacity: .4;
             width: 20px;
@@ -224,8 +310,11 @@
       transition: opacity .3s;
     }
     .error {
-      line-height: 43px;
+      height: 43px;
       letter-spacing: 2px;
+      p {
+        margin: 3px;
+      }
     }
 
     .slice {

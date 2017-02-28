@@ -1,0 +1,11 @@
+@import "../config";
+
+.videoContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .centeredVideo {
+    background-color: darken($dark, 10%);
+  }
+}

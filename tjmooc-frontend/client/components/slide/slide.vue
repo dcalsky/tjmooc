@@ -1,22 +1,26 @@
 <template>
   <div class="slide">
     <div class="img">
-      <div class="background" v-bind:style="{backgroundColor: dataNow('color')}"></div>
+      <div class="background" :style="{backgroundColor: dataNow('color')}"></div>
       <div class="descImg">
-        <img v-bind:src="dataNow('imgUrl')" v-bind:alt="dataNow('title')">
+        <img :src="dataNow('imgUrl')" :alt="dataNow('title')">
       </div>
-      <h1>{{dataNow('title')}}</h1>
-      <p>{{desc}}</p>
-      <div class="teacher">主讲: {{dataNow('teacher')}}</div>
-      <div class="time">课时: {{dataNow('time')}}</div>
-      <div class="btn" v-bind:style="{color: dataNow('color')}" v-on:click="onEnterClicked">
-        <div>进入课程</div>
+
+      <div class="text">
+        <div class="detail">
+          <div class="teacher">{{dataNow('teacher')}} 主讲</div>
+          <div class="time">{{dataNow('time')}} 课时</div>
+        </div>
+        <h1>{{dataNow('title')}}</h1>
+        <div class="btn" :style="{color: dataNow('color')}" @click="onEnterClicked">
+          <div>进入课程</div>
+        </div>
       </div>
     </div>
     <div class="tip-box">
       <div class="scroll">
-        <div class="tip" v-for="(section, index) in sections" v-on:click="onTipClicked(index)" v-bind:style="{opacity: index == displayNow ? 1 : 0.75}">
-          <div class="color-bar" v-bind:style="{backgroundColor: section.color}" v-if="index == displayNow"></div>
+        <div class="tip" v-for="(section, index) in sections" @click="onTipClicked(index)" :style="{opacity: index == displayNow ? 1 : 0.75}">
+          <div class="color-bar" :style="{backgroundColor: section.color}" v-if="index == displayNow"></div>
           <h1>{{section.title}}</h1>
           <p>{{section.teacher}}</p>
         </div>
@@ -89,6 +93,15 @@
       }
     },
     methods: {
+      scrollTo: function (left, ms) {
+          let box = document.getElementsByClassName('tip-box')[0], now = box.scrollLeft;
+          let frame = ms / 40, step = (left - now) / frame;
+          for (let i = 0; i < frame; ++i) {
+              setTimeout( () => {
+                box.scrollLeft += step;
+              }, 40 * i);
+          }
+      },
       startSlide: function () {
         if (this.timeoutFunc)
             clearTimeout(this.timeoutFunc);
@@ -97,6 +110,7 @@
         //let first = this.sections[0];
         //this.sections = _.drop(this.sections).concat(this.sections[0]);
         this.displayNow = (this.displayNow + 1) % this.sections.length;
+        this.scrollTo(240 * this.displayNow, 600);
 
         let s = this.startSlide;
         this.timeoutFunc = setTimeout(function () {

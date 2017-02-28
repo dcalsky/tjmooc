@@ -1,0 +1,306 @@
+@import "../config";
+
+.player {
+  $shadow:
+    0 0 20px -8px $dark;
+
+  width: 100%;
+  font-family: PingFangSC;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-width: 870px;
+  &:before {
+    content: "";
+    width: 100%;
+    left: 0;
+    top: -96px;
+    height: calc(100% + 21px);
+    position: absolute;
+    background-color: lighten($lightColor, 37%);
+    z-index: -1;
+  }
+
+  .left {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 100%;
+    width: 600px;
+    margin-bottom: 75px;
+
+    .videoContainer {
+      z-index: 2;
+    }
+
+    .info {
+      width: 100%;
+      height: 75px;
+      background-color: transparent;
+      position: absolute;
+      transition: all 0.6s;
+      transform-style: preserve-3d;
+      font-weight: 300;
+      display: block;
+      top: 100%;
+      z-index: 1;
+
+      .front, .back {
+        backface-visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: white;
+
+        display: flex;
+        flex-direction: column;
+        box-shadow: $shadow;
+      }
+      .front {
+        z-index: 2;
+        width: 95%;
+        padding: 0 0 0 5%;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 75px;
+        letter-spacing: 1px;
+
+        .content {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          .title {
+            font-size: 18px;
+            margin: 5px 0;
+          }
+          .subtitle {
+            font-size: 12px;
+            opacity: .6;
+          }
+        }
+
+        .btn {
+          height: 100%;
+          width: 75px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          cursor: pointer;
+          transition: all .3s;
+
+          i {
+            margin: 0px;
+          }
+          span {
+            font-size: 12px;
+            opacity: 1;
+            transition: all .3s;
+            height: 14px;
+          }
+          &:before {
+            content: "";
+            width: 1px;
+            border-radius: .5px;
+            height: 70%;
+            position: absolute;
+            left: 0;
+            top: 15%;
+            opacity: .2;
+            background-color: currentColor;
+          }
+
+          &:hover {
+            span {
+              color: transparent;
+              height: 0;
+            }
+          }
+
+        }
+      }
+      .back {
+        top: 75px;
+        width: 90%;
+        padding: 0 5%;
+        min-height: 75px;
+        transform: translateY(-100%) rotateX(180deg);
+        display: flex;
+        justify-content: center;
+        position: relative;
+        white-space: pre-wrap;
+
+        .content {
+          font-size: 14px;
+          opacity: .7;
+          top: 0;
+          padding: 20px 0;
+          letter-spacing: .5px;
+          line-height: 140%;
+        }
+      }
+    }
+
+    .flipper {
+      transform: rotateX(180deg);
+    }
+  }
+
+  .tie {
+    position: relative;
+    $w: 10px;
+    $c: lighten($lightColor, 15%);
+    $c_: lighten($mainColor, 15%);
+
+    .t1 {
+      width: $w;
+      height: 475px;
+      position: relative;
+      background: linear-gradient(
+          to bottom,
+          white 0%,
+          $c 100%
+      );
+
+      &:before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        bottom: -$w * 1.2;
+        left: 0;
+        border: solid;
+        border-width: $w/2*1.2 $w/2;
+        border-color: $c $c transparent transparent;
+      }
+    }
+    .t2 {
+       width: $w;
+       height: 20px;
+       position: absolute;
+       background-color: $c_;
+      transform: rotateZ(-80deg);
+      bottom: -19px;
+      left: 16px;
+      box-shadow: -1px 1px 2px -1px $dark;
+
+       &:before {
+         content: "";
+         position: absolute;
+         width: 0;
+         height: 0;
+         top: -$w * 1.2;
+         left: 0;
+         border: solid;
+         border-width: $w/2*1.2 $w/2;
+         border-color: transparent $c_ $c_ transparent;
+       }
+     }
+  }
+  .right {
+    .back {
+      height: 475px;
+      width: 100px;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      flex-direction: row;
+      box-shadow: $shadow;
+      position: relative;
+      margin-right: 160px;
+
+      &:before {
+        content: "";
+        width: 1px;
+        height: 30px;
+        background-color: currentColor;
+        position: absolute;
+        bottom: 6px;
+        left: 50px;
+        opacity: .2;
+        border-radius: .5px;
+      }
+
+      .btn {
+        width: 50%;
+        text-align: center;
+        padding: 5px 20px;
+        cursor: pointer;
+        position: relative;
+
+        i {
+          opacity: .4;
+          transition: all .3s;
+        }
+        i:last-child {
+          position: absolute;
+          opacity: 0;
+          left: 32.2%;
+          top: 5px;
+        }
+
+        &:hover {
+          i {
+            opacity: 0;
+          }
+
+          i:last-child {
+            opacity: 1;
+          }
+        }
+      }
+    }
+    .section-next {
+      height: 433px;
+      top: 0;
+      position: absolute;
+      display: flex;
+      justify-content: space-around;
+      flex-direction: column;
+
+      .tip {
+        border-radius: 0 4px 4px 0;
+        width: 240px;
+        height: 100px;
+        padding-right: 20px;
+        box-shadow: 5px 0 15px -5px rgba(145, 49, 117, 0.4);
+        $c: lighten($lightColor, 34%);
+        transition: all .3s;
+        background: linear-gradient(
+            to right,
+            $c 0%,
+            lighten($c, 3%) 100%
+        );
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        flex-direction: column;
+        font-weight: 300;
+        cursor: pointer;
+        &:hover {
+          background: linear-gradient(
+              to right,
+              $c 0%,
+              lighten($c, 2.5%) 100%
+          );
+          box-shadow:
+            1px 0 0 0px rgba(145, 49, 117, 0.1),
+            0 1px 0 0px rgba(145, 49, 117, 0.1),
+            0 -1px 0 0px rgba(145, 49, 117, 0.1)
+        }
+
+        .section {
+          font-size: 12px;
+          opacity: .6;
+          color: white;
+          background-color: $dark;
+          margin: 8px 0 2px 0;
+        }
+      }
+    }
+  }
+
+}

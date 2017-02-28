@@ -5,7 +5,7 @@
     </div>
     <div class="brand" @click="eggshell">
       <logo :height="35" componentId="foot-logo"></logo>
-      <a :href="school[0].url">{{school[0].name}}</a>
+      <a :href="school[0].url" @click="eggshell">{{school[0].name}}</a>
     </div>
   </div>
 </template>

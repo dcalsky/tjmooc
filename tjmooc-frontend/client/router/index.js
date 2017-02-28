@@ -7,6 +7,7 @@ import AccountLogin from '../views/account/login/login'
 import Course from '../views/course/course.vue'
 import CourseDisplay from '../views/course/display.vue'
 import CourseList from '../views/course/list.vue'
+import CourseAdd from '../views/course/add.vue'
 import About from '../views/About.vue'
 import Copyright from '../views/Copyright.vue'
 import Forum from '../views/forum/forum.vue'
@@ -57,6 +58,10 @@ export default new Router({
         {
           path: 'list',
           component: CourseList
+        },
+        {
+          path: 'add',
+          component: CourseAdd
         }
       ]
     },
