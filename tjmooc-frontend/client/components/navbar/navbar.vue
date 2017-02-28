@@ -10,8 +10,8 @@
         <router-link to="/account/login" class="login">登录</router-link>
       </div>
       <div class="account-box" v-if="login">
-        <router-link to="/profile">{{ username }}</router-link>
-        <button @click="logout">退出</button>
+        <router-link class="register" to="/profile">{{ username }}</router-link>
+        <a class="login" @click="logout">退出</a>
       </div>
     </div>
   </div>

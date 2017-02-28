@@ -1,0 +1,88 @@
+@import "../config";
+
+.after-class {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .select-box {
+    $c: rgba(145, 49, 117, .2);
+    display: inline-block;
+    box-shadow: 0 2px 18px -5px rgba(145, 49, 117, 0.4);
+    border-radius: 2px;
+    transition: all .3s;
+    $w: 20px;
+    margin: 0 0 50px 0;
+    cursor: pointer;
+    font-size: 18px;
+
+    .select {
+      display: inline-block;
+      background-color: white;
+      position: relative;
+      transition: all .3s;
+      opacity: .3;
+      color: $dark;
+      text-align: center;
+
+      &:before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 100%;
+        display: inline-block;
+        transition: all .3s;
+      }
+      &:hover {
+        opacity: 1;
+        color: white !important;
+        background-color: $dark;
+        &:before {
+          border-color: $dark transparent;
+        }
+      }
+    }
+    .homework {
+      padding: 5px $w - 4px 5px $w;
+      margin-right: 4px;
+      border-radius: 2px 0 0 2px;
+      &:before {
+        right: -8px;
+        bottom: 0;
+        border-right: 8px solid;
+        border-bottom: 30px solid;
+        border-color: white transparent;
+      }
+    }
+    .test {
+      padding: 5px $w 5px $w - 4px;
+      border-radius: 0 2px 2px 0;
+      &:before {
+        left: -8px;
+        top: 0;
+        border-left: 8px solid;
+        border-top: 30px solid;
+        border-color: white transparent;
+      }
+    }
+
+    .selected {
+      opacity: 1;
+      background-color: $lightColor;
+      color: white;
+      &:before {
+        border-color: $lightColor transparent;
+      }
+      &:hover {
+        color: white !important;
+        background-color: $lightColor;
+        opacity: 1;
+        &:before {
+          border-color: $lightColor transparent;
+        }
+      }
+    }
+  }
+}
+

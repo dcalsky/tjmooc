@@ -123,8 +123,21 @@
         background-color: white;
         box-shadow: rgba(145, 49, 117, .3) 5px 5px 100px -20px;
         transition: 0.3s all;
+        position: relative;
+        cursor: pointer;
         &:hover {
           box-shadow: none;
+        }
+
+        .percentage {
+          position: absolute;
+          width: 0;
+          height: 2px;
+          background-color: $lightColor;
+          left: 0;
+          bottom: 0;
+          opacity: 0;
+          transition: all .3s;
         }
       }
       .subject:nth-child(2n) {
@@ -141,13 +154,14 @@
       flex-wrap: wrap;
       align-items: center;
       padding-top: 10px;
+      position: relative;
+
       .info {
         color: $lightColor;
         font-size: 60px;
         opacity: .2;
         margin: 250px 0;
       }
-
       .course {
         margin: 20px;
         padding: 20px;
@@ -219,6 +233,10 @@
     .selected {
       transform: translateX(50px);
       box-shadow: none !important;
+      .percentage {
+        opacity: 1 !important;
+      }
     }
   }
 }
+

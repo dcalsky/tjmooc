@@ -16,10 +16,10 @@
           </div>
         </div>
 
-        <div class="error" v-for="(message, index) in messages">
-          <p>{{message}}</p>
+        <div class="error" v-if="messages.length > 0">
+          <p v-for="(message, index) in messages">{{message}}</p>
         </div>
-        <div class="login" @click="onLoginBtnClicked" :class="{submitting: submitting}">
+        <div class="login" @click="onLoginBtnClicked" :class="{submitting: submitting}" v-if="messages.length == 0">
           <span>登</span><span>录</span><span v-if="submitting">中</span><span v-if="submitting">…</span>
         </div>
       </div>
@@ -58,7 +58,8 @@
           studentId: "",
           password: "",
         },
-        submitting: false
+        submitting: false,
+        errorDisplayed: false
       }
     },
     methods: {
@@ -67,6 +68,7 @@
           return;
         console.log('logging...');
         this.submitting = true;
+        this.errorDisplayed = false;
         // Ajax, login
         this.$store.dispatch('login', { username: this.form.studentId, password: this.form.password })
       }
@@ -87,15 +89,20 @@
           return "请填写您的学号！";
         if (this.form.password == '')
           return "请填写您的密码！";
+        return "";
       },
       messages() {
-        this.submitting = false
-        return this.$store.state.session.messages
+        this.submitting = false;
+        let m = new Array();
+        if (this.errorInfo)
+          m = m.concat(this.errorInfo);
+        if (!this.errorDisplayed) {
+          let that = this;
+          setTimeout(() => that.errorDisplayed = true, 1000);
+          m = m.concat(this.$store.state.session.messages);
+        }
+        return m;
       }
     }
   }
 </script>
-
-<style lang="sass" rel="stylesheet/sass">
-  @import "../account"
-</style>

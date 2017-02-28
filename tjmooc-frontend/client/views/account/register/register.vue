@@ -12,7 +12,7 @@
       </div>
 
       <div class="next" @click="onNextClicked" v-if="inputTextLegal && !finish">下一步</div>
-      <div class="error" v-if="errorText && !finish">{{errorText}}</div>
+      <div class="error" v-if="errorText">{{errorText}}</div>
     </div>
     <div class="left" :style="{flexBasis: leftWidth + 'px'}">
       <div>
@@ -79,7 +79,7 @@
           {
             name: '完成',
             type: 'finish',
-            info: '恭喜，注册完成！正在进入登录界面...'
+            info: '恭喜，注册完成！'
           }
         ],
 
@@ -125,15 +125,16 @@
       },
       onFinish: function () {
         this.finish = true;
+        this.errorText = '正在进入登录界面...';
         // Ajax, register
-        this.$store.dispatch('register', { 
-          username: this.form.studentId, 
-          password: this.form.password, 
-          nickname: this.form.username 
+        this.$store.dispatch('register', {
+          username: this.form.studentId,
+          password: this.form.password,
+          nickname: this.form.username
         })
       },
       messages () {
-        this.finish = false
+        this.finish = false;
         return this.$store.state.session.messages
       }
     },
@@ -197,7 +198,3 @@
     }
   }
 </script>
-
-<style lang="sass" rel="stylesheet/sass">
-  @import "../account"
-</style>

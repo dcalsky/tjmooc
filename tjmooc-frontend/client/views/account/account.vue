@@ -2,8 +2,12 @@
   <div>
     <div class="account" :style="scrStyle">
       <div class="paper">
+        <div class="back-home" @click="backHome">
+          <i class="fa fa-home fa-lg"></i>
+          <span>主页</span>
+        </div>
         <router-view></router-view>
-
+        <div id="account-logo-tie"></div>
       </div>
     </div>
     <foot-bar></foot-bar>
@@ -24,6 +28,9 @@
       }
     },
     methods: {
+        backHome() {
+          this.$router.push({name: 'home'});
+        }
     },
     computed: {
       scrWidth: function () {
