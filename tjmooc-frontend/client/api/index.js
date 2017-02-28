@@ -20,8 +20,8 @@ function get(url, { query, cb }) {
 const session = {
   login(data, cb) {
     post(`${server.session}`, {
-      data: data,
-      cb: cb
+      data,
+      cb
     })
   }
 }
@@ -30,8 +30,8 @@ const session = {
 const user = {
   register(data, cb) {
     post(`${server.user}`, {
-      data: data,
-      cb: cb
+      data,
+      cb
     })
   },
   changePassword(data, cb) {
@@ -45,25 +45,25 @@ const forum = {
   PostUrl: `${server.post}`,
   getForumList(query, cb) {
     get(`${this.ForumUrl}`, {
-      query: query,
-      cb: cb
+      query,
+      cb
     })
   },
   getForumDetail(forumId, query, cb) {
     get(`${this.ForumUrl}/${forumId}`, {
-      query: query,
-      cb: cb
+      query,
+      cb
     })
   },
   getPostDetail(postId, cb) {
     get(`${this.PostUrl}/${postId}`, {
-      query: query,
-      cb: cb
+      cb
     })
   }
 }
 
 export {
   session,
-  user
+  user,
+  forum
 }

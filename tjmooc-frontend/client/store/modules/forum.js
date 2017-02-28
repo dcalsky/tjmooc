@@ -5,8 +5,14 @@ import { errorHandler } from '../../utils'
 
 // state
 const state = {
-  forum_page: 1,
-  post_page: 1,
+  forum_page: {
+    current: 0,
+    next: null,
+  },
+  post_page: {
+    current: 0,
+    next: null,
+  },
   forums: [],
   posts: [],
   messages: null
@@ -14,13 +20,13 @@ const state = {
 
 // actions
 const actions = {
-  getForumList({ commit }, page = state.forum_page) {
+  getForumList({ commit }, page = 1) {
     forum.getForumList({page}, (err, res) => {
       // error handle
       if (err) {
         commit(types.FETCH_FAILED, errorHandler('error'))
       }
-      commit(types.FORUM_FETCH_SUCCESS, { forums: res.body.results })
+      commit(types.FORUM_FETCH_SUCCESS, { forums: res.body.results, next: res.body.next, current: page })
     })
   },
   getForumDetail({ commit }, page = state.post_page ) {
@@ -29,27 +35,25 @@ const actions = {
       if (err) {
         commit(types.FETCH_FAILED, errorHandler('error'))
       }
-      commit(types.POSTS_FETCH_SUCCESS, { posts: res.body })
+      commit(types.POSTS_FETCH_SUCCESS, { posts: res.body.results, next: res.body.next, current: page  })
     })
   },
   // todo: getPostDetail
 }
 
 const mutations = {
-  [types.FORUM_FETCH_SUCCESS](state, { forums }) {
+  [types.FORUM_FETCH_SUCCESS](state, { forums, next, current }) {
     state.forums = forums
-    state.forum_page ++
+    state.forum_page.next = next !== null
+    state.forum_page.current = current
   },
-  [types.POSTS_FETCH_SUCCESS](state, { posts }) {
+  [types.POSTS_FETCH_SUCCESS](state, { posts, next, current }) {
     state.posts = posts
-    state.post_page ++
+    state.post_page.next = next !== null
+    state.post_page.current = current
   },
   [types.FETCH_FAILED](state, messages) {
     state.messages = messages
-  },
-  [types.LOGOUT](state) {
-    state.token = null
-    state.username = null
   }
 }
 

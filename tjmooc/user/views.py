@@ -16,7 +16,7 @@ def check_user_name(request, username):
     if not User.objects.filter(username=username):
         return Response({
             'detail': 'ok'
-        }, status=status.HTTP_200_OK)
+        })
     else:
         return Response({
             'detail': 'existed'

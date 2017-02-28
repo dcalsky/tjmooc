@@ -4,13 +4,21 @@
     <div class="wrapper">
       <div class="forum-header">
         <h2>板块一览</h2>
-        <hr >
+        <hr>
       </div>
       <ul class="content">
-        <li v-for="item in items">
-          {{ item }}
-        </li>
+       <li class="plate" v-for="item in forums">
+        <div class="plate-header">
+          {{ item.name }}
+        </div>
+        <div class="plate-footer">
+          所属课程: {{ item.course }}
+        </div>
+       </li>
       </ul>
+      <div v-if="hasNext" class="forum-next">
+        <button >下一页</button>
+      </div>
     </div>
     <foot-bar></foot-bar>
   </div>
@@ -19,17 +27,24 @@
 <script>
   import footBar from "../../components/foot-bar/foot-bar.vue"
   import Navbar from "../../components/navbar/navbar.vue"
-  import divide from '../../components/divide/divide.vue'
   export default {
     name: 'forum',
     components: {
       footBar,
       Navbar,
-      divide
     },
     beforeCreate() {
       // Ajax to get data
-      this.items = ['1', '2']
+      this.$store.dispatch('getForumList')
+    },
+    computed: {
+      forums() {
+        console.log(this.$store.state.forum.forums)
+        return this.$store.state.forum.forums
+      },
+      hasNext() {
+        return this.$store.state.forum.forum_page.next
+      }
     }
   }
 </script>
