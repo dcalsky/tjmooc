@@ -78,11 +78,13 @@ class ChapterList(ListCreateAPIView):
     queryset = Chapter.objects.all()
 
     def get(self, request, cpk):
+        fileds_filter = [filed for filed in request.query_params]
+
         course_id = cpk
         course = get_course(course_id)
         chapters = course.sections
         objects = Chapter.objects.filter(id__in=chapters)
-        serializer = ChapterSerializer(objects, many=True)
+        serializer = ChapterSerializer(objects, many=True, fields=fileds_filter)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
