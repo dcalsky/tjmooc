@@ -60,12 +60,12 @@ class CourseDetail(RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
 
     def get(self, request, cpk):
-        course = get_course(cpk)
+        course = get_course(int(cpk))
         return Response(CourseSerializer(course).data,
                         status=status.HTTP_200_OK)
 
     def put(self, request, cpk):
-        course = get_course(cpk)
+        course = get_course(int(cpk))
         serializer = CourseSerializer(course, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -80,7 +80,7 @@ class ChapterList(ListCreateAPIView):
     def get(self, request, cpk):
         fileds_filter = [filed for filed in request.query_params]
 
-        course_id = cpk
+        course_id = int(cpk)
         course = get_course(course_id)
         chapters = course.sections
         objects = Chapter.objects.filter(id__in=chapters)
@@ -88,7 +88,7 @@ class ChapterList(ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-        course_id = kwargs['cpk']
+        course_id = int(kwargs['cpk'])
         course = get_course(course_id)
 
         serializer = ChapterSerializer(data=request.data)
@@ -99,6 +99,8 @@ class ChapterList(ListCreateAPIView):
             chapters.append(serializer.data['id'])
             course.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ChapterDetail(RetrieveUpdateDestroyAPIView):
@@ -139,8 +141,8 @@ class UnitList(ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, cpk, pk):
-        course_id = cpk
-        chapter_id = pk
+        course_id = int(cpk)
+        chapter_id = int(cpk)
 
         chapter, _ = get_chapter_and_course(chapter_id, course_id)
         serializer = UnitSerializer(data=request.data)
@@ -151,6 +153,8 @@ class UnitList(ListCreateAPIView):
             units.append(serializer.data['id'])
             chapter.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UnitDetail(RetrieveUpdateDestroyAPIView):

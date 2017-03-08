@@ -11,10 +11,10 @@ class IsObligatorOrLeactureOrManagerOrReadOnly(permissions.IsAuthenticatedOrRead
         elif request.user.groups.filter(name__in=['manager']).exists():
             return True
         else:
-            if 'obligator' in obj.dir():
-                return request.user.id == obj.obligator.id
-            elif 'leacturer' in obj.dir():
-                return request.user.id == obj.leacture.id
+            if 'obligator' in obj.__dir__():
+                return request.user == obj.obligator
+            elif 'leacturer' in obj.__dir__():
+                return request.user == obj.leacturer
 
 
 

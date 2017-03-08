@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'tjmooc.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'exampledb',
+        'NAME': 'tjmooc',
         'USER': 'dbuser',
         'PASSWORD': 'tjmooc',
         'HOST':'127.0.0.1'
@@ -188,3 +188,4 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
 
+APPEND_SLASH = False

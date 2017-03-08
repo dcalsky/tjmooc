@@ -19,7 +19,7 @@ class Chapter(models.Model):
     title = models.TextField(help_text='标题')
     description = models.TextField(help_text='说明')
     materials = jsonfield.JSONField(help_text='课程资料', default=list)
-    leacturer = models.ForeignKey(User)
+    leacturer = models.ForeignKey(User, null=False, blank=False)
 
 
 class Unit(models.Model):
