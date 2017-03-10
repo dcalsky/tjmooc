@@ -37,6 +37,9 @@ class HomeworkSubmit(models.Model):
     judge_time = models.DateTimeField(auto_now=True, null = True, blank = True)
     submit_file = models.FileField(upload_to=homework_submit_path)
 
+    def __str__(self):
+        return self.homework_id.title + " " + self.submit_user_id.name
+
 
 class Test(models.Model):
     title = models.CharField(max_length=50)
