@@ -13,6 +13,8 @@ from django.http import Http404
 from .permissions import IsLeacturerOrManagerOrReadOnly, IsTeacherOrManagerOrReadOnly
 
 
+TESTSCORE = 100
+
 def get_course_chapter_unit_id(request):
     try:
         course_id = int(request.query_params.get('course'))
@@ -239,6 +241,10 @@ class TestSubmitListView(ListCreateAPIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         else:
             serializer = TestSubmitSerializer(data=request.data)
+            test = Test.objects.get(id=serializer.data.get('test'))
+            if serializer.data.get('submit') == test.answer:
+                serializer.data['score'] = TESTSCORE
+
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
