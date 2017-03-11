@@ -8,6 +8,12 @@ from user.serializers import UserRegistrationSerializer
 
 User = get_user_model()
 
+def jwt_response_payload_handler(token, user, request, *args, **kwargs):
+    fields = ('id', 'username', 'email', 'nickname', 'avatar', 'last_login', 'date_joined', 'groups', 'phone')
+    data = { 'token': token }
+    for field in fields:
+        data[field] = user.__dict__.get(field, '')
+    return data
 
 class UserLoginAPIView(GenericAPIView):
     permission_classes = (AllowAny,)
