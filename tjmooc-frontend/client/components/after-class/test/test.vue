@@ -58,11 +58,11 @@
                 answer: ""
               },
               {
-                question: "你已经超时几天啦？",
+                question: "2 * 2 = ?",
                 answer: ""
               },
               {
-                question: "为什么我这么想喝酒？",
+                question: "3 * 3 = ?",
                 answer: ""
               },
             ],

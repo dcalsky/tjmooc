@@ -1,17 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home'
-import Account from '../views/account/account.vue'
-import AccountRegister from '../views/account/register/register'
-import AccountLogin from '../views/account/login/login'
-import Course from '../views/course/course.vue'
-import CourseDisplay from '../views/course/display.vue'
-import CourseList from '../views/course/list.vue'
-import CourseAdd from '../views/course/add.vue'
 import About from '../views/About.vue'
 import Copyright from '../views/Copyright.vue'
-import Forum from '../views/forum/forum.vue'
 import VideoUpload from '../views/video/upload.vue'
+
+// Account
+const Account = r => require.ensure([], () => r(require('../views/account/account.vue')), 'account')
+const AccountRegister = r => require.ensure([], () => r(require('../views/account/register/register')), 'account')
+const AccountLogin = r => require.ensure([], () => r(require('../views/account/login/login')), 'account')
+
+// Course
+const Course = r => require.ensure([], () => r(require('../views/course/course.vue')), 'course')
+const CourseDisplay = r => require.ensure([], () => r(require('../views/course/display.vue')), 'course')
+const CourseList = r => require.ensure([], () => r(require('../views/course/list.vue')), 'course')
+const CourseAdd = r => require.ensure([], () => r(require('../views/course/add.vue')), 'course')
+
+// Forum
+const Forum = r => require(['../views/forum/forum.vue'], r)
 
 Vue.use(Router)
 

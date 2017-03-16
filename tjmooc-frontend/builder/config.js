@@ -13,7 +13,8 @@ module.exports = {
     'vuex',
     'vue-router',
     'vuex-router-sync',
-    'promise-polyfill'
+    'promise-polyfill',
+    'flv.js'
   ],
   // disable babelrc by default
   babel: {
