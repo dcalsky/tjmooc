@@ -30,6 +30,7 @@ $rc: lighten($lightColor, 37.5%);
       cursor: pointer;
 
       span {
+        transform: rotateZ(45deg);
         position: absolute;
         z-index: 10;
         color: $mainColor;
@@ -37,7 +38,7 @@ $rc: lighten($lightColor, 37.5%);
         font-weight: 300;
         width: auto;
         right: 0;
-        bottom: 32px;
+        bottom: 39px;
         letter-spacing: 1px;
         opacity: 0;
         transition: all .3s;
@@ -72,8 +73,8 @@ $rc: lighten($lightColor, 37.5%);
       height: 50px;
       padding: 5px;
       span {
-        right: 18px;
-        bottom: 13px;
+        right: 16px;
+        bottom: 20px;
         opacity: 1;
       }
       &:before {
@@ -104,10 +105,11 @@ $rc: lighten($lightColor, 37.5%);
   .left {
     height: 60%;
     padding-bottom: 25%;
+    $c: lighten($lightColor, 34%);
     background: linear-gradient(
         to bottom,
-        rgba(245, 225, 239, 100) 0%,
-        rgba(245, 225, 239, 0) 100%
+        rgba($c, 100) 0%,
+        rgba($c, 0) 100%
     );
     box-shadow: 8px -8px 20px -10px $dark;
     display: flex;
@@ -311,6 +313,18 @@ $rc: lighten($lightColor, 37.5%);
     }
     .error {
       height: 43px;
+      line-height: 40px;
+      background-color: lighten($lightColor, 36%);
+      border-radius: 4px;
+      padding: 0 15px;
+      cursor: pointer;
+      text-align: center;
+      white-space: pre-wrap;
+      transition: all .3s;
+      &:hover {
+        background-color: lighten($lightColor, 38%);
+      }
+
       letter-spacing: 2px;
       p {
         margin: 3px;
@@ -407,6 +421,13 @@ $rc: lighten($lightColor, 37.5%);
   }
 }
 
-#account-login .left div h1:after {
+.account-register {
+  .error {
+    background-color: transparent !important;
+    cursor: auto !important;
+  }
+}
+
+.account-login .left div h1:after {
   opacity: 0;
 }

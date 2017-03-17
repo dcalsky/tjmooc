@@ -11,7 +11,7 @@
   .left {
     .box {
       width: 240px;
-      border: 1px solid rgba(50, 17, 40, $op);
+      border: 1px solid rgba($dark, $op);
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -80,7 +80,7 @@
         letter-spacing: 2px;
         margin: 0 0 25px 0;
         &:hover .btn{
-          opacity: .4;
+           opacity: .4;
         }
 
         .d {
@@ -93,6 +93,7 @@
           transition: all .3s;
           line-height: 18px;
           text-align: center;
+          color: $lightColor;
           opacity: .8;
 
           &:hover {
@@ -150,6 +151,7 @@
           right: $p;
           top: -5px;
           letter-spacing: 0;
+          opacity: .5;
         }
       }
 

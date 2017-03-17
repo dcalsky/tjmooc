@@ -24,6 +24,7 @@
         </div>
       </div>
     </div>
+    <div hidden>{{messages()}}</div>
   </div>
 </template>
 
@@ -79,7 +80,7 @@
           {
             name: '完成',
             type: 'finish',
-            info: '恭喜，注册完成！'
+            info: '正在注册...'
           }
         ],
 
@@ -108,6 +109,14 @@
         this.focusText();
       },
       onNextClicked: function () {
+        if (this.step >= this.stepList.length - 1) {
+            this.step = 0;
+            --this.stepMax;
+          this.stepList[4].info = "正在注册...";
+            return;
+        }
+
+
         let key = this.stepList[this.step].key;
         this.form[key] = this.inputText;
         this.step += 1;
@@ -115,7 +124,7 @@
             this.stepMax = this.step;
         this.inputText = '';
         this.focusText();
-        if (this.stepMax + 1 == this.stepList.length) {
+        if (this.step + 1 == this.stepList.length) {
           this.onFinish();
         }
       },
@@ -125,7 +134,6 @@
       },
       onFinish: function () {
         this.finish = true;
-        this.errorText = '正在进入登录界面...';
         // Ajax, register
         this.$store.dispatch('register', {
           username: this.form.studentId,
@@ -133,10 +141,25 @@
           nickname: this.form.username
         })
       },
+
       messages () {
-        this.finish = false;
-        return this.$store.state.session.messages
-      }
+        console.log(this.$store.state.user);
+        this.finish = this.$store.state.user.messages.length == 9;
+        if (this.finish) {
+          this.stepList[4].info = "恭喜，注册成功!";
+          this.errorText = '正在进入登录界面...';
+          let that = this;
+          setTimeout(() => {
+            that.$router.replace({ name: 'login' })
+          }, 1000);
+        }
+        else if (this.$store.state.user.messages.length > 0) {
+          this.stepList[4].info = "抱歉，注册失败!";
+          this.errorText = this.$store.state.user.messages.join('\n');
+        }
+        return this.$store.state.user.messages.join('\n');
+        // 恭喜，注册完成！
+      },
     },
     computed: {
       leftWidth: function () {
@@ -194,7 +217,6 @@
         ];
         return this.checkLegal(this.step, checkFunc[this.step]);
       },
-
     }
   }
 </script>

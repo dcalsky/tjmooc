@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 import createLogger from '../utils/logger'
 import session from './modules/session'
 import user from './modules/user'
-import forum from './modules/forum'
+import course from './modules/course'
+import material from './modules/material'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
   modules: {
     session,
     user,
-    forum
+    course,
+    material
   },
   strict: debug,
   plugins: debug ? [createLogger()] : []

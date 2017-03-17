@@ -1,6 +1,11 @@
 <template>
+<<<<<<< HEAD
   <div id="course-display">
     <player :flv="flv"></player>
+=======
+  <div class="course-display">
+    <player></player>
+>>>>>>> 多个页面
     <after-class></after-class>
   </div>
 </template>
@@ -15,6 +20,7 @@
     },
     data() {
       return {
+<<<<<<< HEAD
         video: {
           flv: {
             type: 'mp4',
@@ -25,6 +31,8 @@
           teacher: "朱彦樵",
           createTimestamp: new Date(),
         }
+=======
+>>>>>>> 多个页面
       }
     },
     computed: {
@@ -34,9 +42,6 @@
           mName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         return `${mName[m]} ${d}, ${y}`;
       },
-      flv() {
-        return this.video.flv;
-      }
     }
   }
 </script>

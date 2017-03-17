@@ -44,7 +44,7 @@
             time: 159,
             color: '#EEEEEE',
             imgUrl: '/slide/gdsx.jpg',
-            courseId: 'gaodengshuxue',
+            courseId: '1',
           },
           {
             title: '线性代数',
@@ -52,7 +52,7 @@
             teacher: '东条希',
             time: 159,
             color: '#800080',
-            imgUrl: '/slide/xxds.jpg',
+            imgUrl: '/slide/fbhs.jpg',
             courseId: 'xianxingdaishu',
           },
           {
@@ -94,12 +94,15 @@
     },
     methods: {
       scrollTo: function (left, ms) {
-          let box = document.getElementsByClassName('tip-box')[0], now = box.scrollLeft;
-          let frame = ms / 40, step = (left - now) / frame;
-          for (let i = 0; i < frame; ++i) {
-              setTimeout( () => {
-                box.scrollLeft += step;
-              }, 40 * i);
+          let box = document.getElementsByClassName('tip-box')[0], now;
+          if (box) {
+              now = box.scrollLeft;
+            let frame = ms / 40, step = (left - now) / frame;
+            for (let i = 0; i < frame; ++i) {
+                setTimeout( function() {
+                  box.scrollLeft += step;
+                }, 40 * i);
+            }
           }
       },
       startSlide: function () {

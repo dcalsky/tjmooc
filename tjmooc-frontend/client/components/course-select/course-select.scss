@@ -119,9 +119,9 @@
         font-size: 32px;
         font-weight: 100;
         margin: 30px 30px 30px 150px;
-        color: rgb(126, 66, 107);
+        color: darken($mainColor, 5%);
         background-color: white;
-        box-shadow: rgba(145, 49, 117, .3) 5px 5px 100px -20px;
+        box-shadow: rgba($mainColor, .3) 5px 5px 100px -20px;
         transition: 0.3s all;
         position: relative;
         cursor: pointer;
@@ -166,7 +166,7 @@
         margin: 20px;
         padding: 20px;
         width: 300px;
-        box-shadow: rgba(145, 49, 117, .3) 2px 2px 20px -2px;
+        box-shadow: rgba($mainColor, .3) 2px 2px 20px -2px;
         border: 1px solid white;
         border-radius: 4px;
         transition: all .3s;
@@ -215,7 +215,7 @@
           }
         }
         &:hover {
-          border-color: $mainColor;
+          border-color: rgba($mainColor, 0.1);
           box-shadow: none;
 
           .btn:after {
