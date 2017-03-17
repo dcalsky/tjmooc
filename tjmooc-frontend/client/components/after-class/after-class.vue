@@ -4,7 +4,12 @@
       <div class="select homework" :class="{selected: selectHomework}" @click="selectHomework = true">作 业</div>
       <div class="select test" :class="{selected: !selectHomework}" @click="selectHomework = false">测 试</div>
     </div>
-    <homework v-if="selectHomework"></homework>
+    <div v-if="selectHomework">
+      <homework v-if="haveHomework"></homework>
+      <div class="error" v-if="!haveHomework">
+        本章暂无作业
+      </div>
+    </div>
     <test v-if="!selectHomework"></test>
   </div>
 </template>
@@ -24,6 +29,13 @@
         }
     },
     computed:  {
+        haveHomework() {
+            console.log(this.$store.state.material.homework);
+            return this.$store.state.material.homework.id;
+        },
+      haveTest() {
+            return true;
+      }
     },
     methods: {
     },

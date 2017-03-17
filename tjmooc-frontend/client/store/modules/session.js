@@ -7,6 +7,7 @@ import { errorHandler } from '../../utils'
 const state = {
   token: window.localStorage.getItem('token'),
   username: window.localStorage.getItem('username'),
+  userId: window.localStorage.getItem('userId'),
   messages: []
 }
 
@@ -21,11 +22,11 @@ const actions = {
         commit(types.LOGIN_FAILED, errorHandler('error'))
       }
       if ('token' in res.body) {
-        const token = res.body.token
-        commit(types.LOGIN_SUCCESS, { token: token, username: data.username })
+        commit(types.LOGIN_SUCCESS, { user: res.body })
         // Set localStorage for session information
-        window.localStorage.setItem('token', token)
+        window.localStorage.setItem('token', res.body.token)
         window.localStorage.setItem('username', data.username)
+        window.localStorage.setItem('userId', res.body.id);
         // Success: enter profile page
         router.push({ name: 'profile' })
       } else {
@@ -44,9 +45,10 @@ const actions = {
 }
 
 const mutations = {
-  [types.LOGIN_SUCCESS](state, { token, username }) {
-    state.token = token
-    state.username = username
+  [types.LOGIN_SUCCESS](state, { user }) {
+    state.token = user.token
+    state.username = user.username;
+    state.userId = user.id;
   },
   [types.LOGIN_FAILED](state, messages) {
     state.messages = messages

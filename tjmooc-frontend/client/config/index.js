@@ -3,7 +3,9 @@ const server = {
   session: '/sessions/',
   post: '/bbs/posts/',
   forum: '/bbs/forums/',
-  user: '/users/'
+  user: '/users/',
+  course: '/course/',
+  material: '/material/'
 }
 
 const translation = {

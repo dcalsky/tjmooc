@@ -31,9 +31,23 @@
     <div class="right">
       <div class="subject" v-for="(t, i) in test">
         <div class="question">{{t.question}}</div>
-        <div class="answer">
-          <input type="text" v-model="test[i].answer">
-          <div class="remove" v-if="answer[i]" @click="onRemoveBtnClicked(i)"></div>
+        <div class="answer" v-if="t.type == 'blank'">
+          <div class="blank">
+            <input type="text" v-model="test[i].answer">
+            <div class="remove" v-if="answer[i]" @click="onRemoveBtnClicked(i)"></div>
+          </div>
+        </div>
+        <div class="answer" v-if="t.type == 'select'">
+          <div class="selection" v-for="(s, j) in t.options">
+            <input type="radio" :id="`selection-${i}-${j}`" :value="s" v-model="test[i].answer">
+            <label :for="`selection-${i}-${j}`">{{s}}</label>
+          </div>
+        </div>
+        <div class="answer" v-if="t.type == 'check'">
+          <div class="selection" v-for="(s, j) in t.options">
+            <input type="checkbox" :id="`selection-${i}-${j}`" :value="s" v-model="test[i].answer">
+            <label :for="`selection-${i}-${j}`">{{s}}</label>
+          </div>
         </div>
       </div>
       <div class="info" v-if="info">
@@ -54,16 +68,21 @@
         return {
             test: [
               {
+                  type: "select",
                 question: "1 + 1 = ？",
+                options: ['2', '3', '不知道'],
                 answer: ""
               },
               {
+                  type: "blank",
                 question: "你已经超时几天啦？",
                 answer: ""
               },
               {
+                type: "check",
                 question: "为什么我这么想喝酒？",
-                answer: ""
+                options: ['高兴', '困', '夜深了', '不知道'],
+                answer: []
               },
             ],
           testSubmitted: false,
@@ -88,7 +107,17 @@
           let a = [];
           this.test.forEach(
             (e) => {
-                a.push(e.answer)
+              let r;
+              if (e.type == 'blank')
+                r = e.answer;
+              if (e.type == 'select') {
+                r = e.options.findIndex(x => x === e.answer);
+                r = r < 0 ? "" : `${r}`;
+              }
+              if (e.type == 'check') {
+                r = e.answer.map(i => e.options.findIndex(x => x === i)).sort().join(',')
+              }
+              a.push(r);
             }
           );
           return a;
@@ -98,7 +127,7 @@
               return 3
           }
           else {
-              let l = this.test.filter(t => t.answer).length;
+              let l = this.test.filter(t => t.answer && t.answer.length).length;
               if (this.resSide)
                   return this.test.length - l;
               else

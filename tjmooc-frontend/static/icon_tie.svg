@@ -40,8 +40,8 @@
 </g>
 <polygon class="st1" points="534,200 466.8,200 483.5,300 564.1,380.6 "/>
 <linearGradient id="SVGID_1_" x1="0" y1="1" x2="1" y2="1">
-	<stop  offset="0" style="stop-color:#913175"/>
-	<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
+	<stop class="stline" offset="0" style="stop-color:#913175"/>
+	<stop class="stline" offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
 </linearGradient>
 <rect x="564" y="300" class="st2" width="6" height="80.6"/>
 </svg>

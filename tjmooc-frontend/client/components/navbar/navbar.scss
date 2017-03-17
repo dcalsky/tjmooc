@@ -26,9 +26,9 @@
     }
 
     .account-box {
-      $c: rgba(145, 49, 117, .2);
+      $c: rgba($mainColor, .2);
       display: inline-block;
-      box-shadow: -2px 2px 15px -5px rgba(145, 49, 117, 0.4);
+      box-shadow: -2px 2px 15px -5px rgba($mainColor, 0.4);
       border-radius: 2px;
       transition: all .2s;
       $w: 10px;

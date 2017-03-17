@@ -1,6 +1,8 @@
 <template>
   <div class="navbar">
-    <logo v-bind:height="48"></logo>
+    <router-link to="/">
+      <logo v-bind:height="48"></logo>
+    </router-link>
     <div class="link-box">
       <div v-for="link in links" >
         <router-link :to="link[1]">{{link[0]}}</router-link>

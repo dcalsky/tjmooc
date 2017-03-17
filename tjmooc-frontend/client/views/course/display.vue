@@ -1,6 +1,6 @@
 <template>
   <div class="course-display">
-    <player :flv="flv"></player>
+    <player></player>
     <after-class></after-class>
   </div>
 </template>
@@ -15,16 +15,6 @@
     },
     data() {
       return {
-        video: {
-          flv: {
-            type: 'mp4',
-            url: 'http://ohp6g3bar.bkt.clouddn1.com/job_IMG_1603.MOV',
-          },
-          title: "同济大学摇滚高等数学",
-          desc: "flv.js works by transmuxing FLV file stream into ISO BMFF (Fragmented MP4) segments, followed by feeding mp4 segments into an HTML5 \<video\> element through Media Source Extensions API.",
-          teacher: "朱彦樵",
-          createTimestamp: new Date(),
-        }
       }
     },
     computed: {
@@ -34,9 +24,6 @@
           mName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         return `${mName[m]} ${d}, ${y}`;
       },
-      flv() {
-        return this.video.flv;
-      }
     }
   }
 </script>

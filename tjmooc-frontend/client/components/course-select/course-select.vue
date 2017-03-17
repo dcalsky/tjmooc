@@ -38,7 +38,7 @@
         searchText: '',
         subject: [
           {
-            name: "天方向",
+            name: "软件方向",
             courses: [
               {
                 name: "子",
@@ -51,7 +51,7 @@
             ]
           },
           {
-            name: "地方向",
+            name: "车辆方向",
             courses: [
               {
                 name: "辰",
@@ -88,12 +88,12 @@
             ]
           },
           {
-            name: "玄方向",
+            name: "智能方向",
             courses: [
             ]
           },
           {
-            name: "黄方向",
+            name: "数字方向",
             courses: [
               {
                 name: "申",
