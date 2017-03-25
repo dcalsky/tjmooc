@@ -1,0 +1,32 @@
+@import "config";
+
+
+html, body {
+  font-family: $font;
+  margin: 0;
+  width: 100%;
+  color: $dark;
+}
+
+li {
+  list-style: none;
+}
+
+a, a:hover, a:visited {
+  text-decoration: none;
+  outline: none;
+  color: $dark;
+  transform: translateY(0px);
+
+  &:hover {
+    text-decoration: none;
+    transform: translateY(2px);
+    color: $lightColor !important;
+  }
+
+  transition: all .2s;
+}
+
+input, input:hover, input:focus, input:visited {
+  outline: none;
+}

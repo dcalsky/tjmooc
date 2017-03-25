@@ -1,0 +1,65 @@
+@import "../../components/config";
+
+#course-add {
+  width: 80%;
+  margin: auto;
+  font-weight: 300;
+  font-family: PingFangSC;
+
+  h1 {
+    font-size: 50px;
+    font-weight: 200;
+    letter-spacing: 20px;
+    left: -50px;
+    margin: 50px 0 75px -8%;
+  }
+
+  .upload {
+    margin: 40px 0;
+
+    label {
+      font-size: 20px;
+    }
+    .input {
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      margin: 10px auto;
+      width: 100%;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 100;
+
+      input, div {
+        letter-spacing: 2px;
+        width: 80%;
+        margin: auto;
+      }
+
+      input {
+        padding: 6px;
+        margin-bottom: 1px;
+        opacity: 0;
+        transition: all .3s;
+        &:hover, &:focus {
+          opacity: 1;
+        }
+      }
+      p {
+        height: 100px;
+      }
+      div {
+        padding: 10px;
+        line-height: 13px;
+        font-size: 16px;
+        position: absolute;
+        top: 0;
+        left: calc(10% - 10px);
+        text-align: left;
+        z-index: -1;
+        border: solid $dark;
+        border-width: 0 0 1px 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+@import "../config";
+
+.foot-bar {
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 100;
+  background-color: lighten($lightColor, 0%);
+  padding: 30px 100px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+
+  a {
+    color: white !important;
+    margin-right: 40px;
+    padding: 15px 0;
+    &:hover {
+      color: white !important;
+      transform: translateY(-3px);
+    }
+  }
+  .link-box {
+    opacity: .9;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .brand {
+    text-align: left;
+    #foot-logo {
+      filter: grayscale(1) invert(1) contrast(2) brightness(1.5) opacity(0.9);
+      margin: 15px 0 8px 0;
+    }
+    a {
+      margin: 0;
+      opacity: .6;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+}

@@ -1,33 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createLogger from '../utils/logger'
+import session from './modules/session'
+import user from './modules/user'
+import forum from './modules/forum'
 
 Vue.use(Vuex)
 
-const state = {
-  count: 0
-}
-
-const mutations = {
-  INCREMENT(state) {
-    state.count++
-  },
-  DECREMENT(state) {
-    state.count--
-  }
-}
-
-const actions = {
-  incrementAsync({commit}) {
-    setTimeout(() => {
-      commit('INCREMENT')
-    }, 200)
-  }
-}
+const debug = process.env.NODE_ENV !== 'production'
 
 const store = new Vuex.Store({
-  state,
-  mutations,
-  actions
+  modules: {
+    session,
+    user,
+    forum
+  },
+  strict: debug,
+  plugins: debug ? [createLogger()] : []
 })
 
 export default store

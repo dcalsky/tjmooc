@@ -1,0 +1,24 @@
+#course-display {
+  position: relative;
+
+  .player {
+    $t: 0;
+    padding-top: $t;
+    top: -$t;
+    margin-bottom: -$t;
+    position: relative;
+  }
+
+  & > .divide {
+    opacity: .4;
+    margin: 100px auto 80px auto;
+    width: 80%;
+    min-width: 870px;
+  }
+
+  .after-class {
+    width: 80%;
+    min-width: 870px;
+    margin: 100px auto;
+  }
+}

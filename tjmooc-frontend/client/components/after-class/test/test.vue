@@ -1,0 +1,132 @@
+<template>
+  <div class="test">
+    <div class="left">
+      <div class="box">
+        <div class="result" @mouseenter="onMouseenter" @mouseleave="onMouseleave" @click="onClick">
+          <div class="info">
+            本次测试共
+            <span>{{test.length}} 题</span>
+            <span v-if="testSubmitted">正确题目共</span>
+            <span v-if="!testSubmitted && !resSide">您已经回答</span>
+            <span v-if="!testSubmitted && resSide">您还要回答</span>
+          </div>
+          <div class="date" :class="{past: resSide}">
+            <span class="val">
+              {{infoNumber}}
+            </span>
+            <span class="unit">
+              题
+            </span>
+          </div>
+        </div>
+        <divide :text="homeworkStatus"></divide>
+        <div class="btn-box" v-if="testSubmitted">
+          <span class="btn">重新提交</span>
+        </div>
+        <div class="btn-box" v-if="!testSubmitted">
+          <span class="btn">提交答案</span>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="subject" v-for="(t, i) in test">
+        <div class="question">{{t.question}}</div>
+        <div class="answer">
+          <input type="text" v-model="test[i].answer">
+          <div class="remove" v-if="answer[i]" @click="onRemoveBtnClicked(i)"></div>
+        </div>
+      </div>
+      <div class="info" v-if="info">
+        {{info}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import divide from "../../divide/divide.vue"
+  export default {
+    name: "test",
+    components: {
+        divide
+    },
+    data() {
+        return {
+            test: [
+              {
+                question: "1 + 1 = ？",
+                answer: ""
+              },
+              {
+                question: "2 * 2 = ?",
+                answer: ""
+              },
+              {
+                question: "3 * 3 = ?",
+                answer: ""
+              },
+            ],
+          testSubmitted: false,
+          resSide: false,
+          hoverChange: true
+        }
+    },
+    computed: {
+      info() {
+        if (this.test.length == 0)
+          return "暂无测试";
+        else
+            return "";
+      },
+      homeworkStatus() {
+        if (this.homeworkSubmitted)
+          return "答案已提交";
+        else
+          return "答案未提交";
+      },
+      answer() {
+          let a = [];
+          this.test.forEach(
+            (e) => {
+                a.push(e.answer)
+            }
+          );
+          return a;
+      },
+      infoNumber() {
+          if (this.testSubmitted) {
+              return 3
+          }
+          else {
+              let l = this.test.filter(t => t.answer).length;
+              if (this.resSide)
+                  return this.test.length - l;
+              else
+                  return l;
+          }
+      }
+    },
+    methods: {
+      onRemoveBtnClicked(i) {
+          this.test[i].answer = "";
+      },
+      onMouseenter() {
+        this.resSide = !this.resSide;
+        this.hoverChange = true;
+      },
+      onMouseleave() {
+        if (this.hoverChange)
+            this.resSide = !this.resSide
+      },
+      onClick() {
+        this.hoverChange = false;
+      }
+    },
+    mounted() {
+    }
+  }
+</script>
+
+<style lang="sass" rel="stylesheet/sass">
+  @import "test"
+</style>
