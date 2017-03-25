@@ -1,6 +1,6 @@
 <template>
-  <div id="course-display">
-    <player :flv="flv"></player>
+  <div class="course-display">
+    <player></player>
     <after-class></after-class>
   </div>
 </template>
@@ -34,9 +34,6 @@
           mName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         return `${mName[m]} ${d}, ${y}`;
       },
-      flv() {
-        return this.video.flv;
-      }
     }
   }
 </script>

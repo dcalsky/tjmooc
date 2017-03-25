@@ -1,10 +1,25 @@
 import request from 'superagent'
 import { server } from '../config'
 
-function post(url, { data, cb }) {
+function post(url, { data, cb, token}) {
+
+  console.log(token)
   request
     .post(url)
-    .set('Content-Type', 'application/json')
+    .set({
+      'Content-Type': 'application/json',
+      'Token': token ? `Bearer ${token}` : null
+    })
+    .send(data)
+    .end(cb)
+}
+
+function get(url, {data, cb, token}) {
+  request
+    .get(url)
+    .set({
+      'Content-Type': 'application/json'
+    })
     .send(data)
     .end(cb)
 }
@@ -18,7 +33,7 @@ function get(url, { query, cb }) {
 
 // Sessions
 const session = {
-  login(data, cb) {
+  login(data, cb, token) {
     post(`${server.session}`, {
       data,
       cb
@@ -28,36 +43,77 @@ const session = {
 
 // Users
 const user = {
-  register(data, cb) {
+  register(data, cb, token) {
     post(`${server.user}`, {
       data,
       cb
     })
   },
-  changePassword(data, cb) {
+  changePassword(data, cb, token) {
     // todo
   }
 }
 
-// BBS
-const forum = {
-  ForumUrl: `${server.forum}`,
-  PostUrl: `${server.post}`,
-  getForumList(query, cb) {
-    get(`${this.ForumUrl}`, {
-      query,
-      cb
+// Course
+const course = {
+  getCourses(data, cb, token) {
+    get(`${server.course}`, {
+      data: data,
+      cb: cb
     })
   },
-  getForumDetail(forumId, query, cb) {
-    get(`${this.ForumUrl}/${forumId}`, {
-      query,
-      cb
+  getCourseById(data, cb, token) {
+    let courseId = data.courseId;
+    get(`${server.course}${courseId}`, {
+      cb: cb
     })
   },
-  getPostDetail(postId, cb) {
-    get(`${this.PostUrl}/${postId}`, {
-      cb
+  getChapters(data, cb, token) {
+    let courseId = data.courseId;
+    get(`${server.course}${courseId}/chapter?title=true&description=true&id=true`, {
+      cb: cb
+    })
+  },
+  getChapterById(data, cb, token) {
+    let courseId = data.courseId, chapterId = data.chapterId;
+    get(`${server.course}${courseId}/chapter/${chapterId}`, {
+      cb: cb
+    })
+  },
+  getUnits(data, cb, token) {
+    let courseId = data.courseId, chapterId = data.chapterId;
+    get(`${server.course}${courseId}/chapter/${chapterId}/unit`, {
+      cb: cb
+    })
+  },
+  getUnitById(data, cb, token) {
+    let courseId = data.courseId, chapterId = data.chapterId, unitId = data.unitId;
+    get(`${server.course}${courseId}/chapter/${chapterId}/unit/${unitId}`, {
+      cb: cb
+    })
+  }
+}
+
+// material
+const material = {
+  getHomework(data, cb, token) {
+    console.log(data)
+    get(`${server.material}homework?course=${data.course}&chapter=${data.chapter}`, {
+      cb: cb
+    })
+  },
+  getHomeworkSubmit(data, cb, token) {
+    console.log(data)
+    get(`${server.material}homework/${data.chapter}/submit?user=${data.user}`, {
+      cb: cb
+    })
+  },
+  submitHomeworkFile(data, cb, token) {
+    console.log(data, token);
+    post(`${server.material}homework/${data.homeworkId}/submit`, {
+      data: data.file,
+      cb: cb,
+      token: token
     })
   }
 }
@@ -65,5 +121,6 @@ const forum = {
 export {
   session,
   user,
-  forum
+  course,
+  material
 }

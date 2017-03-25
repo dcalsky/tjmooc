@@ -16,7 +16,7 @@
           </div>
         </div>
 
-        <div class="error" v-if="messages.length > 0">
+        <div class="error" v-if="messages.length > 0" @click="errorDisplayed = true">
           <p v-for="(message, index) in messages">{{message}}</p>
         </div>
         <div class="login" @click="onLoginBtnClicked" :class="{submitting: submitting}" v-if="messages.length == 0">
@@ -98,7 +98,7 @@
           m = m.concat(this.errorInfo);
         if (!this.errorDisplayed) {
           let that = this;
-          setTimeout(() => that.errorDisplayed = true, 1000);
+//          setTimeout(() => that.errorDisplayed = true, 1000);
           m = m.concat(this.$store.state.session.messages);
         }
         return m;

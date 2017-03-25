@@ -1,5 +1,9 @@
 @import "config";
 
+::selection {
+  background: $mainColor;
+  color: white;
+}
 
 html, body {
   font-family: $font;
@@ -29,4 +33,23 @@ a, a:hover, a:visited {
 
 input, input:hover, input:focus, input:visited {
   outline: none;
+}
+
+textarea, textarea:hover, textarea:focus, textarea:visited {
+  outline: none;
+  resize:none;
+}
+
+.MJXc-display, .mjx-chtml, .MathJax_CHTML{
+  outline:0;
+}
+
+.st0 {
+  fill: $mainColor !important;
+}
+.st1 {
+  fill: $lightColor !important;
+}
+.stline {
+  stop-color: $mainColor !important;
 }

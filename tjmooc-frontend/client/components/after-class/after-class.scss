@@ -6,10 +6,17 @@
   flex-direction: column;
   align-items: center;
 
+  .error {
+    color: $lightColor;
+    font-size: 60px;
+    opacity: .2;
+    margin: 20px auto;
+  }
+
   .select-box {
-    $c: rgba(145, 49, 117, .2);
+    $c: rgba($mainColor, .2);
     display: inline-block;
-    box-shadow: 0 2px 18px -5px rgba(145, 49, 117, 0.4);
+    box-shadow: 0 2px 18px -5px rgba($mainColor, 0.4);
     border-radius: 2px;
     transition: all .3s;
     $w: 20px;

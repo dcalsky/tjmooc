@@ -1,9 +1,11 @@
 const server = {
   host: 'http://localhost:8000',
-  session: '/sessions',
-  post: '/bbs/posts',
-  forum: '/bbs/forums',
-  user: '/users'
+  session: '/sessions/',
+  post: '/bbs/posts/',
+  forum: '/bbs/forums/',
+  user: '/users/',
+  course: '/course/',
+  material: '/material/'
 }
 
 const translation = {

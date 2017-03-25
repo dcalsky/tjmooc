@@ -12,7 +12,7 @@
   .left {
     .box {
       width: 240px;
-      border: 1px solid rgba(50, 17, 40, $op);
+      border: 1px solid rgba($dark, $op);
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -123,12 +123,12 @@
       padding: 40px 0;
       color: rgb(126, 66, 107);
       background-color: white;
-      box-shadow: rgba(145, 49, 117, .3) 0 0 25px -5px;
+      box-shadow: rgba($mainColor, .25) 0 0 25px -5px;
       transition: 0.3s all;
       position: relative;
-      $bc: rgba(0, 0, 0, .4);
+      $bc: rgba(black, .4);
       &:hover {
-        box-shadow: rgba(145, 49, 117, .1) 0 0 0 1px;
+        box-shadow: rgba($mainColor, .1) 0 0 0 1px;
         input {
           border-color: $bc !important;
         }
@@ -145,72 +145,87 @@
         position: relative;
         margin: 0 auto;
         width: 80%;
-        i {
-          margin: 0 15px;
-        }
+        .blank {
+          i {
+            margin: 0 15px;
+          }
 
-        input {
+          input {
+            font-size: $s;
+            font-weight: 100;
+            letter-spacing: 2px;
+            padding: 10px 40px 10px 10px;
+            width: calc(100% - 54px);
+            border: 1px solid;
+            border-color: transparent transparent black transparent;
+            transition: all .3s;
+            &:focus {
+              border-color: $bc;
+            }
+          }
+          .remove {
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            color: lighten($dark, 40%);
+            background-color: currentColor;
+            opacity: .4;
+            position: absolute;
+            top: 16px;
+            right: 14px;
+            transform: rotateZ(135deg);
+            cursor: pointer;
+
+            &:before {
+              content: "";
+              width: 2px;
+              height: 10px;
+              position: absolute;
+              background-color: white;
+              left: 9px;
+              top: 5px;
+            }
+            &:after {
+              content: "";
+              width: 10px;
+              height: 2px;
+              position: absolute;
+              background-color: white;
+              top: 9px;
+              left: 5px;
+            }
+            &:hover {
+              animation: pop .5s;
+            }
+            @keyframes pop {
+              0%, 100% {
+                opacity: .4;
+                width: 20px;
+                height: 20px;
+                top: 16px;
+                right: 14px;
+              }
+              30% {
+                opacity: .6;
+                width: 18px;
+                height: 18px;
+                top: 17px;
+                right: 15px;
+              }
+            }
+          }
+        }
+        .selection {
+          padding: 5px 2px;
           font-size: $s;
           font-weight: 100;
           letter-spacing: 2px;
-          padding: 10px 40px 10px 10px;
-          width: calc(100% - 54px);
-          border: 1px solid;
-          border-color: transparent transparent black transparent;
-          transition: all .3s;
-          &:focus {
-            border-color: $bc;
-          }
-        }
-        .remove {
-          width: 20px;
-          height: 20px;
-          border-radius: 10px;
-          color: lighten($dark, 40%);
-          background-color: currentColor;
-          opacity: .4;
-          position: absolute;
-          top: 16px;
-          right: 14px;
-          transform: rotateZ(135deg);
-          cursor: pointer;
+          text-align: left;
+          display: flex;
+          align-items: center;
 
-          &:before {
-            content: "";
-            width: 2px;
-            height: 10px;
-            position: absolute;
-            background-color: white;
-            left: 9px;
-            top: 5px;
-          }
-          &:after {
-            content: "";
-            width: 10px;
-            height: 2px;
-            position: absolute;
-            background-color: white;
-            top: 9px;
-            left: 5px;
-          }
-          &:hover {
-            animation: pop .5s;
-          }
-          @keyframes pop {
-            0%, 100% {
-              opacity: .4;
-              width: 20px;
-              height: 20px;
-              top: 16px;
-              right: 14px;
-            }
-            30% {
-              opacity: .6;
-              width: 18px;
-              height: 18px;
-              top: 17px;
-              right: 15px;
-            }
+          input {
+            margin-right: 12px;
           }
         }
       }
