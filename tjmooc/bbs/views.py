@@ -5,6 +5,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
+from rest_framework.views import APIView
+
 from .permissions import IsOwnerOrReadOnly
 from .models import Forum, Post
 from .serializers import ForumSerializer, PostSerializer
