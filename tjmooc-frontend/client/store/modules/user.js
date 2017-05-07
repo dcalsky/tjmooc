@@ -11,7 +11,7 @@ const state = {
 
 // actions
 const actions = {
-  register({ commit, rootState }, data) {
+  register ({ commit, rootState }, data) {
     user.register(data, (err, res) => {
       // error handle todo
       if (err) {
@@ -19,7 +19,7 @@ const actions = {
         commit(types.LOGIN_FAILED, errorHandler('error'))
       }
       if ('token' in res.body) {
-        commit(types.REGISTER_SUCCESS, res.body);
+        commit(types.REGISTER_SUCCESS, res.body)
         // Success: enter login page
         router.push({ name: 'login' })
       } else {
@@ -28,22 +28,21 @@ const actions = {
       }
     })
   },
-  getProfile({ commit, rootState }) {
+  getProfile ({ commit, rootState }) {
     console.log('getProfile', rootState)
   }
 
 }
 
 const mutations = {
-  [types.REGISTER_REQUEST](state) {
+  [types.REGISTER_REQUEST] (state) {
     state.messages = []
   },
-  [types.REGISTER_SUCCESS](state, profile) {
-    state.profile = profile;
+  [types.REGISTER_SUCCESS] (state, profile) {
+    state.profile = profile
   },
-  [types.REGISTER_FAILED](state, messages) {
+  [types.REGISTER_FAILED] (state, messages) {
     state.messages = messages
-
   }
 }
 
