@@ -6,14 +6,14 @@ import { errorHandler } from '../../utils'
 // state
 const state = {
   course: {
-    "id":0,
-    "title": "加载中",
-    "subtitle":"Loading...",
-    "introduction":"加载中...",
-    "cover_image":"",
-    "update_time":"",
-    "participants_count":0,
-    "obligator":"",
+    'id': 0,
+    'title': '加载中',
+    'subtitle': 'Loading...',
+    'introduction': '加载中...',
+    'cover_image': '',
+    'update_time': '',
+    'participants_count': 0,
+    'obligator': ''
   },
   chapterNow: 0,
   chapters: [],
@@ -23,7 +23,7 @@ const state = {
 
 // actions
 const actions = {
-  getCourses({ commit }, data) {
+  getCourses ({ commit }, data) {
     commit(types.GET_COURSE_REQUEST)
     course.getCourses(data, (err, res) => {
       // error handle todo
@@ -31,7 +31,7 @@ const actions = {
         console.log(err)
         commit(types.GET_COURSE_FAILED, errorHandler('error'))
       }
-      console.log(res.body);
+      console.log(res.body)
       if (res.body && 'results' in res.body) {
         const token = res.body.token
         commit(types.LOGIN_SUCCESS, { token: token, username: data.username })
@@ -46,7 +46,7 @@ const actions = {
       }
     })
   },
-  getCourseById({ commit }, data) {
+  getCourseById ({ commit }, data) {
     commit(types.GET_COURSE_REQUEST)
     course.getCourseById(data, (err, res) => {
       // error handle todo
@@ -62,7 +62,7 @@ const actions = {
       }
     })
   },
-  getChapters({ commit }, data) {
+  getChapters ({ commit }, data) {
     commit(types.GET_CHAPTER_REQUEST)
     course.getChapters(data, (err, res) => {
       // error handle todo
@@ -78,7 +78,7 @@ const actions = {
       }
     })
   },
-  getUnits({ commit }, data) {
+  getUnits ({ commit }, data) {
     commit(types.GET_UNITS_REQUEST)
     course.getUnits(data, (err, res) => {
       // error handle todo
@@ -110,48 +110,47 @@ const actions = {
   //     }
   //   })
   // },
-};
+}
 
 const mutations = {
-  [types.GET_COURSE_SUCCESS](state, { course }) {
-    console.log('course', course.sections);
-    state.course = course;
+  [types.GET_COURSE_SUCCESS] (state, { course }) {
+    console.log('course', course.sections)
+    state.course = course
   },
-  [types.GET_COURSE_FAILED](state, messages) {
+  [types.GET_COURSE_FAILED] (state, messages) {
     // state.course = {};
-    state.messages = messages;
+    state.messages = messages
   },
-  [types.GET_COURSE_REQUEST](state) {
+  [types.GET_COURSE_REQUEST] (state) {
     // state.course = {};
-    state.messages = [];
+    state.messages = []
   },
 
-  [types.GET_CHAPTERS_SUCCESS](state, { chapters }) {
+  [types.GET_CHAPTERS_SUCCESS] (state, { chapters }) {
     console.log('chapters', chapters)
-    state.chapters = chapters;
+    state.chapters = chapters
   },
-  [types.GET_CHAPTERS_FAILED](state, messages) {
-    state.course = {};
-    state.messages = messages;
+  [types.GET_CHAPTERS_FAILED] (state, messages) {
+    state.course = {}
+    state.messages = messages
   },
-  [types.GET_CHAPTERS_REQUEST](state) {
-    state.course = {};
-    state.messages = [];
+  [types.GET_CHAPTERS_REQUEST] (state) {
+    state.course = {}
+    state.messages = []
   },
 
-
-  [types.GET_UNITS_SUCCESS](state, { units, chapter }) {
-    state.units = units;
-    state.chapterNow = chapter;
+  [types.GET_UNITS_SUCCESS] (state, { units, chapter }) {
+    state.units = units
+    state.chapterNow = chapter
   },
-  [types.GET_UNITS_FAILED](state, messages) {
-    state.units = {};
-    state.messages = messages;
+  [types.GET_UNITS_FAILED] (state, messages) {
+    state.units = {}
+    state.messages = messages
   },
-  [types.GET_UNITS_REQUEST](state) {
-    state.units = {};
-    state.messages = [];
-  },
+  [types.GET_UNITS_REQUEST] (state) {
+    state.units = {}
+    state.messages = []
+  }
 
 }
 

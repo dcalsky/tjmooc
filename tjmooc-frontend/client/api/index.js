@@ -1,9 +1,7 @@
 import request from 'superagent'
 import { server } from '../config'
 
-function post(url, { data, cb, token}) {
-
-  console.log(token)
+function post (url, { data, cb, token }) {
   request
     .post(url)
     .set({
@@ -14,107 +12,110 @@ function post(url, { data, cb, token}) {
     .end(cb)
 }
 
-function get(url, {data, cb, token}) {
+function get (url, { cb, token, page = 1 }) {
   request
     .get(url)
     .set({
       'Content-Type': 'application/json'
     })
-    .send(data)
-    .end(cb)
-}
-
-function get(url, { query, cb }) {
-  request
-    .get(url)
-    .query(query)
+    .query({ page })
     .end(cb)
 }
 
 // Sessions
 const session = {
-  login(data, cb, token) {
+  login (data, cb, token) {
     post(`${server.session}`, {
-      data,
-      cb
+      data, cb
     })
   }
 }
 
 // Users
 const user = {
-  register(data, cb, token) {
+  register (data, cb, token) {
     post(`${server.user}`, {
-      data,
-      cb
+      data, cb
     })
   },
-  changePassword(data, cb, token) {
+  changePassword (data, cb, token) {
     // todo
   }
 }
 
 // Course
 const course = {
-  getCourses(data, cb, token) {
+  getCourses (data, cb, token) {
     get(`${server.course}`, {
-      data: data,
-      cb: cb
+      data, cb
     })
   },
-  getCourseById(data, cb, token) {
-    let courseId = data.courseId;
+  getCourseById (data, cb, token) {
+    const courseId = data.courseId
     get(`${server.course}${courseId}`, {
-      cb: cb
+      cb
     })
   },
-  getChapters(data, cb, token) {
-    let courseId = data.courseId;
+  getChapters (data, cb, token) {
+    const courseId = data.courseId
     get(`${server.course}${courseId}/chapter?title=true&description=true&id=true`, {
-      cb: cb
+      cb
     })
   },
-  getChapterById(data, cb, token) {
-    let courseId = data.courseId, chapterId = data.chapterId;
+  getChapterById (data, cb, token) {
+    const courseId = data.courseId
+    const chapterId = data.chapterId
     get(`${server.course}${courseId}/chapter/${chapterId}`, {
-      cb: cb
+      cb
     })
   },
-  getUnits(data, cb, token) {
-    let courseId = data.courseId, chapterId = data.chapterId;
+  getUnits (data, cb, token) {
+    const courseId = data.courseId
+    const chapterId = data.chapterId
     get(`${server.course}${courseId}/chapter/${chapterId}/unit`, {
-      cb: cb
+      cb
     })
   },
-  getUnitById(data, cb, token) {
-    let courseId = data.courseId, chapterId = data.chapterId, unitId = data.unitId;
+  getUnitById (data, cb, token) {
+    const courseId = data.courseId
+    const chapterId = data.chapterId
+    const unitId = data.unitId
     get(`${server.course}${courseId}/chapter/${chapterId}/unit/${unitId}`, {
-      cb: cb
+      cb
     })
   }
 }
 
 // material
 const material = {
-  getHomework(data, cb, token) {
+  getHomework (data, cb, token) {
     console.log(data)
     get(`${server.material}homework?course=${data.course}&chapter=${data.chapter}`, {
-      cb: cb
+      cb
     })
   },
-  getHomeworkSubmit(data, cb, token) {
+  getHomeworkSubmit (data, cb, token) {
     console.log(data)
     get(`${server.material}homework/${data.chapter}/submit?user=${data.user}`, {
-      cb: cb
+      cb
     })
   },
-  submitHomeworkFile(data, cb, token) {
-    console.log(data, token);
+  submitHomeworkFile (data, cb, token) {
     post(`${server.material}homework/${data.homeworkId}/submit`, {
       data: data.file,
-      cb: cb,
-      token: token
+      cb,
+      token
     })
+  }
+}
+
+// Forum
+const forum = {
+  getForumList ({ page }, cb) {
+    get(`${server.forum}`, { cb, page })
+  },
+  getPostList ({ forumId, page }, cb) {
+    get(`${server.forum}/${forumId}/posts`, { cb, page })
   }
 }
 
@@ -122,5 +123,6 @@ export {
   session,
   user,
   course,
-  material
+  material,
+  forum
 }
