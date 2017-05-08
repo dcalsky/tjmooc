@@ -1,9 +1,5 @@
 <template>
-<<<<<<< HEAD
-  <div id="course">
-=======
   <div class="course-main">
->>>>>>> 多个页面
     <navbar></navbar>
     <router-view></router-view>
     <foot-bar></foot-bar>
@@ -23,11 +19,10 @@ export default {
 </script>
 
 <style lang="scss">
-<<<<<<< HEAD
-  #course {
-=======
+  @import "../../components/config";
   .course-main {
->>>>>>> 多个页面
-    min-width: 900px;
+    @include respond-to('xs') {
+      min-width: 900px;
+    }
   }
 </style>

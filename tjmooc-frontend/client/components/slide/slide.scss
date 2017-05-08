@@ -32,7 +32,7 @@
       z-index: -2;
       img {
         filter: grayscale(.3);
-        min-width: 100%;
+        width: 100%;
         min-height: 100%;
       }
     }
@@ -190,7 +190,7 @@
           margin: 0;
         }
         .color-bar {
-          $w: 220px;
+          $w: 100%;
           background-color: $lightColor !important;
           position: absolute;
           width: $w;
@@ -207,8 +207,105 @@
       }
     }
   }
-}
 
+  @include mobile {
+    $h: 230px;
+    height: $h;
+    .img {
+      .background {
+        height: $h + 130px;
+        opacity: .05;
+      }
+      .descImg {
+        width: 100%;
+        height: $h;
+        border-radius: 0;
+        opacity: .2;
+        top: 0;
+      }
+      .text {
+        min-width: 0;
+        width: 80%;
+        margin-top: 28px;
+        h1 {
+          font-size: 40px;
+          line-height: 50px;
+          letter-spacing: 5px;
+          margin: 5px auto 10px auto;
+          &:before {
+            height: 110px;
+          }
+          &:after {
+             height: 110px;
+           }
+        }
+        .detail {
+          div {
+            margin: 2px 0;
+          }
+          .teacher, .time {
+            font-size: 18px;
+          }
+        }
+        .btn {
+          font-size: 20px;
+          &:before {
+            border-width: 0 10px 40px 0;
+          }
+          &:after {
+            border-width: 0 0 0 10px;
+          }
+          &:hover {
+            &:after {
+              border-top-width: 40px;
+            }
+          }
+        }
+      }
+    }
+    .tip-box {
+      top: 205px;
+      .scroll {
+        min-width: 0;
+        max-width: 80%;
+        margin: auto;
+        opacity: .8;
+        .tip {
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: baseline;
+          height: 4px;
+          padding: 0;
+          margin: 0 5px;
+          overflow: hidden;
+
+          h1, p {
+            display: none;
+          }
+          .color-bar {
+            height: 4px;
+            border-radius: 0 !important;
+            @keyframes wideAni {
+              0% {width: 0; border-radius: 0;}
+              100% {width: 100%; border-radius: 0;}
+            }
+          }
+          //h1 {
+          //  font-size: 14px;
+          //  margin: 0;
+          //  display: inline;
+          //  line-height: 0;
+          //}
+          //p {
+          //  line-height: 0;
+          //  font-size: 10px;
+          //  display: inline;
+          //}
+        }
+      }
+    }
+  }
+}
 
 ::-webkit-scrollbar
 {

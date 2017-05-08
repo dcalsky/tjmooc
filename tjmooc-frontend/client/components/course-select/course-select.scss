@@ -6,73 +6,6 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    .search {
-      $s: 24px;
-      border-radius: 4px;
-      overflow: hidden;
-      position: relative;
-      margin: 50px 0 30px 0;
-      i {
-        margin: 0 15px;
-      }
-      input {
-        font-size: $s;
-        font-weight: 100;
-        letter-spacing: 2px;
-        padding: 10px 40px 10px 10px;
-      }
-      .remove {
-        width: 20px;
-        height: 20px;
-        border-radius: 10px;
-        color: lighten($dark, 40%);
-        background-color: currentColor;
-        opacity: .4;
-        position: absolute;
-        top: 16px;
-        right: 14px;
-        transform: rotateZ(135deg);
-        cursor: pointer;
-
-        &:before {
-          content: "";
-          width: 2px;
-          height: 10px;
-          position: absolute;
-          background-color: white;
-          left: 9px;
-          top: 5px;
-        }
-        &:after {
-          content: "";
-          width: 10px;
-          height: 2px;
-          position: absolute;
-          background-color: white;
-          top: 9px;
-          left: 5px;
-        }
-        &:hover {
-          animation: pop .5s;
-        }
-        @keyframes pop {
-          0%, 100% {
-            opacity: .4;
-            width: 20px;
-            height: 20px;
-            top: 16px;
-            right: 14px;
-          }
-          30% {
-            opacity: .6;
-            width: 18px;
-            height: 18px;
-            top: 17px;
-            right: 15px;
-          }
-        }
-      }
-    }
   }
   .select {
     display: flex;
@@ -161,6 +94,7 @@
         font-size: 60px;
         opacity: .2;
         margin: 250px 0;
+        text-align: center;
       }
       .course {
         margin: 20px;
@@ -235,6 +169,110 @@
       box-shadow: none !important;
       .percentage {
         opacity: 1 !important;
+      }
+    }
+  }
+
+  @include mobile {
+    margin-bottom: 20px;
+    .select {
+      flex-direction: column;
+      .back {
+        display: none;
+        width: 300px;
+        height: 300px;
+        left: -150px;
+        opacity: .1;
+
+        &:before {
+          left: -50px;
+          top: -50px;
+          width: 400px;
+          height: 400px;
+          opacity: .2;
+        }
+      }
+      .left {
+        flex-direction: row;
+        width: 100%;
+        .subject {
+          margin: 0 !important;
+          height: 30px;
+          font-size: 15px;
+          line-height: 30px;
+          border-bottom: 2px solid white;
+          border-radius: 0;
+          box-shadow: none;
+          background: transparent;
+        }
+      }
+
+      .right {
+        height:auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: center;
+        padding-top: 10px;
+        position: relative;
+
+        .info {
+          margin: 70px 0;
+          font-size: 30px;
+        }
+
+        .course {
+          margin: 0;
+          padding: 8%;
+          border-color: rgba($mainColor, 0.1);
+          border-radius: 0;
+          border-width: 1px 0 0 0;
+          box-shadow: none;
+          width: 100%;
+          .title {
+            font-size: 20px;
+          }
+          .teacher {
+            font-size: 15px;
+            letter-spacing: 0;
+          }
+          .desc {
+            font-size: 12px;
+          }
+          .btn {
+            transform: translateY(12px);
+            display: block;
+            margin: auto;
+            text-align: center;
+            border-radius: 4px;
+            background: $lightColor;
+            color: white;
+            line-height: 30px;
+            font-size: 18px;
+            width: 75%;
+            &:after {
+              content: none;
+            }
+            &:hover {
+              color: rgba(white, .6) !important;
+              background: $mainColor;
+            }
+          }
+        }
+      }
+    }
+    .subSelected {
+      .subject:nth-child(2n) {
+        margin-left: 0;
+      }
+      .selected {
+        transform: none;
+        box-shadow: none !important;
+        border-bottom: 2px solid $lightColor !important;
+        .percentage {
+          opacity: 1 !important;
+        }
       }
     }
   }

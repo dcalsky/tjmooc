@@ -8,7 +8,7 @@
     props: {
       height: {
         type: Number,
-        default: 200
+        default: -1
       },
       componentId: {
         type: String,
@@ -17,7 +17,7 @@
     },
     mounted: function() {
       let logo = Snap('#' + this.componentId);
-      let h = this.height;
+      let h = this.height < 0 ? this.$el.offsetHeight : this.height;
       let t = Snap.load("/icon_title.svg", function (svg) {
           this.appendChild(svg.node);
           logo.select('svg').attr({

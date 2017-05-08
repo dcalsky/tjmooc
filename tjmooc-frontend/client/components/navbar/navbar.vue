@@ -1,9 +1,12 @@
 <template>
   <div class="navbar">
     <router-link to="/">
-      <logo v-bind:height="48"></logo>
+      <logo></logo>
     </router-link>
-    <div class="link-box">
+    <span class="navbar-more" @click="toggleLink" :class="{'navbar-more-active': linkDisplay}">
+      <span class="navbar-more-ch" :class="navbarClass(i)" v-for="i in [1, 2 ,3]"></span>
+    </span>
+    <div class="link-box" :class="{'side-box': linkDisplay}">
       <div v-for="link in links" >
         <router-link :to="link[1]">{{link[0]}}</router-link>
       </div>
@@ -27,6 +30,11 @@
       logo
     },
     computed: {
+        navbarClass() {
+            return i => [
+              'navbar-more-ch' + i
+            ]
+        },
       login () {
         return this.$store.state.session.token !== null
       },
@@ -46,13 +54,22 @@
       }
     },
     methods: {
+      toggleLink() {
+          console.log('tl')
+        this.linkDisplay = !this.linkDisplay;
+      },
       logout() {
         this.$store.dispatch('logout')
       }
+    },
+    data() {
+        return {
+            linkDisplay: false
+        }
     }
   }
 </script>
 
-<style lang="sass" rel="stylesheet/sass">
+<style lang="sass" rel="stylesheet/sass" scoped>
   @import "navbar"
 </style>
