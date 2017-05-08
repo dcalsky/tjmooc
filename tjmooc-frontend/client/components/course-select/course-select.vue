@@ -1,11 +1,12 @@
 <template>
   <div class="course-select">
     <div class="top">
-      <div class="search">
-        <i class="fa fa-search fa-2x"></i>
-        <input type="text" v-model="searchText">
-        <div class="remove" v-if="searchText" @click="onRemoveBtnClicked"></div>
-      </div>
+      <!--<div class="search">-->
+        <!--<i class="fa fa-search fa-2x"></i>-->
+        <!--<input type="text" v-model="searchText">-->
+        <!--<div class="remove" v-if="searchText" @click="onRemoveBtnClicked"></div>-->
+      <!--</div>-->
+      <search v-model="searchText"></search>
 
     </div>
 
@@ -31,8 +32,12 @@
 </template>
 
 <script>
+  import Search from '../../components/search/search.vue'
   export default {
     name: "course-select",
+    components: {
+      Search
+    },
     data: function () {
       return {
         searchText: '',
@@ -131,9 +136,6 @@
       }
     },
     methods: {
-      onRemoveBtnClicked: function () {
-          this.searchText = "";
-      },
       onSubjectClicked: function(index) {
         console.log(this.$refs.scrollBar);
           this.subjectNow = index;

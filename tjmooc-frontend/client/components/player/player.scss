@@ -31,6 +31,9 @@
 
     .videoContainer {
       z-index: 2;
+      @include respond-to(xs) {
+        height: 400px !important;
+      }
     }
 
     .info {
@@ -403,6 +406,22 @@
           text-align: right;
         }
       }
+    }
+  }
+
+  @include mobile {
+    min-width: 0;
+    position: relative;
+    flex-direction: column;
+
+    &:before {
+      content: none;
+    }
+    .tie {
+      display: none;
+    }
+    .left {
+      width: 100%;
     }
   }
 

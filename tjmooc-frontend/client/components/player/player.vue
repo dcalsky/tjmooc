@@ -1,7 +1,7 @@
 <template>
   <div class="player">
     <div class="left">
-      <flv-video :flv="flv" width="600px" height="400px"></flv-video>
+      <flv-video :flv="flv" width="100%"></flv-video>
       <div class="info" :class="{flipper: !infoFront}">
         <div class="front">
           <div class="content">
@@ -76,6 +76,7 @@
       }
     },
     computed: {
+
       leftBtnAllowed() {
         return (this.selectChapter ? this.chaptersDisplayFrom : this.unitsDisplayFrom) >= 4;
       },
@@ -183,6 +184,7 @@
       }
     },
     created() {
+
       // TODO: AJAX data
       this.courseId = this.$route.params.courseId;
       this.$store.dispatch('getCourseById', {courseId: this.courseId});

@@ -19,7 +19,10 @@ export default {
 </script>
 
 <style lang="scss">
+  @import "../../components/config";
   .course-main {
-    min-width: 900px;
+    @include respond-to('xs') {
+      min-width: 900px;
+    }
   }
 </style>

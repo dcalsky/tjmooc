@@ -1,6 +1,6 @@
 <template>
-  <div class="videoContainer">
-    <video name="videoElement" class="centeredVideo" controls autoplay :width="width" :height="height">
+  <div class="videoContainer" :style="{height: videoHeight}">
+    <video name="videoElement" class="centeredVideo" controls autoplay :width="width" height="100%">
       Your browser is too old which doesn't support HTML5 video.
     </video>
   </div>
@@ -17,12 +17,17 @@
       },
       height: {
         type: String,
-        default: "600px"
+        default: ""
+      },
+      ratio: {
+          type: Number,
+        default: 9 / 16
       },
       flv: {}
     },
     data() {
         return {
+            videoHeight: '0'
         }
     },
     methods: {
@@ -55,6 +60,8 @@
       },
     },
     mounted: function() {
+
+      this.videoHeight = this.height ? this.height : this.$el.offsetWidth * this.ratio + 'px';
         this.flv_load();
     }
   }
