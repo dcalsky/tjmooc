@@ -13,7 +13,7 @@ const state = {
 
 // actions
 const actions = {
-  login({ commit }, data) {
+  login ({ commit }, data) {
     commit(types.LOGIN_REQUEST)
     session.login(data, (err, res) => {
       // error handle
@@ -25,7 +25,7 @@ const actions = {
         // Set localStorage for session information
         window.localStorage.setItem('token', res.body.token)
         window.localStorage.setItem('username', data.username)
-        window.localStorage.setItem('userId', res.body.id);
+        window.localStorage.setItem('userId', res.body.id)
         // Success: enter profile page
         router.push({ name: 'profile' })
       } else {
@@ -34,7 +34,7 @@ const actions = {
       }
     })
   },
-  logout({ commit }) {
+  logout ({ commit }) {
     commit(types.LOGOUT)
     // Clear localStorage
     window.localStorage.clear()
@@ -44,18 +44,18 @@ const actions = {
 }
 
 const mutations = {
-  [types.LOGIN_SUCCESS](state, { user }) {
+  [types.LOGIN_SUCCESS] (state, { user }) {
     state.token = user.token
-    state.username = user.username;
-    state.userId = user.id;
+    state.username = user.username
+    state.userId = user.id
   },
-  [types.LOGIN_FAILED](state, messages) {
+  [types.LOGIN_FAILED] (state, messages) {
     state.messages = messages
   },
-  [types.LOGIN_REQUEST](state) {
+  [types.LOGIN_REQUEST] (state) {
     state.messages = []
   },
-  [types.LOGOUT](state) {
+  [types.LOGOUT] (state) {
     state.token = null
     state.username = null
   }

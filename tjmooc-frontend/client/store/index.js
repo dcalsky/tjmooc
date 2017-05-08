@@ -5,6 +5,7 @@ import session from './modules/session'
 import user from './modules/user'
 import course from './modules/course'
 import material from './modules/material'
+import forum from './modules/forum'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
     session,
     user,
     course,
-    material
+    material,
+    forum
   },
   strict: debug,
   plugins: debug ? [createLogger()] : []
