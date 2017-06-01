@@ -9,3 +9,11 @@
     background-color: darken($dark, 10%);
   }
 }
+
+
+video::-internal-media-controls-download-button {display:none;}
+video::-webkit-media-controls {overflow: hidden !important}
+video::-webkit-media-controls-enclosure {
+  margin-left: 32px;
+  width: calc(100% + 32px);
+}

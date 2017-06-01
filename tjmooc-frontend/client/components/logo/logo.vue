@@ -13,12 +13,16 @@
       componentId: {
         type: String,
         default: "logo"
+      },
+      url: {
+          type: String,
+        default: '/icon_title.svg'
       }
     },
     mounted: function() {
       let logo = Snap('#' + this.componentId);
       let h = this.height < 0 ? this.$el.offsetHeight : this.height;
-      let t = Snap.load("/icon_title.svg", function (svg) {
+      let t = Snap.load(this.url, function (svg) {
           this.appendChild(svg.node);
           logo.select('svg').attr({
             height: h

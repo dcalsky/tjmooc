@@ -32,10 +32,7 @@
       <div class="subject" v-for="(t, i) in test">
         <div class="question">{{t.question}}</div>
         <div class="answer" v-if="t.type == 'blank'">
-          <div class="blank">
-            <input type="text" v-model="test[i].answer">
-            <div class="remove" v-if="answer[i]" @click="onRemoveBtnClicked(i)"></div>
-          </div>
+          <search v-model="test[i].answer" icon=""></search>
         </div>
         <div class="answer" v-if="t.type == 'select'">
           <div class="selection" v-for="(s, j) in t.options">
@@ -59,10 +56,12 @@
 
 <script>
   import divide from "../../divide/divide.vue"
+  import search from "../../search/search.vue"
   export default {
     name: "test",
     components: {
-        divide
+        divide,
+      search
     },
     data() {
         return {
@@ -156,6 +155,6 @@
   }
 </script>
 
-<style lang="sass" rel="stylesheet/sass">
+<style lang="sass" rel="stylesheet/sass" scoped>
   @import "test"
 </style>

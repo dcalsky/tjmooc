@@ -1,39 +1,36 @@
 <template>
   <div id="account-login">
-    <div class="right">
-      <div class="slice">
-        <h1 class="title">
-          <div>同济大学课程分享平台 (A版)</div>
-          <div>{{time[0] - 1}}-{{time[0]}}学年第{{time[1]}}学期</div>
-        </h1>
-        <div class="form">
-          <div v-for="(l, index) in list">
-            <label>{{l.name}}
-            <input v-if="l.type == 'number'" type="number" v-model="form[l.key]" :autofocus="{autofocus: !index}">
-            <input v-if="l.type == 'text'" type="text" v-model="form[l.key]">
-            <input v-if="l.type == 'password'" type="password" v-model="form[l.key]">
-            </label>
-          </div>
-        </div>
-
-        <div class="error" v-if="messages.length > 0" @click="errorDisplayed = true">
-          <p v-for="(message, index) in messages">{{message}}</p>
-        </div>
-        <div class="login" @click="onLoginBtnClicked" :class="{submitting: submitting}" v-if="messages.length == 0">
-          <span>登</span><span>录</span><span v-if="submitting">中</span><span v-if="submitting">…</span>
-        </div>
+    <div class="title">
+      <div>同济大学课程分享平台 (A版)</div>
+      <div>{{time[0] - 1}}-{{time[0]}}学年 第{{time[1]}}学期</div>
+    </div>
+    <div class="form">
+      <div v-for="(l, index) in list">
+        <label>{{l.name}}
+          <input v-if="l.type == 'number'" type="number" v-model="form[l.key]" :autofocus="{autofocus: !index}">
+          <input v-if="l.type == 'text'" type="text" v-model="form[l.key]">
+          <input v-if="l.type == 'password'" type="password" v-model="form[l.key]">
+        </label>
       </div>
     </div>
-    <div class="left" :style="{flexBasis: leftWidth + 'px'}">
-      <div>
-        <h1 class="title">
-          <router-link to="/account/register">注册</router-link>登录</h1>
+
+    <div class="bottom">
+      <div class="error" v-if="messages.length > 0" @click="errorDisplayed = true">
+        <div v-for="(message, index) in messages">{{message}}</div>
+      </div>
+      <div class="btn-box">
+        <div class="to" @click="toRegister">去注册</div>
+        <div class="login" @click="onLoginBtnClicked" :class="{allowed: submitting || messages.length }">
+          <span>登</span><span>录</span><span v-if="submitting">中</span><span v-if="submitting">…</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
+  import Search from '../../../components/search/search.vue'
   export default {
     name: "login",
     beforeCreate() {
@@ -41,6 +38,9 @@
       if (this.$store.state.session.token) {
         this.$router.replace({ name: 'home' })
       }
+    },
+    components: {
+        Search
     },
     data() {
       return {
@@ -63,8 +63,11 @@
       }
     },
     methods: {
+      toRegister() {
+        this.$router.push({name: 'register'});
+      },
       onLoginBtnClicked: function () {
-        if (this.submitting)
+        if (this.submitting || this.messages.length)
           return;
         console.log('logging...');
         this.submitting = true;
@@ -74,10 +77,6 @@
       }
     },
     computed: {
-      leftWidth: function () {
-        let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        return (h - 150) * 0.4 - 10;
-      },
       time: function () {
         let d = new Date(), y = d.getFullYear(), m = d.getMonth() + 1, t = "一";
         if (m >= 9)++y;
@@ -85,15 +84,15 @@
         return [y, t];
       },
       errorInfo: function () {
-        if (this.form.studentId == '')
+        if (this.form.studentId === '')
           return "请填写您的学号！";
-        if (this.form.password == '')
+        if (this.form.password === '')
           return "请填写您的密码！";
         return "";
       },
       messages() {
         this.submitting = false;
-        let m = new Array();
+        let m = [];
         if (this.errorInfo)
           m = m.concat(this.errorInfo);
         if (!this.errorDisplayed) {
@@ -106,3 +105,9 @@
     }
   }
 </script>
+
+
+<style lang="sass" rel="stylesheet/sass" scoped>
+  @import "login"
+</style>
+

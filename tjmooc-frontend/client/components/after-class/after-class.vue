@@ -10,7 +10,7 @@
         本章暂无作业
       </div>
     </div>
-    <test v-if="!selectHomework"></test>
+    <test v-else></test>
   </div>
 </template>
 
@@ -42,6 +42,6 @@
   }
 </script>
 
-<style lang="sass" rel="stylesheet/sass">
+<style lang="sass" rel="stylesheet/sass" scoped>
   @import "after-class"
 </style>
