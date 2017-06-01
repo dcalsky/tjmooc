@@ -18,11 +18,11 @@ export default {
   }
 </script>
 
-<style lang="scss">
-  @import "../../components/config";
-  .course-main {
-    @include respond-to('xs') {
-      min-width: 900px;
-    }
-  }
-</style>
+<!--<style lang="scss">-->
+  <!--@import "../../components/config";-->
+  <!--.course-main {-->
+    <!--@include respond-to('xs') {-->
+      <!--min-width: 900px;-->
+    <!--}-->
+  <!--}-->
+<!--</style>-->

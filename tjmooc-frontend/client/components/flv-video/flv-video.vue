@@ -1,6 +1,6 @@
 <template>
   <div class="videoContainer" :style="{height: videoHeight}">
-    <video name="videoElement" class="centeredVideo" controls autoplay :width="width" height="100%">
+    <video ref="videoElement" class="centeredVideo" controls autoplay :width="width" height="100%">
       Your browser is too old which doesn't support HTML5 video.
     </video>
   </div>
@@ -33,7 +33,7 @@
     methods: {
       flv_load() {
         let
-          element = document.getElementsByName('videoElement')[0],
+          element = this.$refs.videoElement,
           player = flvjs.createPlayer(
               this.flv,
             {

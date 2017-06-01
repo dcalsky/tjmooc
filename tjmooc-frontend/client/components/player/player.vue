@@ -23,30 +23,69 @@
       <div class="t2"></div>
     </div>
     <div class="right">
-      <div class="goto">
-        <div class="select-box">
-          <div class="select chapter" :class="{selected: selectChapter}" @click="onChapterTagSelected">章</div>
-          <div class="select unit" :class="{selected: !selectChapter}" @click="onUnitTagSelected">节</div>
-        </div>
-        <div class="btn" @click="onLeftBtnClicked" :class="{forbid: !leftBtnAllowed}">
-          <i class="fa fa-angle-left fa-2x"></i>
-          <i class="fa fa-angle-double-left fa-2x"></i>
-        </div>
-        <div class="btn" @click="onRightBtnClicked" :class="{forbid: !rightBtnAllowed}">
-          <i class="fa fa-angle-right fa-2x"></i>
-          <i class="fa fa-angle-double-right fa-2x"></i>
-        </div>
-      </div>
-      <div class="section-next">
-        <div class="tip" v-for="(n, i) in chapters.slice(chaptersDisplayFrom, chaptersDisplayFrom + 4)" :class="{tipNow: n.id == chapterId}" v-if="selectChapter && chaptersDisplayFrom <= i && i < chaptersDisplayFrom + 4" @click="onChapterClicked(i)">
-          <div class="title">{{n.title}}</div>
-          <div class="desc">{{n.description | textLimit(60)}}</div>
-        </div>
-        <div class="tip" v-for="(n, i) in units.slice(unitsDisplayFrom, unitsDisplayFrom + 4)" v-if="!selectChapter" @click="onUnitClicked(i)">
-          <div class="title">{{n.title}}</div>
-          <div class="desc">{{n.description | textLimit(60)}}</div>
-        </div>
-      </div>
+      <el-menu :default-active="`1-1-1`" @select="onSelect" unique-opened>
+        <el-submenu index="1">
+          <template slot="title">第一章</template>
+          <!--<el-menu-item-group title="分组一">-->
+            <!--<el-menu-item index="1-1">第一节</el-menu-item>-->
+            <!--<el-menu-item index="1-2">选项2</el-menu-item>-->
+          <!--</el-menu-item-group>-->
+          <!--<el-menu-item-group title="分组2">-->
+            <!--<el-menu-item index="1-3">选项3</el-menu-item>-->
+          <!--</el-menu-item-group>-->
+          <el-submenu index="1-1">
+            <template slot="title">第 1 节</template>
+            <el-menu-item index="1-1-1">Lesson 1</el-menu-item>
+          </el-submenu>
+          <el-submenu index="1-2">
+            <template slot="title">第 2 节</template>
+            <el-menu-item index="1-2-1">Lesson 2</el-menu-item>
+          </el-submenu>
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title">第二章</template>
+          <el-menu-item-group title="必修">
+            <el-submenu index="2-1">
+              <template slot="title">第 1 节</template>
+              <el-menu-item index="2-1-1">Lesson 1</el-menu-item>
+            </el-submenu>
+            <el-submenu index="2-2">
+              <template slot="title">第 2 节</template>
+              <el-menu-item index="2-2-1">Lesson 2</el-menu-item>
+            </el-submenu>
+          </el-menu-item-group>
+          <el-menu-item-group title="选修">
+            <el-menu-item index="1-1">选项1</el-menu-item>
+            <el-menu-item index="1-2">选项2</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-menu-item index="3">第三章</el-menu-item>
+      </el-menu>
+
+      <!--<div class="goto">-->
+        <!--<div class="select-box">-->
+          <!--<div class="select chapter" :class="{selected: selectChapter}" @click="onChapterTagSelected">章</div>-->
+          <!--<div class="select unit" :class="{selected: !selectChapter}" @click="onUnitTagSelected">节</div>-->
+        <!--</div>-->
+        <!--<div class="btn" @click="onLeftBtnClicked" :class="{forbid: !leftBtnAllowed}">-->
+          <!--<i class="fa fa-angle-left fa-2x"></i>-->
+          <!--<i class="fa fa-angle-double-left fa-2x"></i>-->
+        <!--</div>-->
+        <!--<div class="btn" @click="onRightBtnClicked" :class="{forbid: !rightBtnAllowed}">-->
+          <!--<i class="fa fa-angle-right fa-2x"></i>-->
+          <!--<i class="fa fa-angle-double-right fa-2x"></i>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="section-next">-->
+        <!--<div class="tip" v-for="(n, i) in chapters.slice(chaptersDisplayFrom, chaptersDisplayFrom + 4)" :class="{tipNow: n.id == chapterId}" v-if="selectChapter && chaptersDisplayFrom <= i && i < chaptersDisplayFrom + 4" @click="onChapterClicked(i)">-->
+          <!--<div class="title">{{n.title}}</div>-->
+          <!--<div class="desc">{{n.description | textLimit(60)}}</div>-->
+        <!--</div>-->
+        <!--<div class="tip" v-for="(n, i) in units.slice(unitsDisplayFrom, unitsDisplayFrom + 4)" v-if="!selectChapter" @click="onUnitClicked(i)">-->
+          <!--<div class="title">{{n.title}}</div>-->
+          <!--<div class="desc">{{n.description | textLimit(60)}}</div>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
@@ -136,6 +175,9 @@
 
     },
     methods: {
+        onSelect(index, indexPath) {
+            console.log(index, indexPath);
+        },
       onInfoClicked() {
         this.infoFront = !this.infoFront;
       },

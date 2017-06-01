@@ -201,6 +201,6 @@
   }
 </script>
 
-<style lang="sass" rel="stylesheet/sass">
+<style lang="sass" rel="stylesheet/sass" >
   @import "homework"
 </style>

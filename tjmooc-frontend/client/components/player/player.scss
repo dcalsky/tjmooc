@@ -5,11 +5,12 @@
     0 0 20px -8px $dark;
 
   width: 100%;
-  font-family: PingFangSC;
   display: flex;
   flex-direction: row;
   justify-content: center;
   min-width: 870px;
+  position: relative;
+
   &:before {
     content: "";
     width: 100%;
@@ -27,11 +28,10 @@
     position: relative;
     top: 100%;
     width: 600px;
-    margin-bottom: 75px;
 
     .videoContainer {
       z-index: 2;
-      @include respond-to(xs) {
+      @include respond-to(md) {
         height: 400px !important;
       }
     }
@@ -40,12 +40,12 @@
       width: 100%;
       height: 75px;
       background-color: transparent;
-      position: absolute;
+      position: relative;
       transition: all 0.6s;
       transform-style: preserve-3d;
       font-weight: 300;
       display: block;
-      top: 100%;
+      //top: 100%;
       z-index: 1;
 
       .front, .back {
@@ -159,7 +159,7 @@
 
     .t1 {
       width: $w;
-      height: 475px;
+      height: 100%;
       position: relative;
       background: linear-gradient(
           to bottom,
@@ -203,6 +203,8 @@
      }
   }
   .right {
+    width: 200px;
+    height: 100%;
 
     .goto {
       height: 475px;
@@ -214,7 +216,7 @@
       flex-direction: row;
       box-shadow: $shadow;
       position: relative;
-      margin-right: 160px;
+      margin-right: 120px;
 
       &:before {
         content: "";
@@ -409,7 +411,7 @@
     }
   }
 
-  @include mobile {
+  @include pad {
     min-width: 0;
     position: relative;
     flex-direction: column;
@@ -422,6 +424,51 @@
     }
     .left {
       width: 100%;
+    }
+    .right {
+      &:before {
+        content: "选择课程";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 27px;
+        height: 80px;
+        right: 0;
+        top: 10px;
+        background: white;
+        z-index: 8;
+        opacity: .8;
+        position: absolute;
+        writing-mode: vertical-rl;
+        transition: all .3s;
+        padding: 0 0 0 2px;
+        border-radius: 5px 0 0 5px;
+      }
+      position: absolute;
+      top: 0;
+      width: 27px;
+      height: 100px;
+      overflow: hidden;
+      right: 0;
+      transition: all .3s;
+      z-index: 2;
+      ul {
+        display: none;
+      }
+      &:hover {
+        z-index: 2;
+        right: 0;
+        width: 200px;
+        height: 100%;
+        overflow: visible;
+        &:before {
+          right: 0;
+          opacity: 0;
+        }
+        ul {
+          display: block;
+        }
+      }
     }
   }
 

@@ -1,30 +1,36 @@
 <template>
   <div id="account-register">
-    <div class="right">
-      <div class="info">{{stepList[step].info}}</div>
 
+    <el-slider
+      v-model="step"
+      :step="1"
+      :max="stepList.length - 1"
+      :format-tooltip="formatTooltip"
+      show-stops
+    >
+    </el-slider>
+
+    <div class="title">
+      {{order}}{{stepList[step].info}}
+    </div>
+    <div class="form">
       <div class="input" v-if="!finish">
-        <input v-if="stepList[step].type == 'number'" type="number" v-model="inputText">
-        <input v-if="stepList[step].type == 'text'" type="text" v-model="inputText">
-        <input v-if="stepList[step].type == 'password'" type="password" v-model="inputText">
-
-        <div class="remove" v-if="inputTextLegal" @click="onRemoveBtnClicked"></div>
+        <input ref="input" v-if="stepList[step].type == 'number'" type="number" v-model="inputText">
+        <input ref="input" v-if="stepList[step].type == 'text'" type="text" v-model="inputText">
+        <input ref="input" v-if="stepList[step].type == 'password'" type="password" v-model="inputText">
       </div>
+    </div>
 
-      <div class="next" @click="onNextClicked" v-if="inputTextLegal && !finish">下一步</div>
+    <!--<div hidden>{{messages()}}</div>-->
+
+    <div class="bottom">
       <div class="error" v-if="errorText">{{errorText}}</div>
-    </div>
-    <div class="left" :style="{flexBasis: leftWidth + 'px'}">
-      <div>
-        <h1 class="title"><router-link to="/account/login">登录</router-link>注册</h1>
-        <div @click="onStepClicked(index)" v-for="(s, index) in stepList" :class="{now: index == step, been: index <= stepMax }">
-          <span>{{s.name}}</span>
-          <span v-if="form[s.key]">{{form[s.key] | hidePassword(stepList[index].type)}}</span>
-          <span class="bar"></span>
-        </div>
+      <div class="btn-box">
+        <div class="to" :class="{allowed: finish}" @click="toPrev" v-if="step">上一步</div>
+        <div class="to" :class="{allowed: finish}" @click="toLogin" v-else>去登录</div>
+        <div class="next" @click="onNextClicked" :class="{allowed: !inputTextLegal}" v-if="!finish">下一步</div>
       </div>
     </div>
-    <div hidden>{{messages()}}</div>
   </div>
 </template>
 
@@ -88,7 +94,7 @@
     },
     filters: {
         hidePassword: function (value, type) {
-          if (type == 'password')
+          if (type === 'password')
               return '*'.repeat(value.length);
           else
               return value;
@@ -103,12 +109,22 @@
           let key = this.stepList[this.step].key;
           this.inputText = this.form[key];
         }
+        else {
+            this.step = this.stepMax;
+        }
       },
-      onRemoveBtnClicked: function () {
-        this.inputText = "";
-        this.focusText();
+      toLogin() {
+        this.$router.push({name: 'login'});
+      },
+      toPrev() {
+          this.onStepClicked(this.step - 1);
+      },
+      formatTooltip: function (i) {
+        return this.stepList[i] && this.stepList[i].name;
       },
       onNextClicked: function () {
+        if (!this.inputTextLegal)
+            return;
         if (this.step >= this.stepList.length - 1) {
             this.step = 0;
             --this.stepMax;
@@ -124,13 +140,12 @@
             this.stepMax = this.step;
         this.inputText = '';
         this.focusText();
-        if (this.step + 1 == this.stepList.length) {
+        if (this.step + 1 === this.stepList.length) {
           this.onFinish();
         }
       },
       focusText: function () {
-        let inputs = document.getElementsByTagName('input');
-        inputs && inputs[0].focus();
+        this.$refs.input.focus();
       },
       onFinish: function () {
         this.finish = true;
@@ -144,7 +159,7 @@
 
       messages () {
         console.log(this.$store.state.user);
-        this.finish = this.$store.state.user.messages.length == 9;
+        this.finish = this.$store.state.user.messages.length === 9;
         if (this.finish) {
           this.stepList[4].info = "恭喜，注册成功!";
           this.errorText = '正在进入登录界面...';
@@ -162,17 +177,17 @@
       },
     },
     computed: {
-      leftWidth: function () {
-        let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        return (h - 150) * 0.4 - 10;
-      },
       inputType: function () {
         return this.stepList[this.step].type
+      },
+      order() {
+        this.onStepClicked(this.step);
+          return this.step + 1 + '. ';
       },
       checkLegal: function () {
           return function (index, checkFunc) {
             let d, c;
-            if (this.step == index) {
+            if (this.step === index) {
               d = this.inputText;
               c = checkFunc(d);
               this.errorText = c[1];
@@ -183,19 +198,19 @@
           }
       },
       inputTextLegal: function () {
-        if (this.step + 1 == this.stepList.length)
+        if (this.step + 1 === this.stepList.length)
             return true;
         let checkFunc = [
           input => {
             let w, b;
-            b = input != '';
+            b = input !== '';
             if (!b)
               w = "学号不得为空";
             return [b, w];
           },
           input => {
             let w, b;
-            b = input != '';
+            b = input !== '';
             if (!b)
               w = "用户名不得为空";
             return [b, w];
@@ -209,7 +224,7 @@
           },
           input => {
             let w, b;
-            b = input == this.form.password;
+            b = input === this.form.password;
             if (!b)
               w = "两次密码输入不一致";
             return [b, w];
@@ -220,3 +235,8 @@
     }
   }
 </script>
+
+
+<style lang="sass" rel="stylesheet/sass" scoped>
+  @import "register"
+</style>
