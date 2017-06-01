@@ -6,8 +6,8 @@ from rest_framework.views import Response, status, APIView
 from course.views import get_course, get_chapter_and_course,\
     get_unit_and_chapter_and_course
 from .serializer import HomeworkSerializer, HomeworkSubmitSerializer, \
-    TestSerializer, TestSubmitSerializer, VideoSerializer
-from .models import Homework, HomeworkSubmit, Test, TestSubmit, Video
+    TestSerializer, TestSubmitSerializer, VideoSerializer, ProblemSerializer
+from .models import Homework, HomeworkSubmit, Test, TestSubmit, Video, Problem
 from course.models import Chapter, Course, Unit
 from django.http import Http404
 from .permissions import IsLeacturerOrManagerOrReadOnly, IsTeacherOrManagerOrReadOnly
@@ -333,9 +333,16 @@ class VideoDetailView(RetrieveUpdateDestroyAPIView):
         return Response(status.HTTP_202_ACCEPTED)
 
 
+class ProblemListView(ListCreateAPIView):
+    serializer_class = ProblemSerializer
+    queryset = Problem.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
-
-
+class ProblemDetailView(RetrieveUpdateDestroyAPIView):
+    serializer_class = ProblemSerializer
+    queryset = Problem.objects.all()
+    permission_classes = (IsAuthenticatedOrReadOnly, )
+    lookup_field = 'id'
 
 
 

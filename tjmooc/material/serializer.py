@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Homework, HomeworkSubmit, Test, TestSubmit, Video
+from .models import Homework, HomeworkSubmit, Test, TestSubmit, Video, Problem
 
 
 class HomeworkSerializer(serializers.ModelSerializer):
@@ -32,5 +32,10 @@ class VideoSerializer(serializers.ModelSerializer):
         model = Video
         fields = '__all__'
 
+
+class ProblemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Problem
+        fields = '__all__'
 
 

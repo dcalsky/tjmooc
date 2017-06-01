@@ -18,7 +18,7 @@
 
 ## API
 
-- `GET /problems`
+- `GET /material/problem`
 
 **Permission** Authenticated users
 
@@ -45,7 +45,7 @@
 
 
 
-- `GET/problems/<id>`
+- `GET /material/problem/<id>`
 
 **Permission** Authenticated users
 
@@ -64,7 +64,7 @@
 
 
 
-- `POST /problems`
+- `POST /material/problem`
 
 **Permission** teacher
 
@@ -93,7 +93,7 @@
 
 
 
-- `PUT /problems/<id> ` 
+- `PUT /material/problem/<id> `
 
 **Permission** teacher
 

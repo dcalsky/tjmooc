@@ -1,6 +1,7 @@
 from django.db import models
 from user.models import User
 from course.models import Chapter, Unit
+import jsonfield
 
 
 def homework_problem_path(instance, filename):
@@ -63,3 +64,11 @@ class Video(models.Model):
     upload_time = models.DateTimeField(auto_now_add=True, help_text='创建时间', blank=True)
     url = models.URLField(help_text='链接')
     teacher = models.ForeignKey(User)
+
+
+class Problem(models.Model):
+    type = models.TextField()
+    question = jsonfield.JSONField()
+    answer = jsonfield.JSONField()
+    teacher = models.ForeignKey(User)
+
