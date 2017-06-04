@@ -17,7 +17,7 @@ class HomeworkSubmitAdmin(admin.ModelAdmin):
 
 
 class TestAdmin(admin.ModelAdmin):
-    list_display = ['title', 'answer', 'deadline']
+    list_display = ['title', 'deadline']
 
 
 class TestSubmitAdmin(admin.ModelAdmin):
