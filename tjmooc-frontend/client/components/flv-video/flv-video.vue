@@ -30,6 +30,13 @@
             videoHeight: '0'
         }
     },
+    computed: {
+        f() {
+            this.flv_load();
+            this.flv_start();
+            return this.flv;
+        }
+    },
     methods: {
       flv_load() {
         let
@@ -59,10 +66,11 @@
         player = null;
       },
     },
-    mounted: function() {
-
+    mounted() {
       this.videoHeight = this.height ? this.height : this.$el.offsetWidth * this.ratio + 'px';
-        this.flv_load();
+    },
+    updated() {
+        console.log('updated;')
     }
   }
 </script>

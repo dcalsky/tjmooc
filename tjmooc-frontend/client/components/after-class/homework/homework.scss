@@ -2,120 +2,23 @@
 
 
 .homework {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  font-family: PingFangSC;
   $op: .4;
 
-  .left {
-    .box {
-      width: 240px;
-      border: 1px solid rgba($dark, $op);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      $out: 15%;
-      margin: 0 0 0 35px;
-
-      .count {
-
-        .ddl {
-          font-size: 18px;
-          font-weight: 300;
-          margin: 60px 0 5px 0;
-          cursor: pointer;
-          span {
-            letter-spacing: 1px;
-            line-height: 25px;
-            &:last-child {
-              display: block;
-              letter-spacing: 3px;
-            }
-          }
-        }
-        .date {
-          background-color: $lightColor;
-          color: white;
-          display: inline-block;
-          position: relative;
-          margin: 10px 0;
-          transition: all .3s;
-          z-index: -1;
-
-          .val {
-            display: inline-flex;
-            font-size: 150px;
-            font-weight: 500;
-            line-height: 150px;
-            padding: 0 20px 5px 10px;
-          }
-          .unit {
-            display: inline-flex;
-            position: absolute;
-            font-size: 20px;
-            font-weight: 300;
-            right: 6px;
-            bottom: 6px;
-          }
-        }
-        .past {
-          background-color: $dark;
-        }
-      }
-
-      .divide {
-        color: $dark;
-        opacity: .6;
-        margin: 25px 0;
-        width: 100% + 2 * $out;
-        left: -$out;
-        letter-spacing: 1px;
-      }
-
-      .btn-box {
-        color: $lightColor;
-        font-weight: 400;
-        font-size: 18px;
-        letter-spacing: 2px;
-        margin: 0 0 25px 0;
-        &:hover .btn{
-           opacity: .4;
-        }
-
-        .d {
-          margin: 0 5px;
-          opacity: .6;
-        }
-
-        .btn {
-          cursor: pointer;
-          transition: all .3s;
-          line-height: 18px;
-          text-align: center;
-          color: $lightColor;
-          opacity: .8;
-
-          &:hover {
-            font-size: 19px;
-            letter-spacing: 1px;
-            opacity: 1;
-          }
-        }
-      }
-    }
-
+  .left .box .count .ddl span:last-child {
+    letter-spacing: 3px;
   }
   .right {
-    margin: 0 0 0 100px;
 
     .header {
       width: 100%;
+      margin-bottom: 20px;
+      //width: 100%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-end;
       position: relative;
+      flex-wrap: wrap;
 
       &:before {
         content: "";
@@ -129,11 +32,12 @@
       }
       .title {
         $p: 10px;
+        left: 20px;
         font-size: 18px;
         position: relative;
         display: inline-block;
         letter-spacing: 2px;
-        padding: 0 $p 0 0;
+        padding: 0 $p;
         background-color: white;
 
         .first {
@@ -159,7 +63,7 @@
         font-weight: 400;
         font-size: 13px;
         letter-spacing: 1px;
-        padding-bottom: 14px;
+        padding: 5px 0 14px 30px;
         opacity: .8;
 
         .d {
@@ -182,15 +86,33 @@
     }
 
     .content {
-      padding: 5px;
+      padding: 30px 30px;
+      box-sizing: border-box;
+      font-size: 16px;
       p {
-        font-size: 14px;
         font-weight: 300;
         opacity: .8;
         white-space: pre-wrap;
-        line-height: 20px;
+        line-height: 1.4;
         letter-spacing: 1px;
         margin: 15px 0 0 0;
+      }
+    }
+  }
+
+  @include mobile {
+    .right {
+      .header {
+        &:before {
+          content: none;
+        }
+        .btn-box {
+          padding-bottom: 6px;
+          padding-right: 30px;
+        }
+      }
+      .content {
+        box-shadow: rgba($mainColor, .25) 0 0 25px -5px !important;
       }
     }
   }

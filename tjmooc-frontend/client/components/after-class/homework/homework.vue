@@ -37,7 +37,7 @@
       <div class="header">
         <div class="title">
           <span class="first">{{homework.title[0]}}</span><span>{{homework.title.substring(1, homework.title.length)}}</span>
-          <div class="section">{{homework.chapter}}</div>
+          <div class="section">{{chapterTitle}}</div>
         </div>
         <div class="btn-box">
           <a class="btn" :href="homework.problem_file" target="_self">作业文件</a>
@@ -45,8 +45,8 @@
           <a class="btn" :href="homework.answer_file" target="_self">参考答案</a>
         </div>
       </div>
-      <div class="content mathjax" id="homework-content">
-        <div v-html="compiledMarkdown"></div>
+      <div class="content" id="homework-content">
+        <div v-html="compiledMarkdown" ref="katex"></div>
       </div>
     </div>
   </div>
@@ -63,9 +63,16 @@
     data() {
       return {
         dateInEnglish: true,
-        now: new Date()
+        now: new Date(),
+        katexRendered: false,
       }
     },
+//    directives: {
+//        katex(el, binding) {
+//          console.log(el, binding);
+//
+//        }
+//    },
     filters: {
       convertTime(t, e) {
         let
@@ -100,18 +107,17 @@
     },
     computed: {
       compiledMarkdown() {
-        let text = this.homework.introduction;
-        return marked(text, {sanitize: true});
+        let
+          text = this.homework.introduction,
+          html = marked(text, {sanitize: true});
+        console.log('a')
+        this.katexRendered = false;
+        return html;
       },
       token() {
         return this.$store.state.session.token;
       },
       homework() {
-        let
-          course = this.$store.state.course,
-          chapterId = course.chapterNow,
-          chapter = course.chapters.filter(x => x.id && x.id === chapterId)[0];
-
         let
           homework = Object.assign({}, this.$store.state.material.homework);
 //          homework.chapter = chapter.title;
@@ -157,19 +163,19 @@
         else
           return "作业未提交";
       },
-      course() {
-        return this.$route.params.courseId;
-      },
-      chapter() {
-        let c = this.$store.state.course.chapterNow;
-        console.log('homework-chapter', c);
-        return c;
+      chapterTitle() {
+        let chapterId = this.homework.chapter,
+          chapter = this.$store.state.course.chapters.find(x => x.id == chapterId).title;
+        return chapter;
       },
     },
     methods: {
       refreshTime() {
         this.now = new Date();
         setTimeout(this.refreshTime, 500);
+      },
+      onUpdate() {
+          alert('update');
       },
       submitFile(e) {
         let f = e.target.files[0];
@@ -186,18 +192,24 @@
     mounted() {
       this.refreshTime();
 
-      let mathId = document.getElementsByClassName("mathjax");
-
-      if (MathJax) {
-        MathJax.Hub.Config({
-          tex2jax: {
-            inlineMath: [['$', '$'], ["\\(", "\\)"]],
-            displayMath: [['$$', '$$'], ["\\[", "\\]"]]
-          }
-        });
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathId]);
-      }
+//      let mathId = document.getElementsByClassName("mathjax");
+//
+//      if (MathJax) {
+//        MathJax.Hub.Config({
+//          tex2jax: {
+//            inlineMath: [['$', '$'], ["\\(", "\\)"]],
+//            displayMath: [['$$', '$$'], ["\\[", "\\]"]]
+//          }
+//        });
+//        MathJax.Hub.Queue(["Typeset", MathJax.Hub, mathId]);
+//      }
     },
+    updated() {
+        if (this.katexRendered === false) {
+          renderMathInElement(this.$refs.katex);
+          this.katexRendered = true;
+        }
+    }
   }
 </script>
 

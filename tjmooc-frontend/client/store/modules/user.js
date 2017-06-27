@@ -18,7 +18,7 @@ const actions = {
         console.log(err)
         commit(types.LOGIN_FAILED, errorHandler('error'))
       }
-      if ('token' in res.body) {
+      if ('id' in res.body) {
         commit(types.REGISTER_SUCCESS, res.body)
         // Success: enter login page
         router.push({ name: 'login' })

@@ -14,7 +14,8 @@ const state = {
     "deadline": "",
     "chapter": 0
   },
-  homeworkSubmit: {}
+  homeworkSubmit: {},
+  videos: {}
 }
 
 // actions
@@ -66,7 +67,23 @@ const actions = {
         commit(types.POST_HOMEWORK_FAILED, errorHandler(res.body))
       }
     }, token)
-  }
+  },
+  getVideo({ commit }, data) {
+    commit(types.GET_VIDEO_REQUEST)
+    material.getVideo(data, (err, res) => {
+      // error handle todo
+      if (err) {
+        console.log(err)
+        commit(types.GET_VIDEO_FAILED, errorHandler('error'))
+      }
+      if (res.body) {
+        commit(types.GET_VIDEO_SUCCESS, { video: res.body, courseId: data.courseId, chapterId: data.chapterId, unitId: data.unitId })
+      } else {
+        // Fail: return fail message
+        commit(types.GET_VIDEO_FAILED, errorHandler(res.body))
+      }
+    })
+  },
 };
 
 const mutations = {
@@ -78,7 +95,6 @@ const mutations = {
     state.messages = messages;
   },
   [types.GET_HOMEWORK_REQUEST](state) {
-    state.homework = {};
     state.messages = [];
   },
 
@@ -103,6 +119,21 @@ const mutations = {
   },
   [types.POST_HOMEWORK_REQUEST](state) {
     state.homeworkSubmit = {};
+    state.messages = [];
+  },
+
+
+  [types.GET_VIDEO_SUCCESS](state, { video, courseId, chapterId, unitId }) {
+    state.video = video;
+    Object.assign(state.videos, {
+      [`${courseId}-${chapterId}-${unitId}-${video.id}`]: video
+    })
+  },
+  [types.GET_VIDEO_FAILED](state, messages) {
+    state.video = {};
+    state.messages = messages;
+  },
+  [types.GET_VIDEO_REQUEST](state) {
     state.messages = [];
   },
 }

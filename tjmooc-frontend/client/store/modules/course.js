@@ -15,9 +15,7 @@ const state = {
     'participants_count': 0,
     'obligator': ''
   },
-  chapterNow: 0,
   chapters: [],
-  units: [],
   messages: []
 }
 
@@ -93,7 +91,7 @@ const actions = {
         commit(types.GET_UNITS_FAILED, errorHandler(res.body))
       }
     })
-  }
+  },
   // getChapterById({ commit }, data) {
   //   commit(types.GET_COURSE_REQUEST)
   //   course.getChapterById(data, (err, res) => {
@@ -114,7 +112,6 @@ const actions = {
 
 const mutations = {
   [types.GET_COURSE_SUCCESS] (state, { course }) {
-    console.log('course', course.sections)
     state.course = course
   },
   [types.GET_COURSE_FAILED] (state, messages) {
@@ -127,7 +124,6 @@ const mutations = {
   },
 
   [types.GET_CHAPTERS_SUCCESS] (state, { chapters }) {
-    console.log('chapters', chapters)
     state.chapters = chapters
   },
   [types.GET_CHAPTERS_FAILED] (state, messages) {
@@ -140,17 +136,14 @@ const mutations = {
   },
 
   [types.GET_UNITS_SUCCESS] (state, { units, chapter }) {
-    state.units = units
-    state.chapterNow = chapter
+    state.chapters.find(x => x.id == chapter).units = units;
   },
   [types.GET_UNITS_FAILED] (state, messages) {
-    state.units = {}
     state.messages = messages
   },
   [types.GET_UNITS_REQUEST] (state) {
-    state.units = {}
     state.messages = []
-  }
+  },
 
 }
 
