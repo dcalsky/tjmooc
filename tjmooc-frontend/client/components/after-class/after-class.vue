@@ -4,13 +4,13 @@
       <div class="select homework" :class="{selected: selectHomework}" @click="selectHomework = true">作 业</div>
       <div class="select test" :class="{selected: !selectHomework}" @click="selectHomework = false">测 试</div>
     </div>
-    <div v-if="selectHomework">
-      <homework v-if="haveHomework"></homework>
-      <div class="error" v-if="!haveHomework">
-        本章暂无作业
-      </div>
+
+
+    <homework class="content" v-if="selectHomework && haveHomework"></homework>
+    <test class="content" v-else-if="!selectHomework && haveTest"></test>
+    <div class="error" v-else>
+      本章暂无{{selectHomework ? '作业' : '测试'}}
     </div>
-    <test v-else></test>
   </div>
 </template>
 
@@ -34,7 +34,7 @@
             return this.$store.state.material.homework.id;
         },
       haveTest() {
-            return true;
+            return this.haveHomework;
       }
     },
     methods: {
@@ -42,6 +42,6 @@
   }
 </script>
 
-<style lang="sass" rel="stylesheet/sass" scoped>
+<style lang="sass" rel="stylesheet/sass">
   @import "after-class"
 </style>

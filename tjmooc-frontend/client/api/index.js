@@ -58,7 +58,7 @@ const course = {
   },
   getChapters (data, cb, token) {
     const courseId = data.courseId
-    get(`${server.course}${courseId}/chapter?title=true&description=true&id=true`, {
+    get(`${server.course}${courseId}/chapter?title=true&description=true&id=true&units=true`, {
       cb
     })
   },
@@ -90,7 +90,7 @@ const course = {
 const material = {
   getHomework (data, cb, token) {
     console.log(data)
-    get(`${server.material}homework?course=${data.course}&chapter=${data.chapter}`, {
+    get(`${server.material}homework?course=${data.courseId}&chapter=${data.chapterId}`, {
       cb
     })
   },
@@ -106,7 +106,14 @@ const material = {
       cb,
       token
     })
-  }
+  },
+  getVideo (data, cb, token) {
+    console.log(data)
+    get(`${server.material}video/${data.videoId}`, {
+      cb
+    })
+  },
+
 }
 
 // Forum
