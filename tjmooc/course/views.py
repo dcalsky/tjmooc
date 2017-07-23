@@ -5,6 +5,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView, Response, status
+from ..material.models import Video
+from ..material.serializer import VideoSerializer
 from .permissions import IsObligatorOrLeactureOrManagerOrReadOnly, IsStudent
 from .serializers import CourseSerializer, ChapterSerializer, CourseParticipationSerializer, UnitSerializer
 from .models import Course, Chapter, CourseParticipation, Unit
@@ -169,6 +171,8 @@ class UnitDetail(RetrieveUpdateDestroyAPIView):
 
         unit, _, _ = get_unit_and_chapter_and_course(unit_id, chapter_id, course_id)
 
+
+
         return Response(UnitSerializer(unit).data, status=status.HTTP_200_OK)
 
     def put(self, request, cpk, pk, upk):
@@ -203,6 +207,21 @@ class CourseParticipationView(APIView):
 
             participation_serializer = CourseParticipationSerializer(participation)
             return Response(participation_serializer.data, status=status.HTTP_200_OK)
+
+
+class VideoView(APIView):
+    permission_classes(IsAuthenticated,)
+    serializer_class = VideoSerializer
+
+    def get(self, upk):
+        unit = Unit.objects.get(id=int(upk))
+        videos = Video.objects.filter(id__in=unit.lists)
+        return Response(VideoSerializer(videos).data, status=status.HTTP_200_OK)
+
+
+
+
+
 
 
 
