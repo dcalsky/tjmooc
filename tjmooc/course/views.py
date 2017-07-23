@@ -5,8 +5,8 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView, Response, status
-from ..material.models import Video
-from ..material.serializer import VideoSerializer
+from material.models import Video
+from material.serializer import VideoSerializer
 from .permissions import IsObligatorOrLeactureOrManagerOrReadOnly, IsStudent
 from .serializers import CourseSerializer, ChapterSerializer, CourseParticipationSerializer, UnitSerializer
 from .models import Course, Chapter, CourseParticipation, Unit
