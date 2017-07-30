@@ -114,7 +114,11 @@ class ChapterDetail(RetrieveUpdateDestroyAPIView):
         course_id = int(cpk)
         chapter_id = int(pk)
         chapter, _ = get_chapter_and_course(chapter_id, course_id)
-        return Response(ChapterSerializer(chapter).data, status=status.HTTP_200_OK)
+        hw = list(chapter.homeworks.all())[0].id
+        data = ChapterSerializer(chapter).data
+        data['homework'] = hw
+
+        return Response(data, status=status.HTTP_200_OK)
 
     def put(self, request, cpk, pk):
         course_id = int(cpk)

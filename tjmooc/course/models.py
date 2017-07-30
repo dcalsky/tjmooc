@@ -2,7 +2,6 @@ from django.db import models
 from user.models import User
 import jsonfield
 
-
 class Course(models.Model):
     title = models.TextField(help_text='标题')
     subtitle = models.TextField(help_text='副标题')

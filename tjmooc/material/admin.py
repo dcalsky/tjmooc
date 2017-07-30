@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Homework, HomeworkSubmit, Test, TestSubmit, Video
+from .models import Homework, HomeworkSubmit, Test, TestSubmit, Video, Problem
 
 
 class HomeworkAdmin(admin.ModelAdmin):
@@ -43,4 +43,7 @@ admin.site.register(HomeworkSubmit, HomeworkSubmitAdmin)
 admin.site.register(Test, TestAdmin)
 admin.site.register(TestSubmit, TestSubmitAdmin)
 admin.site.register(Video, VideoAdmin)
+admin.site.register(Problem)
+
+
 # Register your models here.
