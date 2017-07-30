@@ -92,6 +92,23 @@ const actions = {
       }
     })
   },
+  getVideos ({ commit }, data) {
+    commit(types.GET_VIDEOS_REQUEST)
+    course.getVideos(data, (err, res) => {
+      // error handle todo
+      console.log(res.body)
+      // if (err) {
+      //   console.log(err)
+      //   commit(types.GET_VIDEOS_FAILED, errorHandler('error'))
+      // }
+      // if (res.body) {
+      //   commit(types.GET_VIDEOS_SUCCESS, { units: res.body, chapter: data.chapterId })
+      // } else {
+      //   // Fail: return fail message
+      //   commit(types.GET_VIDEOS_FAILED, errorHandler(res.body))
+      // }
+    })
+  }
   // getChapterById({ commit }, data) {
   //   commit(types.GET_COURSE_REQUEST)
   //   course.getChapterById(data, (err, res) => {
