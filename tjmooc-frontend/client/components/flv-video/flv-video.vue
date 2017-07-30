@@ -3,6 +3,7 @@
     <video ref="videoElement" class="centeredVideo" controls autoplay :width="width" height="100%">
       Your browser is too old which doesn't support HTML5 video.
     </video>
+    <div class="noVideo" :style="hoverStyle">请选择课程视频</div>
   </div>
 </template>
 
@@ -31,46 +32,57 @@
         }
     },
     computed: {
-        f() {
-            this.flv_load();
-            this.flv_start();
-            return this.flv;
-        }
+//        f() {
+//            this.flv_load();
+//            this.flv_start();
+//            return this.flv;
+//        },
+      hoverStyle () {
+        return (this.flv && this.flv.url) ? {
+          opacity: 0,
+          height: 0
+        } : {
+            opacity: 1
+          }
+      }
     },
     methods: {
       flv_load() {
-        let
-          element = this.$refs.videoElement,
-          player = flvjs.createPlayer(
-              this.flv,
-            {
+        let element = this.$refs.videoElement;
+        this.player = flvjs.createPlayer(
+          this.flv,
+          {
             enableWorker: false,
             lazyLoadMaxDuration: 3 * 60,
             seekType: 'range',
-            }
-          );
-        player.attachMediaElement(element);
-        player.load();
+          }
+        );
+        this.player.attachMediaElement(element);
+        this.player.load();
       },
       flv_start() {
-        player.play();
+        this.player && this.player.play();
       },
       flv_pause() {
-        player.pause();
+        this.player && this.player.pause();
       },
       flv_destroy() {
-        player.pause();
-        player.unload();
-        player.detachMediaElement();
-        player.destroy();
-        player = null;
+        if (this.player) {
+          this.player.pause();
+          this.player.unload();
+          this.player.detachMediaElement();
+          this.player.destroy();
+          this.player = null;
+        }
       },
+    },
+    watch: {
+        "flv.url" (val) {
+          this.flv_load()
+        }
     },
     mounted() {
       this.videoHeight = this.height ? this.height : this.$el.offsetWidth * this.ratio + 'px';
-    },
-    updated() {
-        console.log('updated;')
     }
   }
 </script>

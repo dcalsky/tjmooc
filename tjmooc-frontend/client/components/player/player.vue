@@ -177,17 +177,25 @@
           let
             [chapterId, unitId] = keyPath[1].split('-'),
             unit = this.getUnitById(chapterId, unitId);
+
+
+          this.$store.dispatch('getVideos', {
+            courseId: this.courseId,
+            chapterId: chapterId,
+            unitId: unitId
+          });
+
           for (let i in unit.lists) {
             console.log(unit.lists[i]);
             let videoId = unit.lists[i];
-            if (!(`${this.courseId}-${chapterId}-${unitId}-${videoId}` in this.videos)) {
-              this.$store.dispatch('getVideo', {
-                courseId: this.courseId,
-                chapterId: chapterId,
-                unitId: unitId,
-                videoId: videoId
-              });
-            }
+//            if (!(`${this.courseId}-${chapterId}-${unitId}-${videoId}` in this.videos)) {
+//              this.$store.dispatch('getVideo', {
+//                courseId: this.courseId,
+//                chapterId: chapterId,
+//                unitId: unitId,
+//                videoId: videoId
+//              });
+//            }
           }
         }
       },

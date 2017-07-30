@@ -76,6 +76,13 @@ const course = {
       cb
     })
   },
+  getVideos (data, cb, token) {
+    console.log(data)
+    const {courseId, chapterId, unitId} = data
+    get(`${server.course}${courseId}/chapter/${chapterId}/unit/${unitId}/video`, {
+      cb
+    })
+  },
   getUnitById (data, cb, token) {
     const courseId = data.courseId
     const chapterId = data.chapterId

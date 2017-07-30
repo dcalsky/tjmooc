@@ -28,6 +28,7 @@
     position: relative;
     top: 100%;
     width: 600px;
+    box-shadow: $shadow;
 
     .videoContainer {
       z-index: 2;
@@ -57,7 +58,6 @@
 
         display: flex;
         flex-direction: column;
-        box-shadow: $shadow;
       }
       .front {
         z-index: 2;
@@ -203,212 +203,215 @@
      }
   }
   .right {
-    width: 200px;
+    width: 240px;
     height: 100%;
-
-    .goto {
-      height: 475px;
-      width: 100px;
-      background-color: white;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      flex-direction: row;
-      box-shadow: $shadow;
-      position: relative;
-      margin-right: 120px;
-
-      &:before {
-        content: "";
-        width: 1px;
-        height: 30px;
-        background-color: currentColor;
-        position: absolute;
-        bottom: 6px;
-        left: 50px;
-        opacity: .2;
-        border-radius: .5px;
-      }
-
-      .select-box {
-        $c: rgba($mainColor, .2);
-        display: inline-block;
-        box-shadow: 0 2px 18px -5px rgba($mainColor, 0.4);
-        border-radius: 2px;
-        transition: all .3s;
-        $w: 14px;
-        $h: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        position: absolute;
-        top: 4px;
-
-        .select {
-          display: inline-block;
-          background-color: white;
-          position: relative;
-          transition: all .3s;
-          opacity: .3;
-          color: $dark;
-          text-align: center;
-
-          &:before {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 100%;
-            display: inline-block;
-            transition: all .3s;
-          }
-          &:hover {
-            opacity: 1;
-            color: white !important;
-            background-color: $dark;
-            &:before {
-              border-color: $dark transparent;
-            }
-          }
-        }
-        .chapter {
-          padding: $h $w - 4px $h $w;
-          margin-right: 4px;
-          border-radius: 2px 0 0 2px;
-          &:before {
-            right: -8px;
-            bottom: 0;
-            border-right: 8px solid;
-            border-bottom: 26px solid;
-            border-color: white transparent;
-          }
-        }
-        .unit {
-          padding: $h $w $h $w - 4px;
-          border-radius: 0 2px 2px 0;
-          &:before {
-            left: -8px;
-            top: 0;
-            border-left: 8px solid;
-            border-top: 26px solid;
-            border-color: white transparent;
-          }
-        }
-
-        .selected {
-          opacity: 1;
-          background-color: $lightColor;
-          color: white;
-          &:before {
-            border-color: $lightColor transparent;
-          }
-          &:hover {
-            color: white !important;
-            background-color: $lightColor;
-            opacity: 1;
-            &:before {
-              border-color: $lightColor transparent;
-            }
-          }
-        }
-      }
-
-      .btn {
-        width: 50%;
-        text-align: center;
-        padding: 5px 20px;
-        cursor: pointer;
-        position: relative;
-
-        i {
-          opacity: .4;
-          transition: all .3s;
-        }
-        i:last-child {
-          position: absolute;
-          opacity: 0;
-          left: 32.2%;
-          top: 5px;
-        }
-
-        &:hover {
-          i {
-            opacity: 0;
-          }
-
-          i:last-child {
-            opacity: 1;
-          }
-        }
-      }
-
-      .forbid {
-        opacity: .1;
-        cursor: not-allowed;
-        &:hover {
-          i {
-            opacity: .4;
-          }
-
-          i:last-child {
-            opacity: 0;
-          }
-        }
-      }
+    * {
+      overflow: hidden;
+      text-overflow: ellipsis
     }
-    .section-next {
-      height: 400px;
-      top: 33px;
-      position: absolute;
-      display: flex;
-      justify-content: flex-start;
-      flex-direction: column;
-
-      .tip {
-        border-radius: 0 4px 4px 0;
-        width: 240px;
-        height: 100px;
-        padding-right: 20px;
-        box-shadow: 5px 0 15px -5px rgba($mainColor, 0.4);
-        $c: lighten($lightColor, 34%);
-        transition: all .3s;
-        background: linear-gradient(
-            to right,
-            $c 0%,
-            lighten($c, 3%) 100%
-        );
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        flex-direction: column;
-        font-weight: 300;
-        cursor: pointer;
-        &:hover {
-          background: linear-gradient(
-              to right,
-              $c 0%,
-              lighten($c, 2.5%) 100%
-          );
-          box-shadow:
-            1px 0 0 0px rgba($mainColor, 0.1),
-            0 1px 0 0px rgba($mainColor, 0.1),
-            0 -1px 0 0px rgba($mainColor, 0.1)
-        }
-        .title {
-          opacity: .6;
-          color: white;
-          background-color: $dark;
-          margin: 8px 0 2px 0;
-          padding: 2px;
-          border-radius: 2px;
-        }
-        .desc {
-          font-size: 12px;
-          width: 90%;
-          max-height: 45px;
-          overflow: hidden;
-          text-align: right;
-        }
-      }
-    }
+    //.goto {
+    //  height: 475px;
+    //  width: 100px;
+    //  background-color: white;
+    //  display: flex;
+    //  justify-content: center;
+    //  align-items: flex-end;
+    //  flex-direction: row;
+    //  box-shadow: $shadow;
+    //  position: relative;
+    //  margin-right: 120px;
+    //
+    //  &:before {
+    //    content: "";
+    //    width: 1px;
+    //    height: 30px;
+    //    background-color: currentColor;
+    //    position: absolute;
+    //    bottom: 6px;
+    //    left: 50px;
+    //    opacity: .2;
+    //    border-radius: .5px;
+    //  }
+    //
+    //  .select-box {
+    //    $c: rgba($mainColor, .2);
+    //    display: inline-block;
+    //    box-shadow: 0 2px 18px -5px rgba($mainColor, 0.4);
+    //    border-radius: 2px;
+    //    transition: all .3s;
+    //    $w: 14px;
+    //    $h: 4px;
+    //    cursor: pointer;
+    //    font-size: 16px;
+    //    position: absolute;
+    //    top: 4px;
+    //
+    //    .select {
+    //      display: inline-block;
+    //      background-color: white;
+    //      position: relative;
+    //      transition: all .3s;
+    //      opacity: .3;
+    //      color: $dark;
+    //      text-align: center;
+    //
+    //      &:before {
+    //        content: "";
+    //        position: absolute;
+    //        width: 0;
+    //        height: 100%;
+    //        display: inline-block;
+    //        transition: all .3s;
+    //      }
+    //      &:hover {
+    //        opacity: 1;
+    //        color: white !important;
+    //        background-color: $dark;
+    //        &:before {
+    //          border-color: $dark transparent;
+    //        }
+    //      }
+    //    }
+    //    .chapter {
+    //      padding: $h $w - 4px $h $w;
+    //      margin-right: 4px;
+    //      border-radius: 2px 0 0 2px;
+    //      &:before {
+    //        right: -8px;
+    //        bottom: 0;
+    //        border-right: 8px solid;
+    //        border-bottom: 26px solid;
+    //        border-color: white transparent;
+    //      }
+    //    }
+    //    .unit {
+    //      padding: $h $w $h $w - 4px;
+    //      border-radius: 0 2px 2px 0;
+    //      &:before {
+    //        left: -8px;
+    //        top: 0;
+    //        border-left: 8px solid;
+    //        border-top: 26px solid;
+    //        border-color: white transparent;
+    //      }
+    //    }
+    //
+    //    .selected {
+    //      opacity: 1;
+    //      background-color: $lightColor;
+    //      color: white;
+    //      &:before {
+    //        border-color: $lightColor transparent;
+    //      }
+    //      &:hover {
+    //        color: white !important;
+    //        background-color: $lightColor;
+    //        opacity: 1;
+    //        &:before {
+    //          border-color: $lightColor transparent;
+    //        }
+    //      }
+    //    }
+    //  }
+    //
+    //  .btn {
+    //    width: 50%;
+    //    text-align: center;
+    //    padding: 5px 20px;
+    //    cursor: pointer;
+    //    position: relative;
+    //
+    //    i {
+    //      opacity: .4;
+    //      transition: all .3s;
+    //    }
+    //    i:last-child {
+    //      position: absolute;
+    //      opacity: 0;
+    //      left: 32.2%;
+    //      top: 5px;
+    //    }
+    //
+    //    &:hover {
+    //      i {
+    //        opacity: 0;
+    //      }
+    //
+    //      i:last-child {
+    //        opacity: 1;
+    //      }
+    //    }
+    //  }
+    //
+    //  .forbid {
+    //    opacity: .1;
+    //    cursor: not-allowed;
+    //    &:hover {
+    //      i {
+    //        opacity: .4;
+    //      }
+    //
+    //      i:last-child {
+    //        opacity: 0;
+    //      }
+    //    }
+    //  }
+    //}
+    //.section-next {
+    //  height: 400px;
+    //  top: 33px;
+    //  position: absolute;
+    //  display: flex;
+    //  justify-content: flex-start;
+    //  flex-direction: column;
+    //
+    //  .tip {
+    //    border-radius: 0 4px 4px 0;
+    //    width: 240px;
+    //    height: 100px;
+    //    padding-right: 20px;
+    //    box-shadow: 5px 0 15px -5px rgba($mainColor, 0.4);
+    //    $c: lighten($lightColor, 34%);
+    //    transition: all .3s;
+    //    background: linear-gradient(
+    //        to right,
+    //        $c 0%,
+    //        lighten($c, 3%) 100%
+    //    );
+    //    display: flex;
+    //    justify-content: center;
+    //    align-items: flex-end;
+    //    flex-direction: column;
+    //    font-weight: 300;
+    //    cursor: pointer;
+    //    &:hover {
+    //      background: linear-gradient(
+    //          to right,
+    //          $c 0%,
+    //          lighten($c, 2.5%) 100%
+    //      );
+    //      box-shadow:
+    //        1px 0 0 0px rgba($mainColor, 0.1),
+    //        0 1px 0 0px rgba($mainColor, 0.1),
+    //        0 -1px 0 0px rgba($mainColor, 0.1)
+    //    }
+    //    .title {
+    //      opacity: .6;
+    //      color: white;
+    //      background-color: $dark;
+    //      margin: 8px 0 2px 0;
+    //      padding: 2px;
+    //      border-radius: 2px;
+    //    }
+    //    .desc {
+    //      font-size: 12px;
+    //      width: 90%;
+    //      max-height: 45px;
+    //      overflow: hidden;
+    //      text-align: right;
+    //    }
+    //  }
+    //}
   }
 
   @include pad {
