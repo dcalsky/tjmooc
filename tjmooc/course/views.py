@@ -221,7 +221,7 @@ class VideoView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         else:
             videos = Video.objects.filter(id__in=unit.lists)
-            return Response(VideoSerializer(videos).data, status=status.HTTP_200_OK)
+            return Response(VideoSerializer(videos, many=True).data, status=status.HTTP_200_OK)
 
 
 
