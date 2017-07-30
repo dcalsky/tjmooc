@@ -210,7 +210,7 @@ class CourseParticipationView(APIView):
 
 
 class VideoView(APIView):
-    permission_classes(IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
 
