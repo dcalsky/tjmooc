@@ -213,10 +213,14 @@ class VideoView(APIView):
     permission_classes(IsAuthenticated,)
     serializer_class = VideoSerializer
 
-    def get(self, upk):
-        unit = Unit.objects.get(id=int(upk))
-        videos = Video.objects.filter(id__in=unit.lists)
-        return Response(VideoSerializer(videos).data, status=status.HTTP_200_OK)
+    def get(self, request, cpk, pk, upk):
+        try:
+            unit = Unit.objects.get(id=int(upk))
+        except Unit.objects.model.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            videos = Video.objects.filter(id__in=unit.lists)
+            return Response(VideoSerializer(videos).data, status=status.HTTP_200_OK)
 
 
 
