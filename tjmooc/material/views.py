@@ -70,7 +70,13 @@ class HomeworkDetailView(RetrieveUpdateDestroyAPIView):
         if course_id is None or chapter_id is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
         else:
-            return self.retrieve(request, *args, **kwargs)
+            pk = int(kwargs.get('id'))
+            hw = Homework.objects.get(id=pk)
+            problem = Problem.objects.filter(id__in=hw.problems)
+            problem_data = ProblemSerializer(problem, many=True).data
+            data = HomeworkSerializer(hw).data
+            data['problems'] = problem_data
+            return Response(data, status=status.HTTP_200_OK)
 
     def put(self, request, *args, **kwargs):
         course_id, chapter_id, _ = get_course_chapter_unit_id(request)
