@@ -2,7 +2,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView, Response, status
 from material.models import Video
@@ -210,7 +210,7 @@ class CourseParticipationView(APIView):
 
 
 class VideoView(APIView):
-    permission_classes(IsAuthenticated,)
+    permission_classes(IsAuthenticatedOrReadOnly,)
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
 
