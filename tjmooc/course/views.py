@@ -211,6 +211,7 @@ class CourseParticipationView(APIView):
 
 class VideoView(APIView):
     permission_classes(IsAuthenticated,)
+    queryset = Video.objects.all()
     serializer_class = VideoSerializer
 
     def get(self, request, cpk, pk, upk):
