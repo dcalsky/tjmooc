@@ -18,6 +18,9 @@ const CourseAdd = r => require.ensure([], () => r(require('../views/course/add.v
 
 // Forum
 const Forum = r => require(['../views/forum/forum.vue'], r)
+const ForumList = r => require(['../views/forum/forum-list.vue'], r)
+const ForumDetail = r => require(['../views/forum/forum-detail.vue'], r)
+const PostDetail = r => require(['../views/forum/post-detail.vue'], r)
 
 Vue.use(Router)
 
@@ -50,7 +53,7 @@ export default new Router({
         }, {
           path: 'login',
           component: AccountLogin,
-          name: 'login',
+          name: 'login'
         }
       ]
     }, {
@@ -79,7 +82,22 @@ export default new Router({
     {
       path: '/bbs',
       component: Forum,
-      name: 'bbs'
+      name: 'bbs',
+      children: [
+        {
+          path: '/',
+          component: ForumList,
+          name: 'forumList'
+        }, {
+          path: 'forum/:forumId',
+          component: ForumDetail,
+          name: 'forumDetail'
+        }, {
+          path: 'post/:postId',
+          component: PostDetail,
+          name: 'postDetail'
+        }
+      ]
     }
   ]
 })
