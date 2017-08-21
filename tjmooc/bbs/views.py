@@ -1,9 +1,8 @@
 from django.conf import settings
-from rest_framework.generics import ListAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.views import APIView
 from jwt import decode, DecodeError
 from .permissions import IsOwnerOrReadOnly
 from .models import Forum, Post
@@ -13,25 +12,21 @@ secret = settings.SECRET_KEY
 
 
 class ForumList(ListAPIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (AllowAny, )
     serializer_class = ForumSerializer
     queryset = Forum.objects.all()
 
 
 class ForumDetail(RetrieveAPIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (AllowAny, )
     serializer_class = ForumSerializer
     queryset = Forum.objects.all()
     lookup_field = 'id'
 
-class PostList(APIView):
-    permission_classes = (AllowAny,)
-    serializer_class = PostSerializer
 
-    def get(self, request, format=None):
-        posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+class PostList(APIView):
+    permission_classes = (AllowAny, )
+    serializer_class = PostSerializer
 
     def post(self, request, format=None):
         data = request.data
@@ -47,7 +42,7 @@ class PostList(APIView):
 
 
 class PostDetail(RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly, )
     serializer_class = PostSerializer
     queryset = Post.objects.all()
     lookup_field = 'id'
