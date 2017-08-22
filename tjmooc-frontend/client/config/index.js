@@ -1,8 +1,8 @@
 const server = {
-  host: 'http://123.206.219.216:8000',
+  host: 'http://localhost:8000',
   // host: 'http://lisirrx.tpddns.cn',
   session: '/sessions/',
-  post: '/bbs/posts',
+  floor: '/bbs/floors',
   forum: '/bbs/forums',
   user: '/users/',
   course: '/course/',

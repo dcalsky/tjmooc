@@ -128,8 +128,14 @@ const forum = {
   getForumList ({ page }, cb) {
     get(`${server.forum}`, { cb, page })
   },
-  getPostList ({ forumId, page }, cb) {
-    get(`${server.forum}/${forumId}/posts`, { cb, page })
+  getPostList ({ floorId, page }, cb) {
+    get(`${server.floor}/${floorId}/posts`, { cb, page })
+  },
+  getFloorList({forumId, page}, cb) {
+    get(`${server.forum}/${forumId}/floors`, { cb, page })
+  },
+  getFloorDetail({floorId}, cb) {
+    get(`${server.floor}/${floorId}`, { cb })
   }
 }
 
