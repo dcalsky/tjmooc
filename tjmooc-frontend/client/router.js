@@ -1,26 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from 'views/Home'
-import About from 'views/About.vue'
-import Copyright from 'views/Copyright.vue'
-import VideoUpload from 'views/video/upload.vue'
+import About from 'views/About'
+import Copyright from 'views/Copyright'
+import VideoUpload from 'views/video/upload'
 
 // Account
-const Account = r => require.ensure([], () => r(require('views/account/account.vue')), 'account')
+const Account = r => require.ensure([], () => r(require('views/account/account')), 'account')
 const AccountRegister = r => require.ensure([], () => r(require('views/account/register/register')), 'account')
 const AccountLogin = r => require.ensure([], () => r(require('views/account/login/login')), 'account')
 
 // Course
-const Course = r => require.ensure([], () => r(require('views/course/course.vue')), 'course')
-const CourseDisplay = r => require.ensure([], () => r(require('views/course/display.vue')), 'course')
-const CourseList = r => require.ensure([], () => r(require('views/course/list.vue')), 'course')
-const CourseAdd = r => require.ensure([], () => r(require('views/course/add.vue')), 'course')
+const Course = r => require.ensure([], () => r(require('views/course/course')), 'course')
+const CourseDisplay = r => require.ensure([], () => r(require('views/course/display')), 'course')
+const CourseList = r => require.ensure([], () => r(require('views/course/list')), 'course')
+const CourseAdd = r => require.ensure([], () => r(require('views/course/add')), 'course')
 
 // Forum
-const Forum = r => require(['views/forum/forum.vue'], r)
-// const ForumList = r => require(['views/forum/forum-list.vue'], r)
-const ForumDetail = r => require(['views/forum/forum-detail.vue'], r)
-// const PostDetail = r => require(['views/forum/post-detail.vue'], r)
+const Forum = r => require(['views/forum/forum'], r)
+const ForumList = r => require(['views/forum/forum-list'], r)
+const ForumDetail = r => require(['views/forum/floors'], r)
+const PostDetail = r => require(['views/forum/post'], r)
 
 Vue.use(Router)
 
@@ -86,15 +86,15 @@ export default new Router({
       children: [
         {
           path: '/',
-          // component: ForumList,
+          component: ForumList,
           name: 'forumList'
         }, {
           path: 'forum/:forumId',
           component: ForumDetail,
           name: 'forumDetail'
         }, {
-          path: 'post/:postId',
-          // component: PostDetail,
+          path: 'post/:floorId',
+          component: PostDetail,
           name: 'postDetail'
         }
       ]
