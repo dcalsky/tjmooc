@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from jwt import decode, DecodeError
 from .permissions import IsOwnerOrReadOnly
-from .models import Forum, Post
-from .serializers import ForumSerializer, PostSerializer
+from .models import Forum, Post, Floor
+from .serializers import ForumSerializer, PostSerializer, FloorSerializer
 
 secret = settings.SECRET_KEY
 
@@ -24,11 +24,29 @@ class ForumDetail(RetrieveAPIView):
     lookup_field = 'id'
 
 
-class PostList(APIView):
+class FloorList(ListCreateAPIView):
+    permission_classes = (AllowAny, )
+    serializer_class = FloorSerializer
+    queryset = Floor.objects.all()
+
+    def post(self, request, format=None, **kwargs):
+        data = request.data
+        data['owner'] = request.user.id
+        serializer = FloorSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_queryset(self):
+        return Floor.objects.filter(forum_id=self.kwargs['forum_id'])
+
+
+class PostList(ListCreateAPIView):
     permission_classes = (AllowAny, )
     serializer_class = PostSerializer
 
-    def post(self, request, format=None):
+    def post(self, request, format=None, **kwargs):
         data = request.data
         data['owner'] = request.user.id
         serializer = PostSerializer(data=data)
@@ -38,11 +56,11 @@ class PostList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
-        return Post.objects.filter(forum_id=self.kwargs['forum_id'])
+        return Post.objects.filter(belong_id=self.kwargs['floor_id'])
 
 
-class PostDetail(RetrieveUpdateDestroyAPIView):
+class FloorDetail(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsOwnerOrReadOnly, )
-    serializer_class = PostSerializer
-    queryset = Post.objects.all()
+    serializer_class = FloorSerializer
+    queryset = Floor.objects.all()
     lookup_field = 'id'
