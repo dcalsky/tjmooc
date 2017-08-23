@@ -1,11 +1,6 @@
 <template>
-<<<<<<< HEAD
-  <div id="course-display">
-    <player :flv="flv"></player>
-=======
   <div class="course-display">
     <player></player>
->>>>>>> 多个页面
     <after-class></after-class>
   </div>
 </template>
@@ -20,19 +15,6 @@
     },
     data() {
       return {
-<<<<<<< HEAD
-        video: {
-          flv: {
-            type: 'mp4',
-            url: 'http://ohp6g3bar.bkt.clouddn.com/job_IMG_1603.MOV',
-          },
-          title: "同济大学摇滚高等数学",
-          desc: "flv.js works by transmuxing FLV file stream into ISO BMFF (Fragmented MP4) segments, followed by feeding mp4 segments into an HTML5 \<video\> element through Media Source Extensions API.",
-          teacher: "朱彦樵",
-          createTimestamp: new Date(),
-        }
-=======
->>>>>>> 多个页面
       }
     },
     computed: {
