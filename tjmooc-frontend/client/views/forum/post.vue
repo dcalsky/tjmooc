@@ -17,10 +17,10 @@
       </el-col>
 
       <div class="reply">
-        <textarea name="" id="" cols="30" rows="10" placeholder="尽情回复吧...">
+        <textarea name="" id="" cols="30" rows="10" placeholder="尽情回复吧..." v-model="replyContent">
 
         </textarea>
-        <el-button type="primary" id="submit">发表回复</el-button>
+        <el-button type="primary" id="submit" v-on:click="sumbit">发表回复</el-button>
       </div>
     </el-row>
 
@@ -35,6 +35,11 @@
       this.$store.dispatch('getFloorDetail', this.$route.params.floorId)
       this.$store.dispatch('getPostDetail', this.$route.params.floorId)
     },
+    data() {
+      return {
+        replyContent: ''
+      }
+    },
     computed: {
       floor() {
         return this.$store.state.forum.currentFloor
@@ -47,6 +52,10 @@
       }
     },
     methods: {
+      sumbit() {
+        console.log(this.replyContent)
+        this.$store.dispatch('addPost', {floorId: this.$route.params.floorId, content: this.replyContent})
+      },
       enterDetail(forumId) {
         this.$router.push({
           name: `floorDetail`,

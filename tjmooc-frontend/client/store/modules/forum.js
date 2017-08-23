@@ -62,7 +62,20 @@ const actions = {
       commit('FLOOR_DETAIL_FETCG_SUCCESS', { floor: res.body })
     })
   },
-
+  addPost ({commit}, {floorId, content}) {
+    const data = {
+      owner: localStorage.getItem('userId'),
+      content
+    }
+    console.log(data)
+    forum.addPost({ floorId, data }, (err, res) => {
+      // error handle
+      if (err) {
+        commit(types.FETCH_FAILED, errorHandler('error'))
+      }
+      window.location.reload(true)
+    })
+  }
 }
 
 const mutations = {
@@ -87,7 +100,7 @@ const mutations = {
   },
   "FLOOR_DETAIL_FETCG_SUCCESS" (state, { floor }) {
     state.currentFloor = floor
-  }
+  },
 }
 
 export default {
