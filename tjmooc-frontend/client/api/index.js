@@ -6,7 +6,7 @@ function post (url, { data, cb, token }) {
     .post(url)
     .set({
       'Content-Type': 'application/json',
-      'Token': token ? `Bearer ${token}` : null
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     })
     .send(data)
     .end(cb)
@@ -16,7 +16,8 @@ function get (url, { cb, token, page = 1 }) {
   request
     .get(url)
     .set({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     })
     .query({ page })
     .end(cb)
@@ -136,6 +137,9 @@ const forum = {
   },
   getFloorDetail({floorId}, cb) {
     get(`${server.floor}/${floorId}`, { cb })
+  },
+  addPost({floorId, data}, cb) {
+    post(`${server.floor}/${floorId}/posts/`, { cb, data })
   }
 }
 
