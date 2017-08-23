@@ -75,6 +75,20 @@ const actions = {
       }
       window.location.reload(true)
     })
+  },
+  addFloor ({commit}, { forumId, content, title }) {
+    const data = {
+      title,
+      content,
+      owner: localStorage.getItem('userId')
+    }
+    forum.addFloor({ forumId, data }, (err, res) => {
+      // error handle
+      if (err) {
+        commit(types.FETCH_FAILED, errorHandler('error'))
+      }
+      window.location.reload(true)
+    })
   }
 }
 

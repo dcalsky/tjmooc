@@ -4,6 +4,7 @@
     <el-row style="max-width: 900px; margin: 20px auto; padding: 50px 20px;">
       <div class="info">
         <h3 style="display: inline-block; padding-right: 10px;">{{ floor.title }}</h3>
+        <p>{{ floor.content }}</p>
       </div>
 
       <el-col :span="24" v-for="(post, i) in posts" :key="i" style="margin: 0px auto;">
@@ -20,7 +21,7 @@
         <textarea name="" id="" cols="30" rows="10" placeholder="尽情回复吧..." v-model="replyContent">
 
         </textarea>
-        <el-button type="primary" id="submit" v-on:click="sumbit">发表回复</el-button>
+        <el-button type="primary" id="submit" v-on:click="submit">发表回复</el-button>
       </div>
     </el-row>
 
@@ -52,8 +53,7 @@
       }
     },
     methods: {
-      sumbit() {
-        console.log(this.replyContent)
+      submit() {
         this.$store.dispatch('addPost', {floorId: this.$route.params.floorId, content: this.replyContent})
       },
       enterDetail(forumId) {
