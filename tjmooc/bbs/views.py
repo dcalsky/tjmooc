@@ -25,13 +25,14 @@ class ForumDetail(RetrieveAPIView):
 
 
 class FloorList(ListCreateAPIView):
-    permission_classes = (AllowAny, )
+    permission_classes = (IsAuthenticated, )
     serializer_class = FloorSerializer
     queryset = Floor.objects.all()
 
     def post(self, request, format=None, **kwargs):
         data = request.data
         data['owner'] = request.user.id
+        data['forum_id'] = str(self.kwargs['forum_id'])
         serializer = FloorSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -47,8 +48,14 @@ class PostList(ListCreateAPIView):
     serializer_class = PostSerializer
 
     def post(self, request, format=None, **kwargs):
+        floor_id = self.kwargs['floor_id']
+        floor = Floor.objects.get(id=floor_id)
+
         data = request.data
         data['owner'] = request.user.id
+        data['belong'] = floor_id
+        data['floor'] = floor.post_set.count() + 2
+
         serializer = PostSerializer(data=data)
         if serializer.is_valid():
             serializer.save()

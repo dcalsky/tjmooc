@@ -35,10 +35,10 @@ class FloorSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     floor_queryset = Floor.objects.all()
 
-    floor = serializers.IntegerField(default=2)
+    floor = serializers.IntegerField(default=2, required=False)
     content = serializers.CharField(error_messages={'blank': '帖子内容不能为空'})
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    belong = serializers.PrimaryKeyRelatedField(queryset=floor_queryset)
+    belong = serializers.PrimaryKeyRelatedField(queryset=floor_queryset, required=False)
 
     class Meta:
         model = Post
