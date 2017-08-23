@@ -25,7 +25,7 @@ class FloorSerializer(serializers.ModelSerializer):
 
     content = serializers.CharField(error_messages={'blank': '帖子内容不能为空'})
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    forum = serializers.PrimaryKeyRelatedField(queryset=forum_queryset)
+    forum = serializers.PrimaryKeyRelatedField(queryset=forum_queryset, required=False)
 
     class Meta:
         model = Floor

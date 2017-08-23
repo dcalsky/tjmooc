@@ -32,7 +32,7 @@ class FloorList(ListCreateAPIView):
     def post(self, request, format=None, **kwargs):
         data = request.data
         data['owner'] = request.user.id
-        data['forum_id'] = str(self.kwargs['forum_id'])
+        data['forum'] = self.kwargs['forum_id']
         serializer = FloorSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
