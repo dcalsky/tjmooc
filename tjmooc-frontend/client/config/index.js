@@ -1,5 +1,5 @@
 const server = {
-  host: 'http://123.206.219.216:8000',
+  host: 'http://115.159.218.143:8000',
   // host: 'http://lisirrx.tpddns.cn',
   session: '/sessions/',
   post: '/bbs/posts',

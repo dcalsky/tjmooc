@@ -19,6 +19,9 @@ const CourseAdd = r => require.ensure([], () => r(require('../views/course/add.v
 // Forum
 const Forum = r => require(['../views/forum/forum.vue'], r)
 
+// Manage
+const Manage = r => require(['../views/manage/manage.vue'], r)
+
 Vue.use(Router)
 
 export default new Router({
@@ -75,6 +78,11 @@ export default new Router({
           component: CourseAdd
         }
       ]
+    },
+    {
+      path: '/manage',
+      component: Manage,
+      name: 'manage'
     },
     {
       path: '/bbs',

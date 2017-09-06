@@ -1,12 +1,9 @@
-//$mainColor: #913175;
-//$subColor: #07689f;
-//$lightColor: #dd5b82;
-
-$mainColor: #973444;
+$mainColor: #974444;
 $subColor: #07689f;
-$lightColor: #c35655;
+$lightColor: #c36055;
 
 $dark: darken($mainColor, 25%);
+$light: lighten($lightColor, 35%);
 $font: PingFangSC;
 //$font: PingFangSC,fzltxh,NotoSansHans-Regular,AvenirNext-Regular,arial,Hiragino Sans GB,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
 

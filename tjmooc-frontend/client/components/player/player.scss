@@ -28,10 +28,10 @@
     position: relative;
     top: 100%;
     width: 600px;
-    box-shadow: $shadow;
 
     .videoContainer {
       z-index: 2;
+      box-shadow: $shadow;
       @include respond-to(md) {
         height: 400px !important;
       }
@@ -58,6 +58,7 @@
 
         display: flex;
         flex-direction: column;
+        box-shadow: $shadow;
       }
       .front {
         z-index: 2;

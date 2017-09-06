@@ -29,7 +29,7 @@ const actions = {
         console.log(err)
         commit(types.GET_COURSE_FAILED, errorHandler('error'))
       }
-      console.log(res.body)
+      // console.log(res.body)
       if (res.body && 'results' in res.body) {
         const token = res.body.token
         commit(types.LOGIN_SUCCESS, { token: token, username: data.username })
@@ -96,17 +96,17 @@ const actions = {
     commit(types.GET_VIDEOS_REQUEST)
     course.getVideos(data, (err, res) => {
       // error handle todo
-      console.log(res.body)
-      // if (err) {
-      //   console.log(err)
-      //   commit(types.GET_VIDEOS_FAILED, errorHandler('error'))
-      // }
-      // if (res.body) {
-      //   commit(types.GET_VIDEOS_SUCCESS, { units: res.body, chapter: data.chapterId })
-      // } else {
-      //   // Fail: return fail message
-      //   commit(types.GET_VIDEOS_FAILED, errorHandler(res.body))
-      // }
+      // console.log(data, res.body)
+      if (err) {
+        console.log(err)
+        commit(types.GET_VIDEOS_FAILED, errorHandler('error'))
+      }
+      if (res.body) {
+        commit(types.GET_VIDEOS_SUCCESS, { commit, videos: res.body, courseId: data.courseId, chapterId: data.chapterId, unitId: data.unitId })
+      } else {
+        // Fail: return fail message
+        commit(types.GET_VIDEOS_FAILED, errorHandler(res.body))
+      }
     })
   }
   // getChapterById({ commit }, data) {
@@ -150,6 +150,24 @@ const mutations = {
   [types.GET_CHAPTERS_REQUEST] (state) {
     state.course = {}
     state.messages = []
+  },
+
+  [types.GET_VIDEOS_SUCCESS](state, {commit, videos, courseId, chapterId, unitId }) {
+    // state.video = video;
+    // Object.assign(state.videos, {
+    //   [`${courseId}-${chapterId}-${unitId}-${video.id}`]: video
+    // })
+    videos.forEach(video => {
+      // console.log(video)
+      commit(types.GET_VIDEO_SUCCESS, { commit, video, courseId, chapterId, unitId})
+    })
+  },
+  [types.GET_VIDEOS_FAILED](state, messages) {
+    // state.video = {};
+    state.messages = messages;
+  },
+  [types.GET_VIDEOS_REQUEST](state) {
+    state.messages = [];
   },
 
   [types.GET_UNITS_SUCCESS] (state, { units, chapter }) {

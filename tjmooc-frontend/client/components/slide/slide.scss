@@ -16,7 +16,7 @@
       width: 100%;
       transition: all .5s;
       $c: lighten($lightColor, 0%);
-      background-color: $c !important;
+      background-color: $c;
       box-shadow: $c 0 30px 30px 0;
 
     }

@@ -1,0 +1,175 @@
+@import "../../components/config";
+
+#manage {
+  width: 80%;
+  max-width: 920px;
+  margin: 0 auto;
+  position: relative;
+
+  .title {
+    font-size: 32px;
+    margin: 15px 0 30px;
+    letter-spacing: 2px;
+    transition: all .3s;
+    i {
+      margin: 0 3px;
+    }
+  }
+  .subtitle {
+    display: inline;
+    font-size: 16px;
+    letter-spacing: 1px;
+    background: white;
+    padding-right: 10px;
+  }
+  .btn {
+    color: $mainColor;
+    font-size: 24px;
+    cursor: pointer;
+    &:hover {
+      i {
+        animation: ani 1s infinite;
+        @keyframes ani {
+          0%, 80%, 100% {
+            transform: translateX(0);
+          }
+          40% {
+            transform: translateX(-6px);
+          }
+        }
+      }
+    }
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    top: 80px;
+    right: 0;
+    background: $dark;
+    opacity: .4;
+    z-index: -1;
+    transition: all .3s
+  }
+
+  .courses {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin: 10px -20px 40px;
+    position: relative;
+  }
+
+  .course {
+    width: 200px;
+    height: 120px;
+    margin: 20px;
+    position: relative;
+    cursor: pointer;
+    background: white;
+    border-radius: 4px;
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      position: absolute;
+      opacity: .3;
+      transition: all .3s;
+    }
+    div {
+      width: 100%;
+      text-align: center;
+      line-height: 120px;
+      font-size: 20px;
+      letter-spacing: 2px;
+    }
+
+    &:hover {
+      color: $mainColor;
+      img {
+        opacity: .2;
+      }
+    }
+  }
+  .selected {
+    transition: all 0s;
+    opacity: 0;
+  }
+  .float {
+    position: absolute;
+    transition: left,top 0s;
+    //opacity: 0;
+    top: -1000px;
+    left: -1000px;
+
+    img {
+
+      transition: all .3s;
+      opacity: 1 !important;
+    }
+  }
+
+  .detail {
+    margin: 78px 0 60px 280px;
+    animation: go-right .5s ease-in;
+    .title {
+      margin: 0 0 10px 0;
+    }
+    .subtitle {
+      opacity: .6;
+    }
+    @keyframes go-right {
+      from {
+        transform: translateX(-15px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  }
+  .el-form {
+    animation: go-down .5s ease-in;
+    margin: 75px 40px;
+    border: 1px solid $light;
+    padding: 50px;
+    border-radius: 4px;
+
+    @keyframes go-down {
+      from {
+        transform: translateY(-15px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .el-form-item:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+
+
+.selectCourse {
+  &:before {
+    top: 144px !important;
+  }
+  &:after {
+
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all .3s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0;
+}

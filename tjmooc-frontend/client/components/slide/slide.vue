@@ -1,7 +1,7 @@
 <template>
   <div class="slide">
     <div class="img">
-      <div class="background" :style="{backgroundColor: dataNow('color')}"></div>
+      <div class="background"></div>
       <div class="descImg">
         <img :src="dataNow('imgUrl')" :alt="dataNow('title')">
       </div>
@@ -12,7 +12,7 @@
           <div class="time">{{dataNow('time')}} 课时</div>
         </div>
         <h1>{{dataNow('title')}}</h1>
-        <div class="btn" :style="{color: dataNow('color')}" @click="onEnterClicked">
+        <div class="btn" @click="onEnterClicked">
           <div>进入课程</div>
         </div>
       </div>
@@ -20,7 +20,7 @@
     <div class="tip-box">
       <div class="scroll">
         <div class="tip" v-for="(section, index) in sections" @click="onTipClicked(index)" :style="{opacity: index == displayNow ? 1 : 0.75}">
-          <div class="color-bar" :style="{backgroundColor: section.color}" v-if="index == displayNow"></div>
+          <div class="color-bar" v-if="index == displayNow"></div>
           <h1>{{section.title}}</h1>
           <p>{{section.teacher}}</p>
         </div>
