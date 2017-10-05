@@ -1,5 +1,5 @@
 <template>
-  <div id="account-login">
+  <div id="account-login" @keyup.enter="onLoginBtnClicked">
     <div class="title">
       <div>同济大学课程分享平台 (A版)</div>
       <div>{{time[0] - 1}}-{{time[0]}}学年 第{{time[1]}}学期</div>
@@ -16,11 +16,11 @@
 
     <div class="bottom">
       <div class="error" v-if="messages.length > 0" @click="errorDisplayed = true">
-        <div v-for="(message, index) in messages">{{message}}</div>
+        <div v-for="(message, index) in messages" >{{message}}</div>
       </div>
       <div class="btn-box">
         <div class="to" @click="toRegister">去注册</div>
-        <div class="login" @click="onLoginBtnClicked" :class="{allowed: submitting || messages.length }">
+        <div class="login" :class="{allowed: submitting || messages.length }">
           <span>登</span><span>录</span><span v-if="submitting">中</span><span v-if="submitting">…</span>
         </div>
       </div>
@@ -96,8 +96,7 @@
         if (this.errorInfo)
           m = m.concat(this.errorInfo);
         if (!this.errorDisplayed) {
-          let that = this;
-//          setTimeout(() => that.errorDisplayed = true, 1000);
+          setTimeout(() => this.errorDisplayed = true, 1000);
           m = m.concat(this.$store.state.session.messages);
         }
         return m;

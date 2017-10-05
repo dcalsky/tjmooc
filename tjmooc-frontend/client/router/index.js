@@ -20,7 +20,9 @@ const CourseAdd = r => require.ensure([], () => r(require('../views/course/add.v
 const Forum = r => require(['../views/forum/forum.vue'], r)
 
 // Manage
-const Manage = r => require(['../views/manage/manage.vue'], r)
+const Manage = r => require(['../views/manage/index.vue'], r)
+const ManageCourse = r => require(['../views/manage/course.vue'], r)
+const ManageAfterclass = r => require(['../views/manage/afterclass.vue'], r)
 
 Vue.use(Router)
 
@@ -81,8 +83,18 @@ export default new Router({
     },
     {
       path: '/manage',
+      name: 'manage',
       component: Manage,
-      name: 'manage'
+      children: [
+        {
+          path: 'afterclass',
+          component: ManageAfterclass
+        },
+        {
+          path: 'course',
+          component: ManageCourse
+        }
+      ]
     },
     {
       path: '/bbs',

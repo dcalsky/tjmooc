@@ -5,13 +5,9 @@
   font-size: 16px;
   display: flex;
   align-items: center;
-  background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 100) 0%,
-      rgba(255, 255, 255, 100) 20%,
-      rgba(255, 255, 255, 0) 100%
-  );
   padding: 18px 30px 30px 30px;
+  max-width: 920px;
+  margin: auto;
   @include respond-to(lg) {
     padding: 18px 100px 30px 100px;
   }
