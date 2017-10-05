@@ -3,7 +3,7 @@ const server = {
   // host: 'http://lisirrx.tpddns.cn',
   session: '/sessions/',
   post: '/bbs/posts',
-  forum: '/bbs/forums',
+  floor: '/bbs/floors',
   user: '/users/',
   course: '/course/',
   material: '/material/'

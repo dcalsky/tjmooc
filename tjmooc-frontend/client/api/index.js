@@ -6,7 +6,7 @@ function post (url, { data, cb, token }) {
     .post(url)
     .set({
       'Content-Type': 'application/json',
-      'Token': token ? `Bearer ${token}` : null
+      'Authorization': localStorage.getItem('token') && `Bearer ${localStorage.getItem('token')}`
     })
     .send(data)
     .end(cb)
@@ -16,7 +16,8 @@ function get (url, { cb, token, page = 1 }) {
   request
     .get(url)
     .set({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('token') && `Bearer ${localStorage.getItem('token')}`
     })
     .query({ page })
     .end(cb)
@@ -128,15 +129,26 @@ const forum = {
   getForumList ({ page }, cb) {
     get(`${server.forum}`, { cb, page })
   },
-  getPostList ({ forumId, page }, cb) {
-    get(`${server.forum}/${forumId}/posts`, { cb, page })
+  getPostList ({ floorId, page }, cb) {
+    get(`${server.floor}/${floorId}/posts/`, { cb, page })
+  },
+  getFloorList({forumId, page}, cb) {
+    get(`${server.forum}/${forumId}/floors/`, { cb, page })
+  },
+  getFloorDetail({floorId}, cb) {
+    get(`${server.floor}/${floorId}`, { cb })
+  },
+  addPost({floorId, data}, cb) {
+    post(`${server.floor}/${floorId}/posts/`, { cb, data })
+  },
+  addFloor({forumId, data}, cb) {
+    post(`${server.forum}/${forumId}/floors/`, { cb, data })
   }
 }
 
 export {
   session,
   user,
-  course,
   material,
   forum
 }

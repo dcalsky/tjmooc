@@ -25,8 +25,9 @@ const actions = {
         commit(types.LOGIN_SUCCESS, { user: res.body })
         // Set localStorage for session information
         window.localStorage.setItem('token', res.body.token)
-        window.localStorage.setItem('username', data.username)
-        window.localStorage.setItem('userId', res.body.id)
+        window.localStorage.setItem('username', res.body.user.username)
+        window.localStorage.setItem('userId', res.body.user.id)
+        window.localStorage.setItem('email', res.body.user.email)
         // Success: enter profile page
         router.push({ name: 'home' })
       } else {

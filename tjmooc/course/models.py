@@ -1,37 +1,41 @@
 from django.db import models
 from user.models import User
-
+import jsonfield
 
 class Course(models.Model):
     title = models.TextField(help_text='标题')
     subtitle = models.TextField(help_text='副标题')
     introduction = models.TextField(help_text='内容介绍')
     cover_image = models.ImageField(help_text='封面图')
-    sections = models.TextField(default='', help_text='章')  # store a string for (de)serialization
+    sections = jsonfield.JSONField(help_text='章', default=list)  # store a string for (de)serialization
     update_time = models.DateTimeField(auto_now_add=True, help_text='更新时间')
     participants_count = models.IntegerField(default=0, help_text='参与人数')
     obligator = models.ForeignKey(User)
 
+    def __str__(self):
+        return self.title
+
 
 class Chapter(models.Model):
-    units = models.TextField(help_text='单元')
+    units = jsonfield.JSONField(help_text='单元', default=list)
     title = models.TextField(help_text='标题')
     description = models.TextField(help_text='说明')
-    materials = models.TextField(help_text='课程资料')
+    materials = jsonfield.JSONField(help_text='课程资料', default=list)
+    leacturer = models.ForeignKey(User, null=False, blank=False)
 
+    def __str__(self):
+        return self.title
 
 class Unit(models.Model):
     title = models.TextField(help_text='标题')
     description = models.TextField(help_text='说明')
-    lists = models.TextField(help_text='内容')
+    lists = jsonfield.JSONField(help_text='内容', default=list)
+    leacturer = models.ForeignKey(User)
+
+    def __str__(self):
+        return self.title
 
 
-class Video(models.Model):
-    title = models.TextField(help_text='标题')
-    description = models.TextField(help_text='说明')
-    upload_time = models.DateTimeField(auto_now_add=True, help_text='创建时间')
-    url = models.URLField(help_text='链接')
-    teacher = models.ForeignKey(User)
 
 
 class CourseParticipation(models.Model):
@@ -40,3 +44,6 @@ class CourseParticipation(models.Model):
     finished = models.BooleanField(default=False, help_text='是否完成')
     time = models.DateTimeField(auto_now_add=True)
     total_score = models.IntegerField(default=0, help_text='作业与测试的总分')
+
+    def __str__(self):
+        return self.participant.nickname + " " + self.course_id.title

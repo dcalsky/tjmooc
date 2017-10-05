@@ -151,7 +151,7 @@
         this.finish = true;
         // Ajax, register
         this.$store.dispatch('register', {
-          username: this.form.studentId,
+          username: this.form.studentId.toString(),
           password: this.form.password,
           nickname: this.form.username
         })

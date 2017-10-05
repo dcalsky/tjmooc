@@ -42,20 +42,19 @@ INSTALLED_APPS = [
     'jwt',
     'rest_framework_jwt',
     'rest_framework',
+    'corsheaders',
     'user',
-    'homework',
+    'material',
     'course',
     'bbs',
-    'session'
+    'session',
 ]
-
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -88,9 +87,13 @@ WSGI_APPLICATION = 'tjmooc.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tjmooc',
+        'USER': 'dbuser',
+        'PASSWORD': 'tjmooc',
+        'HOST':'127.0.0.1'
     }
+
 }
 
 
@@ -152,6 +155,8 @@ REST_FRAMEWORK = {
     ),
 }
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
     'rest_framework_jwt.utils.jwt_encode_handler',
@@ -166,7 +171,7 @@ JWT_AUTH = {
     'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
 
     'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_response_payload_handler',
+    'session.views.jwt_response_payload_handler',
 
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_PUBLIC_KEY': None,

@@ -67,13 +67,13 @@
         return {
             test: [
               {
-                  type: "select",
+                type: "select",
                 question: "1 + 1 = ？",
                 options: ['2', '3', '不知道'],
                 answer: ""
               },
               {
-                  type: "blank",
+                type: "blank",
                 question: "你已经超时几天啦？",
                 answer: ""
               },

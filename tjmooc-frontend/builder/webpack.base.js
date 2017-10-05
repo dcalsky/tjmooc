@@ -6,6 +6,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const config = require('./config')
 const _ = require('./utils')
 
+const fePath = path.resolve(__dirname, '..')
+
 module.exports = {
   entry: {
     client: './client/index.js'
@@ -21,8 +23,10 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.css', '.json'],
     alias: {
-      root: path.join(__dirname, '../client'),
-      components: path.join(__dirname, '../client/components')
+      root: path.join(fePath, 'client'),
+      components: path.join(fePath, 'client', 'components'),
+      views: path.join(fePath, 'client', 'views'),
+      store: path.join(fePath, 'client', 'store')
     },
     modules: [
       _.cwd('node_modules'),
