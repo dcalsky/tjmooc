@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import HomeworkListView, HomeworkDetailView, HomeworkSubmitListView, \
     HomeworkSubmitDetailView, TestListView, TestDetailView, TestSubmitListView, \
-    TestSubmitDetailView, VideoListView, VideoDetailView, ProblemListView, ProblemDetailView
+    TestSubmitDetailView, VideoListView, VideoDetailView, ProblemListView, ProblemDetailView, upload
 
 urlpatterns = [
     url(r'^homework$', HomeworkListView.as_view()),
@@ -19,5 +19,6 @@ urlpatterns = [
     url(r'^video/(?P<id>\d+)$', VideoDetailView.as_view()),
     url(r'^problem$', ProblemListView.as_view()),
     url(r'^problem/<id>$', HomeworkListView.as_view()),
+    url(r'^upload/', upload)
 
 ]

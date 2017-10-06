@@ -7,9 +7,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView, Response, status
 from material.models import Video
 from material.serializer import VideoSerializer
-from .permissions import IsObligatorOrLeactureOrManagerOrReadOnly, IsStudent
-from .serializers import CourseSerializer, ChapterSerializer, CourseParticipationSerializer, UnitSerializer
-from .models import Course, Chapter, CourseParticipation, Unit
+from course.permissions import IsObligatorOrLeactureOrManagerOrReadOnly, IsStudent
+from course.serializers import CourseSerializer, ChapterSerializer, CourseParticipationSerializer, UnitSerializer
+from course.models import Course, Chapter, CourseParticipation, Unit
 from django.http import Http404
 import json
 
@@ -55,11 +55,25 @@ class CourseList(ListCreateAPIView):
     queryset = Course.objects.all()
     pagination_class = ResultsSetPagination
 
+    def get(self, request, *args, **kwargs):
+
+
+
+        if request.query_params.get('manage') is None:
+            return super(CourseList, self).get(request, *args, **kwargs)
+        else:
+            course = Course.objects.filter(obligator=request.user)
+            if course.exists():
+                return Response(CourseSerializer(course, many=True).data, status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 class CourseDetail(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsObligatorOrLeactureOrManagerOrReadOnly, )
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+    lookup_field = 'pk'
 
     def get(self, request, cpk):
         course = get_course(int(cpk))
@@ -73,6 +87,11 @@ class CourseDetail(RetrieveUpdateDestroyAPIView):
             serializer.save()
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
+    def delete(self, request, *args, **kwargs):
+        id = kwargs.get('cpk')
+        self.kwargs['pk'] = id
+        return super(CourseDetail, self).delete(request, *args, **kwargs)
+
 
 class ChapterList(ListCreateAPIView):
     permission_classes = (IsObligatorOrLeactureOrManagerOrReadOnly, )
@@ -81,7 +100,6 @@ class ChapterList(ListCreateAPIView):
 
     def get(self, request, cpk):
         fileds_filter = [filed for filed in request.query_params]
-
         course_id = int(cpk)
         course = get_course(course_id)
         chapters = course.sections
@@ -175,8 +193,6 @@ class UnitDetail(RetrieveUpdateDestroyAPIView):
 
         unit, _, _ = get_unit_and_chapter_and_course(unit_id, chapter_id, course_id)
 
-
-
         return Response(UnitSerializer(unit).data, status=status.HTTP_200_OK)
 
     def put(self, request, cpk, pk, upk):
@@ -226,6 +242,8 @@ class VideoView(APIView):
         else:
             videos = Video.objects.filter(id__in=unit.lists)
             return Response(VideoSerializer(videos, many=True).data, status=status.HTTP_200_OK)
+
+
 
 
 

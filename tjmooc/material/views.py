@@ -9,8 +9,9 @@ from .serializer import HomeworkSerializer, HomeworkSubmitSerializer, \
     TestSerializer, TestSubmitSerializer, VideoSerializer, ProblemSerializer
 from .models import Homework, HomeworkSubmit, Test, TestSubmit, Video, Problem
 from course.models import Chapter, Course, Unit
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from .permissions import IsLeacturerOrManagerOrReadOnly, IsTeacherOrManagerOrReadOnly
+from django.core.files.storage import FileSystemStorage
 
 
 TESTSCORE = 100
@@ -351,6 +352,14 @@ class ProblemDetailView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly, )
     lookup_field = 'id'
 
+
+def upload(request):
+    file_stroage = FileSystemStorage()
+    if request.method == 'POST':
+        file = request.FILES['file']
+
+        file_stroage.save(file.name, file)
+        return HttpResponse(file_stroage.url(file))
 
 
 
