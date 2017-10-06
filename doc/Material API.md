@@ -41,7 +41,7 @@
 同时使用`course` 和 `chapter`
    - `course` : course id
    - `chapter` : chapter id
-   
+
 ####权限
 该章节老师
 ####Body
@@ -79,7 +79,7 @@
 同时使用`course` 和 `chapter`
    - `course` : course id
    - `chapter` : chapter id
-   
+
 ####权限
 该章节老师
 ####Body
@@ -275,7 +275,7 @@
    - `course` : course id
    - `chapter` : chapter id
    - `unit` : unit id
-   
+
 ####权限
 该章节老师
 ####Body
@@ -312,8 +312,8 @@
    - `course` : course id
    - `chapter` : chapter id
    - `unit` : unit id
-   
-   
+
+
 ####权限
 该章节老师
 ####Body
@@ -355,7 +355,7 @@
    - `course` : course id
    - `chapter` : chapter id
    - `unit` : unit id
-   
+
 可选
    - `user` ： user id
 
@@ -468,7 +468,7 @@
 ####Query
 
    - `user` user id
-   
+
 某个用户的所有Video。
 ####权限
    注册用户
@@ -539,8 +539,8 @@
    - `course` : course id
    - `chapter` : chapter id
    - `unit` : unit id
-   
-   
+
+
 ####权限
 该章节老师
 ####Body
@@ -573,6 +573,14 @@
 `404` ： 章节或课程或单元或视频不存在
 `403` ： 无权限
 
-   
 
 
+## 上传文件
+
+  
+
+`POST /material/upload`
+
+文件key使用`file`
+
+- 返回值：文件url
