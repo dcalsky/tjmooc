@@ -57,16 +57,17 @@ class CourseList(ListCreateAPIView):
 
     def get(self, request, *args, **kwargs):
 
-
-
         if request.query_params.get('manage') is None:
             return super(CourseList, self).get(request, *args, **kwargs)
         else:
+            u = request.user
             course = Course.objects.filter(obligator=request.user)
-            if course.exists():
-                return Response(CourseSerializer(course, many=True).data, status=status.HTTP_200_OK)
-            else:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(CourseSerializer(course, many=True).data, status=status.HTTP_200_OK)
+
+            # if course.exists():
+            #     return Response(CourseSerializer(course, many=True).data, status=status.HTTP_200_OK)
+            # else:
+            #     return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class CourseDetail(RetrieveUpdateDestroyAPIView):
@@ -102,9 +103,11 @@ class ChapterList(ListCreateAPIView):
         fileds_filter = [filed for filed in request.query_params]
         course_id = int(cpk)
         course = get_course(course_id)
-        chapters = course.sections
-        objects = Chapter.objects.filter(id__in=chapters)
-        serializer = ChapterSerializer(objects, many=True, fields=fileds_filter)
+
+        chapters = []
+        for chapter_id in course.sections:
+            chapters.append(Chapter.objects.get(id=chapter_id))
+        serializer = ChapterSerializer(chapters, many=True, fields=fileds_filter)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
@@ -132,9 +135,14 @@ class ChapterDetail(RetrieveUpdateDestroyAPIView):
         course_id = int(cpk)
         chapter_id = int(pk)
         chapter, _ = get_chapter_and_course(chapter_id, course_id)
-        hw = list(chapter.homeworks.all())[0].id
-        data = ChapterSerializer(chapter).data
-        data['homework'] = hw
+        hw = list(chapter.homeworks.all())
+        if len(hw) is not 0:
+            hw = hw[0].id
+            data = ChapterSerializer(chapter).data
+            data['homework'] = hw
+        else:
+            data = ChapterSerializer(chapter).data
+            data['homework'] = None
 
         return Response(data, status=status.HTTP_200_OK)
 
@@ -148,6 +156,15 @@ class ChapterDetail(RetrieveUpdateDestroyAPIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    def delete(self, request, cpk, pk):
+        course_id = int(cpk)
+        chapter_id = int(pk)
+        chapter, course = get_chapter_and_course(chapter_id, course_id)
+        chapter.delete()
+        course.sections.remove(chapter_id)
+        course.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UnitList(ListCreateAPIView):
@@ -166,7 +183,7 @@ class UnitList(ListCreateAPIView):
 
     def post(self, request, cpk, pk):
         course_id = int(cpk)
-        chapter_id = int(cpk)
+        chapter_id = int(pk)
 
         chapter, _ = get_chapter_and_course(chapter_id, course_id)
         serializer = UnitSerializer(data=request.data)
@@ -202,10 +219,21 @@ class UnitDetail(RetrieveUpdateDestroyAPIView):
 
         unit, _, _ = get_unit_and_chapter_and_course(unit_id, chapter_id, course_id)
 
-        serializer = ChapterSerializer(unit, data=request.data)
+        serializer = UnitSerializer(unit, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
+    def delete(self, request, cpk, pk, upk):
+        course_id = int(cpk)
+        chapter_id = int(pk)
+        unit_id = int(upk)
+
+        unit, chapter, _ = get_unit_and_chapter_and_course(unit_id, chapter_id, course_id)
+        chapter.units.remove(unit_id)
+        unit.delete()
+        chapter.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CourseParticipationView(APIView):
@@ -242,6 +270,22 @@ class VideoView(APIView):
         else:
             videos = Video.objects.filter(id__in=unit.lists)
             return Response(VideoSerializer(videos, many=True).data, status=status.HTTP_200_OK)
+
+    def post(self, request, cpk, pk, upk):
+        course_id = int(cpk)
+        chapter_id = int(pk)
+        unit_id = int(upk)
+        unit, _, _ = get_unit_and_chapter_and_course(unit_id, chapter_id, course_id)
+
+        serializer = VideoSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            unit.lists.append(serializer.data['id'])
+            unit.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 
 
