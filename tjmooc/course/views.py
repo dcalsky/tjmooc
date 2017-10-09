@@ -262,6 +262,7 @@ class VideoView(APIView):
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
 
+
     def get(self, request, cpk, pk, upk):
         try:
             unit = Unit.objects.get(id=int(upk))

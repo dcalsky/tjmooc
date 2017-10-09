@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+from material.views import VideoListView, VideoDetailView
 
 urlpatterns = [
     url(r'^$', views.CourseList.as_view()),
@@ -9,6 +10,6 @@ urlpatterns = [
     url(r'^(?P<cpk>\w+)/chapter/(?P<pk>\w+)$', views.ChapterDetail.as_view()),
     url(r'^(?P<cpk>\w+)/chapter/(?P<pk>\w+)/unit$', views.UnitList.as_view()),
     url(r'^(?P<cpk>\w+)/chapter/(?P<pk>\w+)/unit/(?P<upk>\w+)$', views.UnitDetail.as_view()),
-    url(r'^(?P<cpk>\w+)/chapter/(?P<pk>\w+)/unit/(?P<upk>\w+)/video$', views.VideoView.as_view())
+    url(r'^(?P<cpk>\w+)/chapter/(?P<pk>\w+)/unit/(?P<upk>\w+)/video$', VideoListView.as_view())
 
 ]
