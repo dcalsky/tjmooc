@@ -343,7 +343,7 @@ class VideoDetailView(RetrieveUpdateDestroyAPIView):
 
         video = Video.objects.get(id=video_id)
         video.delete()
-        return Response(status.HTTP_204_NO_CONTENTD)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ProblemListView(ListCreateAPIView):
