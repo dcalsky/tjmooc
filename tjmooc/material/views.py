@@ -338,12 +338,12 @@ class VideoDetailView(RetrieveUpdateDestroyAPIView):
         video_id = kwargs.get('id')
         _, _, unit_id = get_course_chapter_unit_id(request)
         unit = Unit.objects.get(id=unit_id)
-        unit.lists.remove({"id": video_id, "type": "test"})
+        unit.lists.remove(video_id)
         unit.save()
 
-        test = Test.objects.get(id=video_id)
-        test.delete()
-        return Response(status.HTTP_202_ACCEPTED)
+        video = Video.objects.get(id=video_id)
+        video.delete()
+        return Response(status.HTTP_204_NO_CONTENTD)
 
 
 class ProblemListView(ListCreateAPIView):
