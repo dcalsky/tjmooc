@@ -335,7 +335,7 @@ class VideoDetailView(RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
 
     def delete(self, request, *args, **kwargs):
-        video_id = kwargs.get('id')
+        video_id = int(kwargs.get('id'))
         _, _, unit_id = get_course_chapter_unit_id(request)
         unit = Unit.objects.get(id=unit_id)
         unit.lists.remove(video_id)
