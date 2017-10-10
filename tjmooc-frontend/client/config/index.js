@@ -1,12 +1,15 @@
 const server = {
   host: 'http://115.159.218.143:8000',
   // host: 'http://lisirrx.tpddns.cn',
+  // host: 'http://10.0.1.65:8000',
   session: '/sessions/',
   post: '/bbs/posts',
   floor: '/bbs/floors',
+  forum: '/bbs/forums',
   user: '/users/',
   course: '/course/',
-  material: '/material/'
+  material: '/material/',
+  upload: '/material/upload/'
 }
 
 const translation = {

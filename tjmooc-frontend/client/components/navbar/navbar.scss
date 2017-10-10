@@ -75,7 +75,8 @@
 
     .account-box {
       $c: rgba($mainColor, .2);
-      display: inline-block;
+      display: inline-flex;
+      word-break: keep-all;
       box-shadow: -2px 2px 15px -5px rgba($mainColor, 0.4);
       border-radius: 2px;
       transition: all .2s;

@@ -12,14 +12,35 @@ function post (url, { data, cb, token }) {
     .end(cb)
 }
 
+function put (url, { data, cb, token }) {
+  request('put', url)
+    .set({
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('token') && `Bearer ${localStorage.getItem('token')}`
+    })
+    .send(data)
+    .end(cb)
+}
+
+function delet (url, { data, cb, token }) {
+  request('delete', url)
+    .set({
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('token') && `Bearer ${localStorage.getItem('token')}`
+    })
+    .query(data)
+    .end(cb)
+}
+
 function get (url, { cb, token, page = 1 }) {
+  console.log('page', page)
   request
     .get(url)
     .set({
       'Content-Type': 'application/json',
       'Authorization': localStorage.getItem('token') && `Bearer ${localStorage.getItem('token')}`
     })
-    .query({ page })
+    .query(page >= 0 ? { page } : {})
     .end(cb)
 }
 
@@ -80,7 +101,9 @@ const course = {
   getVideos (data, cb, token) {
     console.log(data)
     const {courseId, chapterId, unitId} = data
-    get(`${server.course}${courseId}/chapter/${chapterId}/unit/${unitId}/video`, {
+    // get(`${server.course}${courseId}/chapter/${chapterId}/unit/${unitId}/video`, {
+    get(`${server.material}video?course=${courseId}&chapter=${chapterId}&unit=${unitId}`, {
+      page: -1,
       cb
     })
   },
@@ -118,7 +141,7 @@ const material = {
   getVideo (data, cb, token) {
     console.log(data)
     get(`${server.material}video/${data.videoId}`, {
-      cb
+      cb,
     })
   },
 
@@ -146,9 +169,68 @@ const forum = {
   }
 }
 
+// manage
+const manage = {
+  getAllCourses ({}, cb) {
+    get(`${server.course}?manage`, {cb})
+  },
+  getCourse (data, cb) {
+    get(`${server.course}${data.id}`, {cb})
+  },
+  postCourse (data, cb) {
+    post(`${server.course}`, {data, cb})
+  },
+  updateCourse (data, cb) {
+    put(`${server.course}${data.id}`, {data, cb})
+  },
+  removeCourse (data, cb) {
+    delet(`${server.course}${data.id}`, {cb})
+  },
+
+  getAllChapters ({courseId}, cb) {
+    get(`${server.course}${courseId}/chapter?id&title&description`, {cb})
+  },
+  postChapter ({courseId, data}, cb) {
+    post(`${server.course}${courseId}/chapter`, {data, cb})
+  },
+  updateChapter ({courseId, data}, cb) {
+    put(`${server.course}${courseId}/chapter/${data.id}`, {data, cb})
+  },
+  removeChapter ({courseId, chapterId}, cb) {
+    delet(`${server.course}${courseId}/chapter/${chapterId}`, {cb})
+  },
+
+
+  getAllUnits ({courseId, chapterId}, cb) {
+    get(`${server.course}${courseId}/chapter/${chapterId}/unit?id&title&description`, {cb})
+  },
+  postUnit ({courseId, chapterId, data}, cb) {
+    post(`${server.course}${courseId}/chapter/${chapterId}/unit`, {data, cb})
+  },
+  updateUnit ({courseId, chapterId, data}, cb) {
+    put(`${server.course}${courseId}/chapter/${chapterId}/unit/${data.id}`, {data, cb})
+  },
+  removeUnit ({courseId, chapterId, unitId}, cb) {
+    delet(`${server.course}${courseId}/chapter/${chapterId}/unit/${unitId}`, {cb})
+  },
+
+
+  getVideo ({courseId, chapterId, unitId}, cb) {
+    get(`${server.material}video?course=${courseId}&chapter=${chapterId}&unit=${unitId}`, {cb})
+  },
+  postVideo ({courseId, chapterId, unitId, data}, cb) {
+    post(`${server.material}video?course=${courseId}&chapter=${chapterId}&unit=${unitId}`, {data, cb})
+  },
+  removeVideo ({courseId, chapterId, unitId, videoId}, cb) {
+    delet(`${server.material}video/${videoId}?course=${courseId}&chapter=${chapterId}&unit=${unitId}`, {cb})
+  }
+}
+
 export {
   session,
   user,
   material,
+  course,
+  manage,
   forum
 }

@@ -74,11 +74,7 @@ $rc: lighten($lightColor, 44%);
       overflow: hidden;
       width: 0;
       color: transparent;
-<<<<<<< HEAD
       background: transparent;
-=======
-      background: rgba($mainColor, .1);
->>>>>>> 9b83742a772168914fcace6a4bf23c8af43aa9ac
       position: absolute;
       top: 50% - $h / 2;
       border-radius: 8px;
@@ -89,7 +85,6 @@ $rc: lighten($lightColor, 44%);
       .toggle {
         width: 80px;
         color: $lightColor;
-<<<<<<< HEAD
         background: rgba($mainColor, .1);
       }
     }
@@ -113,31 +108,6 @@ $rc: lighten($lightColor, 44%);
       }
     }
   }
-=======
-      }
-    }
-  }
-  .home-left {
-    left: 12.5%;
-    .toggle {
-      left: 50 - $w / 2;
-    }
-    &:hover {
-      .toggle {
-        padding: 0 $w * .1 0 $w * .9;
-      }
-    }
-  }
-  .home-right {
-    left: 78.5%;
-    .toggle {
-      right: 50 - $w / 2;
-    }
-    .toggle {
-      padding: 0 $w * .9 0 $w * .1;
-    }
-  }
->>>>>>> 9b83742a772168914fcace6a4bf23c8af43aa9ac
 
 }
 

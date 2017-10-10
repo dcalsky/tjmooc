@@ -17,7 +17,11 @@ const CourseList = r => require.ensure([], () => r(require('../views/course/list
 const CourseAdd = r => require.ensure([], () => r(require('../views/course/add.vue')), 'course')
 
 // Forum
-const Forum = r => require(['../views/forum/forum.vue'], r)
+const Forum = r => require(['views/forum/forum'], r)
+const ForumList = r => require(['views/forum/forum-list'], r)
+const ForumDetail = r => require(['views/forum/floors'], r)
+const PostDetail = r => require(['views/forum/post'], r)
+
 
 // Manage
 const Manage = r => require(['../views/manage/index.vue'], r)
@@ -96,10 +100,26 @@ export default new Router({
         }
       ]
     },
-    {
-      path: '/bbs',
-      component: Forum,
-      name: 'bbs'
-    }
+    // {
+    //   path: '/bbs',
+    //   component: Home,
+    //   // name: 'bbs',
+    //   // children: [
+    //   //   {
+    //   //     path: '/',
+    //   //     component: ForumList,
+    //   //     name: 'forumList'
+    //   //   }, {
+    //   //     path: 'forum/:forumId',
+    //   //     component: ForumDetail,
+    //   //     name: 'forumDetail'
+    //   //   }, {
+    //   //     path: 'post/:floorId',
+    //   //     component: PostDetail,
+    //   //     name: 'postDetail'
+    //   //   }
+    //   // ]
+    // }
+
   ]
 })

@@ -18,8 +18,10 @@
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
     "mathjax": "^2.7.0",
-    "vue": "^2.1.0",
-    "vue-router": "^2.0.0",
+    "strip-ansi": "^4.0.0",
+    "url-join": "^2.0.2",
+    "vue": "^2.3.0",
+    "vue-router": "^2.7.0",
     "vue2-editor": "^2.0.26",
     "vuex": "^2.0.0",
     "vuex-router-sync": "^3.0.0"

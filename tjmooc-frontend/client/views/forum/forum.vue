@@ -1,7 +1,7 @@
 <template>
   <div id="forum">
     <navbar></navbar>
-    <router-view></router-view>
+    <router-view :style="{minHeight}"></router-view>
     <foot-bar></foot-bar>
   </div>
 </template>
@@ -12,9 +12,17 @@
 
   export default {
     name: 'forum',
+    data () {
+      return {
+        minHeight: 0
+      }
+    },
     components: {
       footBar,
       Navbar,
+    },
+    mounted () {
+      this.minHeight = window.innerHeight - 96 + 'px'
     }
   }
 </script>

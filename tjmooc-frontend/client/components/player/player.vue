@@ -63,10 +63,7 @@
         courseId: 0,
 
         path: '',
-<<<<<<< HEAD
         refresh: true
-=======
->>>>>>> 9b83742a772168914fcace6a4bf23c8af43aa9ac
       }
     },
     computed: {
@@ -121,12 +118,9 @@
       videos() {
           return this.$store.state.material.videos;
       },
-<<<<<<< HEAD
       videosLen() {
           return this.$store.state.material.videosLen;
       },
-=======
->>>>>>> 9b83742a772168914fcace6a4bf23c8af43aa9ac
       video() {
         return this.videos[this.path] || {
             "id": 0,
@@ -138,21 +132,14 @@
           };
       },
       getVideoNameByPath() {
-<<<<<<< HEAD
           console.log('getVideoNameByPath')
         return function (chapterId, unitId, videoId) {
           const path = `${this.courseId}-${chapterId}-${unitId}-${videoId}`;
 //          console.log('path', path, this.videos);
-=======
-        return function (chapterId, unitId, videoId) {
-          let path = `${this.courseId}-${chapterId}-${unitId}-${videoId}`;
-          console.log('path', path, this.videos);
->>>>>>> 9b83742a772168914fcace6a4bf23c8af43aa9ac
-          return this.videos[path] && this.videos[path].title;
+          return this.videos[path] && this.videos[path].title.slice(0, -4);
         }
       },
     },
-<<<<<<< HEAD
 //    watch: {
 //        '$store.state.material' : {
 //            handler (val) {
@@ -161,8 +148,6 @@
 //          deep: true
 //        }
 //    },
-=======
->>>>>>> 9b83742a772168914fcace6a4bf23c8af43aa9ac
     methods: {
         getChapterById(id) {
             return this.chapters.find(x => x.id == id);
