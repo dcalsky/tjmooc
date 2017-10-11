@@ -12,7 +12,6 @@
     padding: 18px 100px 30px 100px;
   }
   justify-content: space-between;
-  z-index: 10;
 
   .navbar-more {
     $w: 25px;
@@ -112,7 +111,7 @@
         color: $c;
         background-color: lighten($c, 36%);
         padding: 5px $w - 3.5px 5px $w;
-        margin-right: 2.5px;
+        margin-right: 7px;
         border-radius: 2px 0 0 2px;
         &:before {
           right: -7px;
