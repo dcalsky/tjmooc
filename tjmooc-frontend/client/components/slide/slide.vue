@@ -27,7 +27,7 @@
       <!--</div>-->
     <!--</div>-->
 
-    <el-carousel :interval="-1" type="card" arrow="hover" :height="slideHeight">
+    <el-carousel :interval="-1" :type="type" arrow="hover" :height="slideHeight" :class="type">
       <el-carousel-item v-for="s in sections" :autoplay="false" :key="s.id" class="page" :style="{height: slideHeight}">
         <div @click="onEnterClicked(s.id)" >
           <img :src="s.imgUrl" alt="" class="img">
@@ -92,6 +92,7 @@
 
         ],
         slideHeight: '0px',
+        type: '',
         index: 0
       }
     },
@@ -107,7 +108,9 @@
     },
     mounted: function () {
       let slideWidth = this.$refs.slide.getBoundingClientRect().width
-      this.slideHeight = slideWidth * 9 / 16 * .6 + 'px'
+      this.type = ((document.getElementsByClassName('navbar-more')[0].getBoundingClientRect().x === 0) &&
+        (window.innerWidth < 1840)) ? '' : 'card'
+      this.slideHeight = slideWidth * 9 / 16 * (this.type ? .81 : 1) + 'px'
     }
   }
 </script>

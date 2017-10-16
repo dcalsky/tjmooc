@@ -225,37 +225,197 @@
 
       <transition name="fade">
         <div id="test" v-if="select.length === 3 && select[2] === -2">
+
           <el-form
-            :model="homeworkForm"
+            :model="testForm"
             label-width="80px"
             label-position="top"
           >
+            <el-form-item :label="`已提交 (${test.submitted.length})`">
 
-            <el-form-item label="作业标题">
-              <el-input v-model="homeworkForm.title"></el-input>
+              <el-table
+                ref="singleTable"
+                :data="test.submitted"
+                style="width: 100%"
+                :show-header="false">
+                <el-table-column
+                  property="id"
+                  label="学号"
+                  width="120">
+                </el-table-column>
+                <el-table-column
+                  property="name"
+                  label="姓名"
+                  width="120">
+                </el-table-column>
+                <el-table-column
+                  property="time"
+                  label="提交时间">
+                </el-table-column>
+                <el-table-column
+                  property="score"
+                  label="测试成绩"
+                  width="120">
+
+                  <template scope="scope">
+                    {{scope.row.score}} 分
+                  </template>
+                </el-table-column>
+              </el-table>
+
             </el-form-item>
+
+            <div class="divide"></div>
+
             <el-form-item label="截止时间">
               <el-date-picker
-                v-model="homeworkForm.deadline"
+                v-model="testForm.deadline"
                 type="datetime"
                 placeholder="选择作业截止时间">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="作业描述"></el-form-item>
-            <vue-editor v-model="homeworkForm.introduction" style="transform: translateY(-20px)"></vue-editor>
+
+            <el-form-item :label="'测试题目' + (questionsForm.length ? '' : ' - 请添加测试题目')">
+              <div v-if="questionsForm.length" style="margin-top: -20px;">
+                <div class="question" v-for="(q, i) in questionsForm">
+                  <el-card
+                    v-if="q.type === 'select'"
+                    :class="{goup: ani[i] === -1, godown: ani[i] === 1, goaway: ani[i] === -2}"
+                  >
+                    <div slot="header">
+                      <el-button-group>
+                        <el-button type="primary" size="small" icon="arrow-left" @click="questionUp(i)"></el-button>
+                        <el-button type="primary" size="small" icon="close" @click="questionRemove(i)"></el-button>
+                        <el-button type="primary" size="small" icon="arrow-right" @click="questionDown(i)"></el-button>
+                      </el-button-group>
+                    </div>
+
+                    <div class="flex">
+                      <span class="text">题干：</span>
+                      <!--<el-input size="small" v-model="q.question"></el-input>-->
+                      <click-input
+                        size="small"
+                        v-model="q.question"
+                        style="margin-left: -10px;"
+                        textarea
+                      ></click-input>
+                    </div>
+                    <div class="flex">
+                      <span class="text">选项：</span>
+                      <div class="box">
+                        <el-radio-group v-model="q.answer">
+                          <el-radio :label="i" v-for="o, i in q.options">
+                            <click-input
+                              size="small"
+                              v-model="q.options[i]"
+                              v-on:remove="q.options.splice(i, 1)"
+                            ></click-input>
+                          </el-radio>
+                        </el-radio-group>
+                        <el-button size="small" plain icon="plus" @click="addOption(i)">新建选项</el-button>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <span class="text">答案：</span>
+                      <span>{{q.options[q.answer] || '请选择正确答案'}}</span>
+                    </div>
+                  </el-card>
 
 
-            <!--:editorToolbar="[-->
-            <!--['bold', 'italic', 'underline'],-->
-            <!--[{ 'list': 'ordered'}, { 'list': 'bullet' }],-->
-            <!--['image', 'code-block', 'formula', 'code-block']-->
-            <!--]"-->
+                  <el-card
+                    v-if="q.type === 'check'"
+                    :class="{goup: ani[i] === -1, godown: ani[i] === 1, goaway: ani[i] === -2}"
+                  >
+                    <div slot="header">
+                      <el-button-group>
+                        <el-button type="primary" size="small" icon="arrow-left" @click="questionUp(i)"></el-button>
+                        <el-button type="primary" size="small" icon="close" @click="questionRemove(i)"></el-button>
+                        <el-button type="primary" size="small" icon="arrow-right" @click="questionDown(i)"></el-button>
+                      </el-button-group>
+                    </div>
 
-            <el-form-item class="save">
+                    <div class="flex">
+                      <span class="text">题干：</span>
+                      <!--<el-input size="small" v-model="q.question"></el-input>-->
+                      <click-input
+                        size="small"
+                        v-model="q.question"
+                        style="margin-left: -10px;"
+                        textarea
+                      ></click-input>
+                    </div>
+                    <div class="flex">
+                      <span class="text">选项：</span>
+                      <div class="box">
+                        <el-checkbox-group v-model="q.answer">
+                          <el-checkbox :label="i" v-for="o, i in q.options">
+                            <click-input
+                              size="small"
+                              v-model="q.options[i]"
+                              v-on:remove="q.options.splice(i, 1)"
+                            ></click-input>
+                          </el-checkbox>
+                        </el-checkbox-group>
+                        <el-button size="small" plain icon="plus" @click="addOption(i)">新建选项</el-button>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <span class="text">答案：</span>
+                      <span v-if="q.answer.length === 0">请选择正确答案</span>
+                      <span v-for="i in q.answer" :style="{order: i, marginRight: '10px'}">{{q.options[i]}}</span>
+                    </div>
+                  </el-card>
+
+                  <el-card
+                    v-if="q.type == 'blank'"
+                    :class="{goup: ani[i] === -1, godown: ani[i] === 1, goaway: ani[i] === -2}"
+                  >
+                    <div slot="header">
+                      <el-button-group>
+                        <el-button type="primary" size="small" icon="arrow-left" @click="questionUp(i)"></el-button>
+                        <el-button type="primary" size="small" icon="close" @click="questionRemove(i)"></el-button>
+                        <el-button type="primary" size="small" icon="arrow-right" @click="questionDown(i)"></el-button>
+                      </el-button-group>
+                    </div>
+
+                    <div class="flex">
+                      <span class="text">题干：</span>
+                      <!--<el-input size="small" v-model="q.question"></el-input>-->
+                      <click-input
+                        size="small"
+                        v-model="q.question"
+                        style="margin-left: -10px;"
+                        textarea
+                      ></click-input>
+                    </div>
+                    <div class="flex">
+                      <span class="text">答案：</span>
+                      <click-input
+                      size="small"
+                      v-model="q.answer"
+                      class="box"
+                      textarea
+                      style="margin-left: -10px;"
+                    ></click-input>
+                    </div>
+                  </el-card>
+
+                </div>
+              </div>
+              <div>
+                <el-button type="primary" plain @click="addQuestion('select')">添加单选题</el-button>
+                <el-button type="primary" plain @click="addQuestion('check')">添加多选题</el-button>
+                <el-button type="primary" plain @click="addQuestion('blank')">添加填空题</el-button>
+              </div>
+            </el-form-item>
+
+
+            <el-form-item class="save" style="margin-top: 50px;">
               <el-button type="primary">保存修改</el-button>
             </el-form-item>
           </el-form>
         </div>
+
       </transition>
 
     </div>
@@ -265,6 +425,7 @@
 <script>
   import FootBar from "../../components/foot-bar/foot-bar.vue"
   import Navbar from "../../components/navbar/navbar.vue"
+  import ClickInput from "../../components/click-input/click-input.vue"
   import store from "./store"
   import {debounce} from "lodash"
   import { VueEditor } from 'vue2-editor'
@@ -272,6 +433,7 @@
   export default {
     name: 'manage',
     components: {
+      ClickInput,
       FootBar,
       Navbar,
       VueEditor
@@ -289,18 +451,25 @@
           this.chapterForm = Object.assign({}, this.chapterForm, val)
         }
       },
-      unit: {
-        deep: true,
-        handler (val) {
-          this.unitForm = Object.assign({}, this.unitForm, val)
-        }
-      },
       homework: {
         deep: true,
         handler (val) {
           this.homeworkForm = Object.assign({}, this.homeworkForm, val)
         }
-      }
+      },
+      test: {
+        deep: true,
+        handler (val) {
+          this.testForm = Object.assign({}, this.testForm, val)
+        }
+      },
+      questions: {
+        deep: true,
+        handler (val) {
+          this.questionsForm = [...val]
+          this.ani = new Array(val.length).fill(0)
+        }
+      },
     },
     computed: {
       courses () {
@@ -330,6 +499,12 @@
       homework () {
         return store.homework
       },
+      test () {
+        return store.test
+      },
+      questions () {
+        return store.questions
+      },
       filterCourses () {
         return this.courses.filter(x => x.title.search(this.search) > -1)
       },
@@ -340,6 +515,10 @@
       step () {
         const u = ['课程', '章']
         return u[this.select.length - 1]
+      },
+      sortit (l) {
+        console.log(l)
+        return l.sort()
       }
     },
     data () {
@@ -364,16 +543,57 @@
         unitForm: {},
 
         homeworkForm: {},
+        testForm: {},
+        questionsForm: [],
 
         minHeight: 0,
 
         assistantVisible: false,
-        assistantValue: ''
+        assistantValue: '',
+
+        ani: []
 
 
       }
     },
     methods: {
+      questionUp (i) {
+        if (i > 0) {
+          this.$set(this.ani, i - 1, 1)
+          this.$set(this.ani, i, -1)
+          setTimeout(() => {
+            this.$set(this.ani, i - 1, 0)
+            this.$set(this.ani, i, 0)
+            const t = this.questionsForm[i - 1]
+            this.$set(this.questionsForm, i - 1, this.questionsForm[i])
+            this.$set(this.questionsForm, i, t)
+          }, 200)
+        }
+      },
+      questionDown (i) {
+        if (i < this.questionsForm.length - 1) {
+          this.$set(this.ani, i, 1)
+          this.$set(this.ani, i + 1, -1)
+          setTimeout(() => {
+            this.$set(this.ani, i, 0)
+            this.$set(this.ani, i + 1, 0)
+            const t = this.questionsForm[i + 1]
+            this.$set(this.questionsForm, i + 1, this.questionsForm[i])
+            this.$set(this.questionsForm, i, t)
+          }, 200)
+        }
+      },
+      questionRemove (i) {
+        this.$set(this.ani, i, -2)
+        for (let t = i + 1; t < this.ani.length; ++t) {
+          this.$set(this.ani, t, -1)
+        }
+        setTimeout(() => {
+          this.questionsForm.splice(i, 1)
+          this.ani = new Array(this.ani.length - 1).fill(0)
+        }, 200)
+      },
+
       courseCardClick(c) {
         this.select[0] = c.id
         store.getCourse(c.id)
@@ -424,7 +644,7 @@
             this.left = this.left.slice(0, 3)
           }
         })
-        store.getHomework()
+        store.getTest()
       },
 
       appendChapter() {
@@ -432,6 +652,43 @@
       },
       appendUnit() {
         store.appendUnit()
+      },
+
+      addQuestion(type) {
+        const f = {
+          select: () => {
+            this.questionsForm.push({
+              type,
+              question: '',
+              options: [],
+              answer: -1
+            })
+            this.ani.push(0)
+          },
+
+          check: () => {
+            this.questionsForm.push({
+              type,
+              question: '',
+              options: [],
+              answer: []
+            })
+            this.ani.push(0)
+          },
+          blank: () => {
+            this.questionsForm.push({
+              type,
+              question: '',
+              options: null,
+              answer: ''
+            })
+            this.ani.push(0)
+          }
+        }
+        f[type] && f[type]()
+      },
+      addOption(index) {
+        this.questionsForm[index].options.push('')
       },
 
       searchFilter(val, key='title') {

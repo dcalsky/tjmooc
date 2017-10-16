@@ -340,6 +340,94 @@
   }
 }
 
+#test {
+  .question {
+    padding-right: 15px;
+
+    .el-card {
+      overflow: visible;
+      margin: 20px 0;
+      cursor: default;
+      position: relative;
+      transform: translateY(0);
+      transition: 0s;
+
+      &:hover {
+        transform: none;
+        .el-card__header {
+          opacity: 1;
+        }
+      }
+    }
+    .el-card__body {
+      flex-direction: column;
+    }
+    .el-card__header {
+      border-bottom: none;
+      position: absolute;
+      transform: rotateZ(90deg);
+      right: -98px;
+      top: 34px;
+      opacity: .4;
+      transition: all .2s;
+    }
+
+
+    .goup {
+      transform: translateY(-100%) !important;
+      transition: transform .2s;
+    }
+    .godown {
+      transform: translateY(100%) !important;
+      transition: transform .2s;
+    }
+    .goaway {
+      transform: translateX(50%) !important;
+      opacity: 0;
+      transition: transform .2s, opacity .2s;
+    }
+
+    .flex {
+      display: flex;
+      width: 100%;
+      align-items: baseline;
+      margin: 5px;
+    }
+    .click-input {
+      width: 100%;
+    }
+    .text {
+      letter-spacing: 1px;
+      width: 50px;
+      flex-shrink: 0;
+    }
+    .box {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: baseline;
+      .el-button {
+        margin: 5px 0;
+      }
+      .click-input {
+        width: 456px;
+      }
+    }
+    .el-radio-group, .el-checkbox-group {
+      width: 100%;
+      padding-right: 25px;
+      box-sizing: border-box;
+    }
+    .el-radio, .el-checkbox {
+      margin: 5px 0;
+      display: block;
+      width: 100%;
+    }
+    .el-input {
+      display: inline-block;
+    }
+  }
+}
 
 
 .fade-enter-active, .fade-leave-active {

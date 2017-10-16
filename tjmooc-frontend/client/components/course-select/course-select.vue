@@ -11,14 +11,14 @@
     </div>
 
     <div class="select" :class="{subSelected: subjectNow != -1}">
-      <div class="back"></div>
       <div class="left">
+        <div class="back"></div>
         <div class="subject" v-for="(s, index) in subject" @click="onSubjectClicked(index)" :class="{selected: index == subjectNow}">
           {{s.name}}
           <div class="percentage" :style="{width: scrollPercentage + '%'}"></div>
         </div>
       </div>
-      <div class="right" ref="scrollBar">
+      <div class="right">
         <div class="info" v-if="subjectNow == -1">选择感兴趣的方向</div>
         <div class="info" v-if="subjectNow != -1 && course.length == 0">暂无课程</div>
         <div class="course" v-for="(c, index) in course">

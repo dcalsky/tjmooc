@@ -207,10 +207,12 @@
         display: flex;
         flex-direction: column;
         box-shadow: none;
+        .login {
+          letter-spacing: 10px;
+          padding: 10px 10px 10px 20px;
+        }
         a {
           margin: 5px auto !important;
-          padding: 10px 10px 10px 20px !important;
-          letter-spacing: 10px;
           box-shadow: 0 0 15px -5px rgba($mainColor, 0.4);
 
           &:before {

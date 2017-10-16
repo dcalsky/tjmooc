@@ -36,13 +36,16 @@ const vm = new Vue({
       assistants: [],
 
       homework: {},
+      test: {},
+
+      questions: []
 
     }
   },
   watch: {
   },
   methods: {
-    getHomework () {
+    getHomework() {
       this.homework = Object.assign({}, this.homework, {
         introduction: '作业正文在这里',
         title: '作业标题是什么',
@@ -60,6 +63,22 @@ const vm = new Vue({
         })),
       })
     },
+
+
+
+    getTest () {
+      this.test = Object.assign({}, this.test, {
+        deadline: new Date('2017-10-1 12:15'),
+
+        submitted: new Array(10).fill(1).map((x, i) => ({
+          id: 1552000 + i,
+          name: '同学' + i,
+          score: i * 2 + 80,
+          time: new Date(i * 10000000000).toTimeString()
+        })),
+      })
+    },
+
 
 
     getCourse (i) {
