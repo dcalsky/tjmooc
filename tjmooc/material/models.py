@@ -1,7 +1,8 @@
+from datetime import datetime
+
 from django.db import models
 from user.models import User
-from course.models import Chapter, Unit
-import jsonfield
+from course.models import Chapter
 
 
 def homework_problem_path(instance, filename):
@@ -16,45 +17,41 @@ def homework_submit_path(instance, filename):
     return './upload/homework_{0}_submit_{1}'.format(instance.id, filename)
 
 
-class Homework(models.Model):
-    chapter = models.ForeignKey(Chapter, related_name='homeworks')
-    title = models.CharField(max_length=50, unique=True)
-    introduction = models.TextField()
-    problems = jsonfield.JSONField(default=list)
-    deadline = models.DateTimeField()
-
-    def __str__(self):
-        return self.title
-
-
-class HomeworkSubmit(models.Model):
-    homework_id = models.ForeignKey(Homework)
-    submit_user_id = models.ForeignKey(User, related_name='homework_submit_user_id')
-    judge_user_id = models.ForeignKey(User, related_name='homework_judge_user_id', null = True, blank = True)
-    comment = models.TextField(null=True, blank = True)
-    score = models.IntegerField(null=True, blank = True)
-    submit_time = models.DateTimeField(auto_now_add=True)
-    judge_time = models.DateTimeField(auto_now=True, null = True, blank = True)
-    submit_content = models.TextField()
-
-    def __str__(self):
-        return self.homework_id.title + " " + self.submit_user_id.name
-
-
 class Test(models.Model):
-    title = models.CharField(max_length=50)
-    introduction = models.TextField()
-    problem = jsonfield.JSONField(default=list)
-    deadline = models.DateTimeField()
-    unit = models.ForeignKey(Unit)
+    deadline = models.DateTimeField(default=datetime.now)
+    chapter = models.ForeignKey(Chapter)
 
 
 class TestSubmit(models.Model):
+    answer = models.TextField(null=True)
+    update_time = models.DateTimeField(default=datetime.now)
     test = models.ForeignKey(Test)
-    submit_user = models.ForeignKey(User, related_name='test_submit_user_id')
-    submit_time = models.DateTimeField(auto_now_add=True)
-    submit = models.TextField()
-    score = models.IntegerField(null=True)
+    user = models.ForeignKey(User)
+    score = models.IntegerField(default=0)
+
+
+class Homework(models.Model):
+    file = models.TextField(null=True)  # homework description file URL
+    title = models.CharField(max_length=100)
+    desc = models.TextField()
+    deadline = models.DateTimeField(default=datetime.now)
+    chapter = models.ForeignKey(Chapter)
+
+
+class HomeworkSubmit(models.Model):
+    file = models.TextField(null=True)  # homework answer file URL
+    homework = models.ForeignKey(Homework)
+    user = models.ForeignKey(User)
+    update_time = models.DateTimeField(default=datetime.now)
+
+
+class Question(models.Model):
+    type = models.CharField(max_length=20)
+    score = models.IntegerField()
+    desc = models.TextField()
+    options = models.TextField(null=True)
+    right_answer = models.TextField()
+    test = models.ForeignKey(Test)
 
 
 class Video(models.Model):
@@ -63,11 +60,3 @@ class Video(models.Model):
     upload_time = models.DateTimeField(auto_now_add=True, help_text='创建时间', blank=True)
     url = models.URLField(help_text='链接')
     teacher = models.ForeignKey(User)
-
-
-class Problem(models.Model):
-    type = models.TextField()
-    question = jsonfield.JSONField()
-    answer = jsonfield.JSONField()
-    teacher = models.ForeignKey(User)
-
