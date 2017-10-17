@@ -350,7 +350,6 @@
       cursor: default;
       position: relative;
       transform: translateY(0);
-      transition: 0s;
 
       &:hover {
         transform: none;
@@ -370,21 +369,6 @@
       top: 34px;
       opacity: .4;
       transition: all .2s;
-    }
-
-
-    .goup {
-      transform: translateY(-100%) !important;
-      transition: transform .2s;
-    }
-    .godown {
-      transform: translateY(100%) !important;
-      transition: transform .2s;
-    }
-    .goaway {
-      transform: translateX(50%) !important;
-      opacity: 0;
-      transition: transform .2s, opacity .2s;
     }
 
     .flex {

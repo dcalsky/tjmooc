@@ -512,6 +512,7 @@
       },
 
       searchFilter(val, key='title') {
+        val = val || [] // Ready for empty
         let l = val.filter(x => x[key].search(this.search) > -1)
         if (l.length === 0)
           l = val

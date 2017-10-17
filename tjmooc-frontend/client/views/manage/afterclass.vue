@@ -277,10 +277,9 @@
 
             <el-form-item :label="'测试题目' + (questionsForm.length ? '' : ' - 请添加测试题目')">
               <div v-if="questionsForm.length" style="margin-top: -20px;">
-                <div class="question" v-for="(q, i) in questionsForm">
+                <div ref='question' class="question" v-for="(q, i) in questionsForm">
                   <el-card
                     v-if="q.type === 'select'"
-                    :class="{goup: ani[i] === -1, godown: ani[i] === 1, goaway: ani[i] === -2}"
                   >
                     <div slot="header">
                       <el-button-group>
@@ -324,7 +323,6 @@
 
                   <el-card
                     v-if="q.type === 'check'"
-                    :class="{goup: ani[i] === -1, godown: ani[i] === 1, goaway: ani[i] === -2}"
                   >
                     <div slot="header">
                       <el-button-group>
@@ -368,7 +366,6 @@
 
                   <el-card
                     v-if="q.type == 'blank'"
-                    :class="{goup: ani[i] === -1, godown: ani[i] === 1, goaway: ani[i] === -2}"
                   >
                     <div slot="header">
                       <el-button-group>
@@ -467,7 +464,6 @@
         deep: true,
         handler (val) {
           this.questionsForm = [...val]
-          this.ani = new Array(val.length).fill(0)
         }
       },
     },
@@ -551,19 +547,22 @@
         assistantVisible: false,
         assistantValue: '',
 
-        ani: []
-
 
       }
     },
     methods: {
       questionUp (i) {
         if (i > 0) {
-          this.$set(this.ani, i - 1, 1)
-          this.$set(this.ani, i, -1)
+          const p = this.$refs.question[i - 1]
+          const q = this.$refs.question[i]
+          const ph = p.getBoundingClientRect().height
+          const qh = q.getBoundingClientRect().height
+          q.setAttribute('style', `transform: translateY(-${ph + 20 + 'px'});transition: all .2s;`)
+          p.setAttribute('style', `transform: translateY(${qh + 20 + 'px'});transition: all .2s;`)
+
           setTimeout(() => {
-            this.$set(this.ani, i - 1, 0)
-            this.$set(this.ani, i, 0)
+            p.removeAttribute('style')
+            q.removeAttribute('style')
             const t = this.questionsForm[i - 1]
             this.$set(this.questionsForm, i - 1, this.questionsForm[i])
             this.$set(this.questionsForm, i, t)
@@ -572,11 +571,17 @@
       },
       questionDown (i) {
         if (i < this.questionsForm.length - 1) {
-          this.$set(this.ani, i, 1)
-          this.$set(this.ani, i + 1, -1)
+          const p = this.$refs.question[i]
+          const q = this.$refs.question[i + 1]
+          const ph = p.getBoundingClientRect().height
+          const qh = q.getBoundingClientRect().height
+          q.setAttribute('style', `transform: translateY(-${ph + 20 + 'px'});transition: all .2s;`)
+          p.setAttribute('style', `transform: translateY(${qh + 20 + 'px'});transition: all .2s;`)
+
+
           setTimeout(() => {
-            this.$set(this.ani, i, 0)
-            this.$set(this.ani, i + 1, 0)
+            p.removeAttribute('style')
+            q.removeAttribute('style')
             const t = this.questionsForm[i + 1]
             this.$set(this.questionsForm, i + 1, this.questionsForm[i])
             this.$set(this.questionsForm, i, t)
@@ -584,13 +589,21 @@
         }
       },
       questionRemove (i) {
-        this.$set(this.ani, i, -2)
-        for (let t = i + 1; t < this.ani.length; ++t) {
-          this.$set(this.ani, t, -1)
+        const p = this.$refs.question[i]
+        const ph = p.getBoundingClientRect().height
+        const pw = p.getBoundingClientRect().width
+        p.setAttribute('style', `transform: translateX(${pw / 2 + 'px'});opacity: 0;transition: all .2s;`)
+
+        for (let t = i + 1; t < this.questionsForm.length; ++t) {
+          const q = this.$refs.question[t]
+          q.setAttribute('style', `transform: translateY(-${ph + 20 + 'px'});transition: all .2s;`)
         }
         setTimeout(() => {
+          for (let t = i; t < this.questionsForm.length; ++t) {
+            const q = this.$refs.question[t]
+            q.removeAttribute('style')
+          }
           this.questionsForm.splice(i, 1)
-          this.ani = new Array(this.ani.length - 1).fill(0)
         }, 200)
       },
 
@@ -663,7 +676,6 @@
               options: [],
               answer: -1
             })
-            this.ani.push(0)
           },
 
           check: () => {
@@ -673,7 +685,6 @@
               options: [],
               answer: []
             })
-            this.ani.push(0)
           },
           blank: () => {
             this.questionsForm.push({
@@ -682,7 +693,6 @@
               options: null,
               answer: ''
             })
-            this.ani.push(0)
           }
         }
         f[type] && f[type]()
