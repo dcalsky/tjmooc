@@ -20,6 +20,7 @@ const actions = {
       if (err) {
         commit(types.LOGIN_FAILED, errorHandler('error'))
       }
+      console.log(res.body)
       if ('token' in res.body) {
         commit(types.LOGIN_SUCCESS, { user: res.body })
         // Set localStorage for session information
@@ -28,7 +29,7 @@ const actions = {
         window.localStorage.setItem('userId', res.body.user.id)
         window.localStorage.setItem('email', res.body.user.email)
         // Success: enter profile page
-        router.push({ name: 'profile' })
+        router.push({ name: 'home' })
       } else {
         // Fail: return fail message
         commit(types.LOGIN_FAILED, errorHandler(res.body))
@@ -47,8 +48,8 @@ const actions = {
 const mutations = {
   [types.LOGIN_SUCCESS] (state, { user }) {
     state.token = user.token
-    state.username = user.username
-    state.userId = user.id
+    state.username = user.user.username
+    state.userId = user.user.id
   },
   [types.LOGIN_FAILED] (state, messages) {
     state.messages = messages

@@ -1,6 +1,6 @@
 <template>
   <div class="search">
-    <i :class="`fa fa-${icon} fa-2x`" v-if="icon"></i>
+    <i :class="`fa fa-${icon} fa-1x`" v-if="icon"></i>
     <input type="text" :value="value" @input="updateValue">
     <div class="remove" v-if="value" @click="onRemoveBtnClicked"></div>
   </div>

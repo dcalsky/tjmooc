@@ -22,6 +22,11 @@ const ForumList = r => require(['views/forum/forum-list'], r)
 const ForumDetail = r => require(['views/forum/floors'], r)
 const PostDetail = r => require(['views/forum/post'], r)
 
+// Manage
+const Manage = r => require(['views/manage'], r)
+const ManageAfterclass = r => require(['views/manage/afterclass.vue'], r)
+const ManageCourse = r => require(['views/manage/course.vue'], r)
+
 Vue.use(Router)
 
 export default new Router({
@@ -80,6 +85,21 @@ export default new Router({
       ]
     },
     {
+      path: '/manage',
+      component: Manage,
+      name: 'manage',
+      children: [
+        {
+          path: 'course',
+          component: ManageCourse
+        },
+        {
+          path: 'afterclass',
+          component: ManageAfterclass
+        }
+      ]
+    },
+    {
       path: '/bbs',
       component: Forum,
       name: 'bbs',
@@ -93,7 +113,7 @@ export default new Router({
           component: ForumDetail,
           name: 'forumDetail'
         }, {
-          path: 'post/:floorId',
+          path: 'post/:postId',
           component: PostDetail,
           name: 'postDetail'
         }

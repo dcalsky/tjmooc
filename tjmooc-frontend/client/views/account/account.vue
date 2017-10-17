@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="account">
+    <div id="account" :style="{minHeight}">
       <!--<div class="paper">-->
         <!--<div class="back-home" @click="backHome">-->
           <!--<i class="fa fa-home fa-lg"></i>-->
@@ -37,7 +37,8 @@
     data: function () {
       return {
         width: 600,
-        height: 200
+        height: 200,
+        minHeight: 0
       }
     },
     methods: {
@@ -57,6 +58,7 @@
       }
     },
     mounted: function () {
+      this.minHeight = window.innerHeight - 147 + 'px'
     }
   }
 </script>

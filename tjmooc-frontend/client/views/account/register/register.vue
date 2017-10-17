@@ -1,5 +1,5 @@
 <template>
-  <div id="account-register">
+  <div id="account-register" @keyup.enter="onNextClicked">
 
     <el-slider
       v-model="step"
@@ -15,9 +15,9 @@
     </div>
     <div class="form">
       <div class="input" v-if="!finish">
-        <input ref="input" v-if="stepList[step].type == 'number'" type="number" v-model="inputText">
-        <input ref="input" v-if="stepList[step].type == 'text'" type="text" v-model="inputText">
-        <input ref="input" v-if="stepList[step].type == 'password'" type="password" v-model="inputText">
+        <input ref="input" v-if="stepList[step].type == 'number'" type="number" v-model="inputText" autofocus>
+        <input ref="input" v-if="stepList[step].type == 'text'" type="text" v-model="inputText" autofocus>
+        <input ref="input" v-if="stepList[step].type == 'password'" type="password" v-model="inputText" autofocus>
       </div>
     </div>
 

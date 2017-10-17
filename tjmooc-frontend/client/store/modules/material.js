@@ -15,7 +15,8 @@ const state = {
     "chapter": 0
   },
   homeworkSubmit: {},
-  videos: {}
+  videos: {},
+  videosLen: 0
 }
 
 // actions
@@ -128,6 +129,7 @@ const mutations = {
     Object.assign(state.videos, {
       [`${courseId}-${chapterId}-${unitId}-${video.id}`]: video
     })
+    state.videosLen = Object.keys(state.videos).length
   },
   [types.GET_VIDEO_FAILED](state, messages) {
     state.video = {};

@@ -23,6 +23,7 @@
       <div class="t2"></div>
     </div>
     <div class="right">
+      <div hidden>{{videosLen}}{{videos}}</div>
       <el-menu @open="onOpen" @select="onSelect" @close="onOpen" unique-opened>
         <div v-for="chapter in chapters">
 
@@ -62,6 +63,7 @@
         courseId: 0,
 
         path: '',
+        refresh: true
       }
     },
     computed: {
@@ -116,6 +118,9 @@
       videos() {
           return this.$store.state.material.videos;
       },
+      videosLen() {
+          return this.$store.state.material.videosLen;
+      },
       video() {
         return this.videos[this.path] || {
             "id": 0,
@@ -127,13 +132,22 @@
           };
       },
       getVideoNameByPath() {
+          console.log('getVideoNameByPath')
         return function (chapterId, unitId, videoId) {
-          let path = `${this.courseId}-${chapterId}-${unitId}-${videoId}`;
-          console.log('path', path, this.videos);
-          return this.videos[path] && this.videos[path].title;
+          const path = `${this.courseId}-${chapterId}-${unitId}-${videoId}`;
+//          console.log('path', path, this.videos);
+          return this.videos[path] && this.videos[path].title.slice(0, -4);
         }
       },
     },
+//    watch: {
+//        '$store.state.material' : {
+//            handler (val) {
+//                console.log('store', val)
+//            },
+//          deep: true
+//        }
+//    },
     methods: {
         getChapterById(id) {
             return this.chapters.find(x => x.id == id);

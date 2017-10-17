@@ -100,7 +100,7 @@
         margin: 20px;
         padding: 20px;
         width: 300px;
-        box-shadow: rgba($mainColor, .3) 2px 2px 20px -2px;
+        box-shadow: rgba($mainColor, .2) 2px 2px 20px -2px;
         border: 1px solid white;
         border-radius: 4px;
         transition: all .3s;
@@ -129,7 +129,7 @@
           position: relative;
           letter-spacing: 2px;
           padding: 0 5px;
-          background-color: lighten($lightColor, 35%);
+          background-color: lighten($lightColor, 40%);
 
           &:after {
             content: "";
@@ -150,7 +150,8 @@
         }
         &:hover {
           border-color: rgba($mainColor, 0.1);
-          box-shadow: none;
+          box-shadow: rgba($mainColor, .3) 2px 2px 25px -2px;
+          transform: translateY(-5px);
 
           .btn:after {
             animation: moveAni 1s infinite;

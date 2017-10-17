@@ -6,6 +6,7 @@ import user from './modules/user'
 import course from './modules/course'
 import material from './modules/material'
 import forum from './modules/forum'
+import manage from './modules/manage'
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ const store = new Vuex.Store({
     user,
     course,
     material,
+    manage,
     forum
   },
   strict: debug,

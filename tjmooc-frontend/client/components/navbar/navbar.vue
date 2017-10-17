@@ -1,22 +1,25 @@
 <template>
-  <div class="navbar">
-    <router-link to="/">
-      <logo></logo>
-    </router-link>
-    <span class="navbar-more" @click="toggleLink" :class="{'navbar-more-active': linkDisplay}">
-      <span class="navbar-more-ch" :class="navbarClass(i)" v-for="i in [1, 2 ,3]"></span>
-    </span>
-    <div class="link-box" :class="{'side-box': linkDisplay}">
-      <div v-for="link in links" >
-        <router-link :to="link[1]">{{link[0]}}</router-link>
-      </div>
-      <div class="account-box" v-if="!login" >
-        <router-link to="/account/register" class="register">注册</router-link>
-        <router-link to="/account/login" class="login">登录</router-link>
-      </div>
-      <div class="account-box" v-if="login">
-        <router-link class="register" to="/profile">{{ username }}</router-link>
-        <a class="login" @click="logout">退出</a>
+  <div style="width: 100%;
+  background: linear-gradient(to bottom,rgba(255, 255, 255, 100) 0%,rgba(255, 255, 255, 100) 20%,rgba(255, 255, 255, 0) 100%);">
+    <div class="navbar">
+      <router-link to="/">
+        <logo></logo>
+      </router-link>
+      <span class="navbar-more" @click="toggleLink" :class="{'navbar-more-active': linkDisplay}">
+        <span class="navbar-more-ch" :class="navbarClass(i)" v-for="i in [1, 2 ,3]"></span>
+      </span>
+      <div class="link-box" :class="{'side-box': linkDisplay}">
+        <div v-for="link in links" >
+          <router-link :to="link[1]">{{link[0]}}</router-link>
+        </div>
+        <div class="account-box" v-if="!login" >
+          <router-link to="/account/register" class="register">注册</router-link>
+          <router-link to="/account/login" class="login">登录</router-link>
+        </div>
+        <div class="account-box" v-if="login">
+          <router-link class="register" to="/profile">{{ username }}</router-link>
+          <a class="login" @click="logout">退出</a>
+        </div>
       </div>
     </div>
   </div>

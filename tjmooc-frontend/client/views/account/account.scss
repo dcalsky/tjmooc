@@ -74,7 +74,7 @@ $rc: lighten($lightColor, 44%);
       overflow: hidden;
       width: 0;
       color: transparent;
-      background: rgba($mainColor, .1);
+      background: transparent;
       position: absolute;
       top: 50% - $h / 2;
       border-radius: 8px;
@@ -85,27 +85,27 @@ $rc: lighten($lightColor, 44%);
       .toggle {
         width: 80px;
         color: $lightColor;
+        background: rgba($mainColor, .1);
       }
     }
   }
   .home-left {
     left: 12.5%;
-    .toggle {
-      left: 50 - $w / 2;
-    }
     &:hover {
       .toggle {
-        padding: 0 $w * .1 0 $w * .9;
+        padding: 0 $w * .05 0 $w * .75;
       }
     }
   }
   .home-right {
-    left: 78.5%;
+    right: 12.5%;
     .toggle {
-      right: 50 - $w / 2;
+      right: 0;
     }
-    .toggle {
-      padding: 0 $w * .9 0 $w * .1;
+    &:hover {
+      .toggle {
+        padding: 0 $w * .75 0 $w * .05;
+      }
     }
   }
 
