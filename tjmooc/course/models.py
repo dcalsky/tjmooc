@@ -2,6 +2,7 @@ from django.db import models
 from user.models import User
 import jsonfield
 
+
 class Course(models.Model):
     title = models.TextField(help_text='标题')
     subtitle = models.TextField(help_text='副标题')
@@ -11,6 +12,7 @@ class Course(models.Model):
     update_time = models.DateTimeField(auto_now_add=True, help_text='更新时间')
     participants_count = models.IntegerField(default=0, help_text='参与人数')
     obligator = models.ForeignKey(User)
+    top = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -26,6 +28,7 @@ class Chapter(models.Model):
     def __str__(self):
         return self.title
 
+
 class Unit(models.Model):
     title = models.TextField(help_text='标题')
     description = models.TextField(help_text='说明')
@@ -34,8 +37,6 @@ class Unit(models.Model):
 
     def __str__(self):
         return self.title
-
-
 
 
 class CourseParticipation(models.Model):
