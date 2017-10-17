@@ -73,6 +73,6 @@
   }
 </script>
 
-<style lang="sass" rel="stylesheet/sass" scoped>
+<style lang="sass" rel="stylesheet/sass">
   @import "navbar"
 </style>

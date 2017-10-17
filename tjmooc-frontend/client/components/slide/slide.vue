@@ -1,31 +1,47 @@
 <template>
-  <div class="slide">
-    <div class="img">
-      <div class="background"></div>
-      <div class="descImg">
-        <img :src="dataNow('imgUrl')" :alt="dataNow('title')">
-      </div>
+  <div class="slide" ref="slide">
+    <!--<div class="img">-->
+      <!--<div class="background"></div>-->
+      <!--<div class="descImg">-->
+        <!--<img :src="dataNow('imgUrl')" :alt="dataNow('title')">-->
+      <!--</div>-->
 
-      <div class="text">
-        <div class="detail">
-          <div class="teacher">{{dataNow('teacher')}} 主讲</div>
-          <div class="time">{{dataNow('time')}} 课时</div>
+      <!--<div class="text">-->
+        <!--<div class="detail">-->
+          <!--<div class="teacher">{{dataNow('teacher')}} 主讲</div>-->
+          <!--<div class="time">{{dataNow('time')}} 课时</div>-->
+        <!--</div>-->
+        <!--<h1>{{dataNow('title')}}</h1>-->
+        <!--<div class="btn" @click="onEnterClicked">-->
+          <!--<div>进入课程</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="tip-box">-->
+      <!--<div class="scroll">-->
+        <!--<div class="tip" v-for="(section, index) in sections" @click="onTipClicked(index)" :style="{opacity: index == displayNow ? 1 : 0.75}">-->
+          <!--<div class="color-bar" v-if="index == displayNow"></div>-->
+          <!--<h1>{{section.title}}</h1>-->
+          <!--<p>{{section.teacher}}</p>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <el-carousel :interval="-1" :type="type" arrow="hover" :height="slideHeight" :class="type">
+      <el-carousel-item v-for="s in sections" :autoplay="false" :key="s.id" class="page" :style="{height: slideHeight}">
+        <div @click="onEnterClicked(s.id)" >
+          <img :src="s.imgUrl" alt="" class="img">
+
+          <div class="text">
+            <div class="detail">
+              {{s.desc}}
+            </div>
+            <h1>{{s.title}}</h1>
+          </div>
         </div>
-        <h1>{{dataNow('title')}}</h1>
-        <div class="btn" @click="onEnterClicked">
-          <div>进入课程</div>
-        </div>
-      </div>
-    </div>
-    <div class="tip-box">
-      <div class="scroll">
-        <div class="tip" v-for="(section, index) in sections" @click="onTipClicked(index)" :style="{opacity: index == displayNow ? 1 : 0.75}">
-          <div class="color-bar" v-if="index == displayNow"></div>
-          <h1>{{section.title}}</h1>
-          <p>{{section.teacher}}</p>
-        </div>
-      </div>
-    </div>
+      </el-carousel-item>
+    </el-carousel>
+
   </div>
 </template>
 
@@ -44,7 +60,7 @@
             time: 159,
             color: '#EEEEEE',
             imgUrl: '/slide/gdsx.jpg',
-            courseId: '1',
+            id: 1,
           },
           {
             title: '线性代数',
@@ -53,7 +69,7 @@
             time: 159,
             color: '#800080',
             imgUrl: '/slide/fbhs.jpg',
-            courseId: 'xianxingdaishu',
+            id: 1,
           },
           {
             title: '概率论',
@@ -62,7 +78,7 @@
             time: 155,
             color: '#FFFF00',
             imgUrl: '/slide/gll.jpg',
-            courseId: 'gailvlun',
+            id: 'gailvlun',
           },
           {
             title: '复变函数',
@@ -71,76 +87,34 @@
             time: 154,
             color: '#FFC0CB',
             imgUrl: '/slide/fbhs.jpg',
-            courseId: 'fubianhanshu',
+            id: 'fubianhanshu',
           },
 
         ],
-        title: "同济慕课",
-        timeoutFunc: null,
-        displayNow: 3,
+        slideHeight: '0px',
+        type: '',
+        index: 0
       }
     },
     computed: {
-      dataNow: function () {
-        let s = this.sections[this.displayNow];
-        return function (key) {
-          return s[key];
-        }
-      },
-      desc: function () {
-        let desc = this.sections[this.displayNow].desc;
-        return desc;
-      }
     },
     methods: {
-      scrollTo: function (left, ms) {
-          let box = document.getElementsByClassName('tip-box')[0], now;
-          if (box) {
-              now = box.scrollLeft;
-            let frame = ms / 40, step = (left - now) / frame;
-            for (let i = 0; i < frame; ++i) {
-                setTimeout( function() {
-                  box.scrollLeft += step;
-                }, 40 * i);
-            }
-          }
+      onEnterClicked (id) {
+        this.$router.push({ path: `/course/display/${id}`})
       },
-      startSlide: function () {
-        if (this.timeoutFunc)
-            clearTimeout(this.timeoutFunc);
-
-
-        //let first = this.sections[0];
-        //this.sections = _.drop(this.sections).concat(this.sections[0]);
-        this.displayNow = (this.displayNow + 1) % this.sections.length;
-        this.scrollTo(240 * this.displayNow, 600);
-
-        let s = this.startSlide;
-        this.timeoutFunc = setTimeout(function () {
-            s();
-          },
-          5000
-        )
-      },
-      onTipClicked: function (i) {
-        if (this.timeoutFunc)
-          clearTimeout(this.timeoutFunc);
-        this.displayNow = i;
-      },
-      onEnterClicked: function (e) {
-        if (this.timeoutFunc)
-          clearTimeout(this.timeoutFunc);
-        console.log(this.displayNow);
-        window.r = this.$router;
-        this.$router.push({ path: '/course/display/' + this.sections[this.displayNow].courseId })
+      onChange (index) {
+        this.index = index
       }
     },
     mounted: function () {
-      this.startSlide();
+      let slideWidth = this.$refs.slide.getBoundingClientRect().width
+      this.type = ((document.getElementsByClassName('navbar-more')[0].getBoundingClientRect().x === 0) &&
+        (window.innerWidth < 1840)) ? '' : 'card'
+      this.slideHeight = slideWidth * 9 / 16 * (this.type ? .81 : 1) + 'px'
     }
   }
 </script>
 
-<style lang="sass" rel="stylesheet/sass" scoped>
+<style lang="sass" rel="stylesheet/sass">
   @import "slide.scss"
 </style>

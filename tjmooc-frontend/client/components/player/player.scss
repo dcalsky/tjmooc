@@ -48,6 +48,8 @@
       display: block;
       //top: 100%;
       z-index: 1;
+      box-shadow: 0 0 20px -8px $dark;
+
 
       .front, .back {
         backface-visibility: hidden;

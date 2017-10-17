@@ -259,7 +259,7 @@ const mutations = {
 
   getAllCourses(state, courses) {
     // TODO: 约束后端！只要这几个字段: id, title, subtitle, cover_image, introduction
-    state.courses = courses.map(x => {
+    state.courses = courses.map && courses.map(x => {
         let {id, title, subtitle, introduction, cover_image} = x
         cover_image = cover_image.startsWith('http') ? cover_image : urlJoin(server.host, 'media', cover_image)
         return {id, title, subtitle, introduction, cover_image}
