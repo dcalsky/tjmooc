@@ -2,7 +2,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView, Response, status
 from material.models import Video
@@ -10,7 +10,7 @@ from material.serializer import VideoSerializer
 from course.permissions import IsObligatorOrLeactureOrManagerOrReadOnly, IsStudent
 from course.serializers import CourseSerializer, ChapterSerializer, CourseParticipationSerializer, UnitSerializer
 from course.models import Course, Chapter, CourseParticipation, Unit
-from django.http import Http404
+from django.http import Http404, JsonResponse
 import json
 
 
@@ -289,20 +289,10 @@ class VideoView(APIView):
             return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class TopView(APIView):
+    permission_classes = (AllowAny, )
+    def get(self, request):
+        courses = Course.objects.filter(top=True).values()
+        return JsonResponse({
+            'result': json.dumps(courses)
+        })
