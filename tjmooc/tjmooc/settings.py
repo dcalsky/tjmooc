@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'user',
-    'material',
     'course',
+    'material',
     'bbs',
     'session',
 ]

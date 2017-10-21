@@ -1,4 +1,5 @@
 import json
+from rest_framework.validators import UniqueTogetherValidator
 
 from rest_framework import serializers
 from .models import *
@@ -31,34 +32,46 @@ class QuestionListSerializer(serializers.Serializer):
 
 
 class TestSerializer(serializers.ModelSerializer):
+    questions = QuestionSerializer(source='get_questions', read_only=True, many=True)
+
     class Meta:
         model = Test
         fields = '__all__'
 
 
 class TestSubmitSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    user = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
+
     test = serializers.PrimaryKeyRelatedField(queryset=Test.objects.all())
     answer = serializers.ListField(child=serializers.CharField())
-
-    def validate(self, attrs):
-        pass
 
     def save(self):
         score = 0
         answer = self.validated_data['answer']
+        print(answer)
         questions = Question.objects.filter(test_id=self.validated_data['test'])
-        print(questions)
         # Compare all answers of questions of user and teacher
         for i in range(questions.count()):
             question = questions[i]
+            if i > len(answer) - 1:
+                answer.append('')
             if question.right_answer == answer[i]:
                 score = score + question.score
-        TestSubmit.objects.create(score=score, user_id=self.validated_data['user'].id, **self.validated_data)
+        TestSubmit.objects.create(score=score, **self.validated_data)
 
     class Meta:
         model = TestSubmit
         fields = '__all__'
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=TestSubmit.objects.all(),
+                fields=('user', 'test'),
+                message="请勿重复提交测试"
+            )
+        ]
 
 
 class HomeworkSubmitSerializer(serializers.ModelSerializer):
