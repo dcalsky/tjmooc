@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import User
+from material.models import *
 import jsonfield
 
 
@@ -8,22 +9,32 @@ class Course(models.Model):
     subtitle = models.TextField(help_text='副标题')
     introduction = models.TextField(help_text='内容介绍')
     cover_image = models.TextField(help_text='封面图')
-    sections = jsonfield.JSONField(help_text='章', default=list)  # store a string for (de)serialization
     update_time = models.DateTimeField(auto_now_add=True, help_text='更新时间')
     participants_count = models.IntegerField(default=0, help_text='参与人数')
-    obligator = models.ForeignKey(User)
+    lecturer = models.ForeignKey(User, null=True)
     top = models.BooleanField(default=False)
+
+    def get_chapters(self):
+        return Chapter.objects.filter(course=self)
 
     def __str__(self):
         return self.title
 
 
 class Chapter(models.Model):
-    units = jsonfield.JSONField(help_text='单元', default=list)
     title = models.TextField(help_text='标题')
     description = models.TextField(help_text='说明')
     materials = jsonfield.JSONField(help_text='课程资料', default=list)
-    leacturer = models.ForeignKey(User, null=False, blank=False)
+    course = models.ForeignKey(Course)
+
+    def get_homeworks(self):
+        return Homework.objects.filter(chapter=self)
+
+    def get_tests(self):
+        return Test.objects.filter(chapter=self)
+
+    def get_units(self):
+        return Unit.objects.filter(chapter=self)
 
     def __str__(self):
         return self.title
@@ -33,7 +44,7 @@ class Unit(models.Model):
     title = models.TextField(help_text='标题')
     description = models.TextField(help_text='说明')
     lists = jsonfield.JSONField(help_text='内容', default=list)
-    leacturer = models.ForeignKey(User)
+    chapter = models.ForeignKey(Chapter)
 
     def __str__(self):
         return self.title
