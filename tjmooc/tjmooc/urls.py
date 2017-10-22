@@ -17,12 +17,12 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework.schemas import get_schema_view
+from rest_framework_swagger.views import get_swagger_view
 
-schema_view = get_schema_view(title='Tjmooc API')
+schema_view = get_swagger_view(title='Tjmooc API')
+
 
 urlpatterns = [
-    url(r'^docs/', include('rest_framework_docs.urls')),
     url(r'^users/', include('user.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^sessions/', include('session.urls')),
@@ -30,5 +30,4 @@ urlpatterns = [
     url(r'^course/', include('course.urls')),
     url(r'^material/', include('material.urls')),
     url(r'^doc/$', schema_view)
-    # url(r'^sessions/', obtain_jwt_token),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
