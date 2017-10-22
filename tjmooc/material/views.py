@@ -2,107 +2,72 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.generics import *
-from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
+from rest_framework.decorators import detail_route, list_route
+from rest_framework.permissions import AllowAny
 
 from course.models import Unit
 from course.views import get_unit_and_chapter_and_course
 from material.models import *
 from material.permissions import IsTeacherOrManagerOrReadOnly, IsLeacturerOrManagerOrReadOnly
-from rest_framework.permissions import AllowAny
-from material.serializer import *
+from material.serializers import *
 
 
-class HomeworkView(ListCreateAPIView):
+class HomeworkViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
-    queryset = Homework.objects.all()
     serializer_class = HomeworkSerializer
-
-
-class HomeworkDetailView(RetrieveUpdateDestroyAPIView):
-    lookup_field = 'id'
-    permission_classes = (AllowAny,)
     queryset = Homework.objects.all()
-    serializer_class = HomeworkSerializer
 
 
-# 作业的全部提交
-class HomeworkSubmitView(ListCreateAPIView):
-    lookup_field = 'id'
+class HomeworkSubmitViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
-    queryset = HomeworkSubmit.objects.all()
     serializer_class = HomeworkSubmitSerializer
-
-    def list(self, request, id, **kwargs):
-        serializer = HomeworkSubmitSerializer(HomeworkSubmit.objects.filter(homework_id=id), many=True)
-        return Response(data=serializer.data)
-
-    def create(self, request, id, **kwargs):
-        data = request.data
-        data['homework'] = id
-        data['user'] = request.user.id
-        serializer = HomeworkSubmitSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    queryset = HomeworkSubmit.objects.all()
 
 
-class TestView(ListCreateAPIView):
+class TestViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
-    queryset = Test.objects.all()
     serializer_class = TestSerializer
-
-
-class TestDetailView(RetrieveUpdateDestroyAPIView):
-    lookup_field = 'id'
-    permission_classes = (AllowAny,)
     queryset = Test.objects.all()
-    serializer_class = TestSerializer
 
 
-class TestSubmitView(APIView):
-    def get(self, request, id):
-        test = Test.objects.get(id=id)
-        serializer = TestSubmitSerializer(test.testsubmit_set.all(), many=True)
-        return Response(data=serializer.data)
-
-    def post(self, request, id):
-        data = request.data
-        data['test'] = id
-        data['user'] = request.user.id
-        serializer = TestSubmitSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class QuestionView(ListCreateAPIView):
+class TestSumitViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
-    queryset = Question.objects.all()
+    serializer_class = TestSubmitSerializer
+    queryset = TestSubmit.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = TestSubmitSerializer(data=request.data, context={
+            'request': request
+        })
+        if serializer.is_valid():
+            answer = serializer.validated_data['answer']
+            score = 0
+            questions = Question.objects.filter(test=serializer.validated_data['test'])
+            for i in range(questions.count()):
+                question = questions[i]
+                if i > len(answer) - 1:
+                    answer.append('')
+                if question.right_answer == answer[i]:
+                    score = score + question.score
+            serializer.save(score=score)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors)
+
+
+class QuestionViewSet(ModelViewSet):
+    permission_classes = (AllowAny,)
     serializer_class = QuestionSerializer
-
-    def list(self, request, *args, **kwargs):
-        if kwargs['id']:
-            serializer = QuestionSerializer(data=Question.objects.filter(test_id=kwargs['id']), many=True)
-        else:
-            serializer = QuestionSerializer(data=Question.objects.all(), many=True)
-        serializer.is_valid()
-        return Response(data=serializer.data)
-
-
-class QuestionListView(APIView):
-    permission_classes = (AllowAny,)
     queryset = Question.objects.all()
-    serializer_class = QuestionListSerializer
 
-    def post(self, request):
-        serializers = QuestionListSerializer(data=request.data)
-        if serializers.is_valid():
-            serializers.save()
-            return Response(serializers.data, status=status.HTTP_201_CREATED)
-        return Response(serializers.errors, status.HTTP_400_BAD_REQUEST)
+    @list_route(methods=['post'], url_path='list')
+    def questions(self, request):
+        serializer = QuestionListSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
 
 
 def get_course_chapter_unit_id(request):

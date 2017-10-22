@@ -17,7 +17,9 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework.schemas import get_schema_view
+
+schema_view = get_schema_view(title='Tjmooc API')
 
 urlpatterns = [
     url(r'^docs/', include('rest_framework_docs.urls')),
@@ -26,6 +28,7 @@ urlpatterns = [
     url(r'^sessions/', include('session.urls')),
     url(r'^bbs/', include('bbs.urls')),
     url(r'^course/', include('course.urls')),
-    url(r'^material/', include('material.urls'))
+    url(r'^material/', include('material.urls')),
+    url(r'^doc/$', schema_view)
     # url(r'^sessions/', obtain_jwt_token),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

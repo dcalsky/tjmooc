@@ -2,7 +2,6 @@ from datetime import datetime
 
 from django.db import models
 from user.models import User
-from course.models import Chapter
 
 
 def homework_problem_path(instance, filename):
@@ -19,7 +18,13 @@ def homework_submit_path(instance, filename):
 
 class Test(models.Model):
     deadline = models.DateTimeField(default=datetime.now)
-    chapter = models.ForeignKey(Chapter)
+    chapter = models.ForeignKey('course.Chapter')
+
+    def get_questions(self):
+        return Question.objects.filter(test=self)
+
+    def get_test_submits(self):
+        return TestSubmit.objects.filter(test=self)
 
 
 class TestSubmit(models.Model):
@@ -35,7 +40,7 @@ class Homework(models.Model):
     title = models.CharField(max_length=100)
     desc = models.TextField()
     deadline = models.DateTimeField(default=datetime.now)
-    chapter = models.ForeignKey(Chapter)
+    chapter = models.ForeignKey('course.Chapter')
 
 
 class HomeworkSubmit(models.Model):

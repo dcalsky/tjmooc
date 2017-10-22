@@ -1,61 +1,27 @@
-from rest_framework import serializers
-from course.models import Course, Chapter, Unit, CourseParticipation
+from rest_framework.serializers import *
+from course.models import Course, Chapter, Unit
+from material.serializers import *
 
 
-class DynamicFieldsModelSerializer(serializers.ModelSerializer):
-    """
-    A ModelSerializer that takes an additional `fields` argument that
-    controls which fields should be displayed.
-    """
-
-    def __init__(self, *args, **kwargs):
-        # Don't pass the 'fields' arg up to the superclass
-        fields = kwargs.pop('fields', None)
-        remove_fields = kwargs.pop('remove_fields', None)
-
-        # Instantiate the superclass normally
-        super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
-
-        if fields is not None:
-            # Drop any fields that are not specified in the `fields` argument.
-            allowed = fields
-            existing = self.fields.keys()
-            for field_name in existing - allowed:
-                try:
-                    self.fields.pop(field_name)
-                except KeyError:
-                    continue
-
-        if remove_fields is not None:
-            for field_name in remove_fields:
-                try:
-                    self.fields.pop(field_name)
-                except KeyError:
-                    continue
-
-
-class CourseSerializer(DynamicFieldsModelSerializer):
-
-    class Meta:
-        model = Course
-        fields = '__all__'
-
-
-class ChapterSerializer(DynamicFieldsModelSerializer):
-    class Meta:
-        model = Chapter
-        fields = '__all__'
-
-
-class UnitSerializer(DynamicFieldsModelSerializer):
+class UnitSerializer(ModelSerializer):
     class Meta:
         model = Unit
         fields = '__all__'
 
 
-class CourseParticipationSerializer(DynamicFieldsModelSerializer):
+class ChapterSerializer(ModelSerializer):
+    tests = TestSerializer(source='get_tests', many=True, read_only=True)
+    homeworks = HomeworkSerializer(source='get_homeworks', many=True, read_only=True)
+    units = UnitSerializer(source='get_units', many=True, read_only=True)
+
     class Meta:
-        model = CourseParticipation
+        model = Chapter
         fields = '__all__'
 
 
+class CourseSerializer(ModelSerializer):
+    chapters = ChapterSerializer(source='get_chapters', many=True, read_only=True)
+
+    class Meta:
+        model = Course
+        fields = '__all__'
