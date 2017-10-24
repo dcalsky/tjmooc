@@ -1,10 +1,10 @@
 <template>
-  <div class="foot-bar">
+  <div class="footbar">
     <div class="link-box">
       <router-link :to="l[1]" v-for="l in links">{{l[0]}}</router-link>
     </div>
     <div class="brand" @click="eggshell">
-      <logo :height="35" componentId="foot-logo"></logo>
+      <logo :height="35"></logo>
       <a :href="school[0].url" @click="eggshell">{{school[0].name}}</a>
     </div>
   </div>
@@ -13,7 +13,7 @@
 <script>
   import logo from "../../components/logo/logo.vue"
   export default {
-    name: "foot-bar",
+    name: "footbar",
     components: {
         logo
     },
@@ -47,5 +47,5 @@
 </script>
 
 <style lang="sass" rel="stylesheet/sass">
-  @import "foot-bar"
+  @import "../../style/footbar"
 </style>

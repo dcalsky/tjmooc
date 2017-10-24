@@ -131,11 +131,11 @@ const material = {
       cb
     })
   },
-  submitHomeworkFile (data, cb, token) {
-    post(`${server.material}homework/${data.homeworkId}/submit`, {
-      data: data.file,
-      cb,
-      token
+  submitHomeworkFile ({file, homework}, cb) {
+    console.log(file)
+    post(`${server.material}homework/${homework}/submit`, {
+      data: {file},
+      cb
     })
   },
   getVideo (data, cb, token) {
@@ -223,6 +223,10 @@ const manage = {
   },
   removeVideo ({courseId, chapterId, unitId, videoId}, cb) {
     delet(`${server.material}video/${videoId}?course=${courseId}&chapter=${chapterId}&unit=${unitId}`, {cb})
+  },
+
+  postHomework (data, cb) {
+    post(`${server.material}homework`, {data, cb})
   }
 }
 

@@ -20,7 +20,7 @@
       </div>
       <div class="btn-box">
         <div class="to" @click="toRegister">去注册</div>
-        <div class="login" :class="{allowed: submitting || messages.length }">
+        <div class="login" :class="{allowed: submitting || messages.length }" @click="onLoginBtnClicked">
           <span>登</span><span>录</span><span v-if="submitting">中</span><span v-if="submitting">…</span>
         </div>
       </div>

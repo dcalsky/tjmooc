@@ -7,6 +7,8 @@ $light: lighten($lightColor, 35%);
 $font: PingFangSC;
 //$font: PingFangSC,fzltxh,NotoSansHans-Regular,AvenirNext-Regular,arial,Hiragino Sans GB,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
 
+$font-xs: 14px;
+
 $breakpoints: (
   'xs': 'only screen and ( min-width: 480px)',
   'sm': 'only screen and ( min-width: 768px)',

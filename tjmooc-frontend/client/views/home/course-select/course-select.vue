@@ -32,7 +32,7 @@
 </template>
 
 <script>
-  import Search from '../../components/search/search.vue'
+  import Search from '../../../components/search/search.vue'
   export default {
     name: "course-select",
     components: {
@@ -145,5 +145,5 @@
 </script>
 
 <style lang="sass" rel="stylesheet/sass" scoped>
-  @import "course-select"
+  @import "../../../style/home"
 </style>

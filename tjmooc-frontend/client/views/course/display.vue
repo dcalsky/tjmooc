@@ -6,8 +6,8 @@
 </template>
 
 <script>
-  import Player from "../../components/player/player.vue"
-  import AfterClass from "../../components/after-class/after-class.vue"
+  import Player from "./player/player.vue"
+  import AfterClass from "./after-class/after-class.vue"
   export default {
     components: {
       Player,

@@ -1,7 +1,7 @@
 <template>
   <div class="player">
     <div class="left">
-      <flv-video :flv="flv" width="100%"></flv-video>
+      <flv-video :flv="flv" width="100%" :alt="course.cover_image"></flv-video>
       <div class="info" :class="{flipper: !infoFront}">
         <div class="front">
           <div class="content">
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-  import flvVideo from "../flv-video/flv-video.vue"
+  import flvVideo from "../../../components/flv-video/flv-video.vue"
   export default {
     name: "player",
     components: {
@@ -63,6 +63,10 @@
         courseId: 0,
 
         path: '',
+        pathLen: 0,
+
+        intro: [],
+
         refresh: true
       }
     },
@@ -85,12 +89,7 @@
           c.introduction = sc.introduction;
           c.cover_image = sc.cover_image;
 
-//          console.log(c.sections);
-//          let that = this;
-//          if (c.sections.map)
-//            c.sections = c.sections.map(s => {
-//              return s;
-//            });
+          this.intro[0] = c.introduction
         }
 
         return c;
@@ -104,7 +103,7 @@
       chapters() {
         let c = this.$store.state.course.chapters;
         if (c.length !== 0) {
-            console.log(c[0].id);
+          console.log(c[0].id);
           this.chapterId = c[0].id;
         }
         return Array.from(c);
@@ -116,23 +115,23 @@
         };
       },
       videos() {
-          return this.$store.state.material.videos;
+        return this.$store.state.material.videos;
       },
       videosLen() {
-          return this.$store.state.material.videosLen;
+        return this.$store.state.material.videosLen;
       },
       video() {
         return this.videos[this.path] || {
-            "id": 0,
-            "title": "",
-            "description": "",
-            "upload_time": "",
-            "url": "",
-            "teacher": ""
-          };
+          "id": 0,
+          "title": "",
+          "description": "",
+          "upload_time": "",
+          "url": "",
+          "teacher": ""
+        };
       },
       getVideoNameByPath() {
-          console.log('getVideoNameByPath')
+        console.log('getVideoNameByPath')
         return function (chapterId, unitId, videoId) {
           const path = `${this.courseId}-${chapterId}-${unitId}-${videoId}`;
 //          console.log('path', path, this.videos);
@@ -149,13 +148,13 @@
 //        }
 //    },
     methods: {
-        getChapterById(id) {
-            return this.chapters.find(x => x.id == id);
-        },
-      getUnitById(chapterId, unitId) {
-            let chapter = this.getChapterById(chapterId);
-            return chapter.units.find(x => x.id == unitId);
+      getChapterById(id) {
+        return this.chapters.find(x => x.id == id);
       },
+//      getUnitById(chapterId, unitId) {
+//        let chapter = this.getChapterById(chapterId);
+//        return chapter.units.find(x => x.id == unitId);
+//      },
       hasUnitsInfo(chapterId) {
         let chapter = this.getChapterById(chapterId);
         return chapter && chapter.units.length && typeof(chapter.units[0]) === 'object';
@@ -163,6 +162,7 @@
 
       onSelect(key, keyPath) {
         this.path = `${this.courseId}-${keyPath[keyPath.length - 1]}`;
+        this.pathLen = keyPath.length
 
         if (keyPath.length === 1) {
           // chapter
@@ -175,8 +175,8 @@
         }
       },
       onOpen(key, keyPath) {
+        this.pathLen = keyPath.length
 
-        console.log(key, keyPath);
         if (keyPath.length === 1) {
           // chapter
           let chapterId = keyPath[0];
@@ -188,9 +188,7 @@
         }
         if (keyPath.length === 2) {
           // unit
-          let
-            [chapterId, unitId] = keyPath[1].split('-'),
-            unit = this.getUnitById(chapterId, unitId);
+          const [chapterId, unitId] = keyPath[1].split('-')
 
 
           this.$store.dispatch('getVideos', {
@@ -198,19 +196,6 @@
             chapterId: chapterId,
             unitId: unitId
           });
-
-          for (let i in unit.lists) {
-            console.log(unit.lists[i]);
-            let videoId = unit.lists[i];
-//            if (!(`${this.courseId}-${chapterId}-${unitId}-${videoId}` in this.videos)) {
-//              this.$store.dispatch('getVideo', {
-//                courseId: this.courseId,
-//                chapterId: chapterId,
-//                unitId: unitId,
-//                videoId: videoId
-//              });
-//            }
-          }
         }
       },
       onInfoClicked() {
@@ -218,19 +203,9 @@
       },
     },
     created() {
-
-      // TODO: AJAX data
       this.courseId = this.$route.params.courseId;
       this.$store.dispatch('getCourseById', {courseId: this.courseId});
       this.$store.dispatch('getChapters', {courseId: this.courseId});
-    },
-    filters: {
-        textLimit(s, max) {
-            if (s.length <= max)
-                return s;
-            else
-                return s.substr(0, max - 2) + ' …';
-        }
     }
   }
 </script>

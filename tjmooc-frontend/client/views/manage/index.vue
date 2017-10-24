@@ -27,8 +27,8 @@
 </template>
 
 <script>
-  import FootBar from "../../components/foot-bar/foot-bar.vue"
-  import Navbar from "../../components/navbar/navbar.vue"
+  import FootBar from "../../components/footbar"
+  import Navbar from "../../components/navbar/index.vue"
 
   export default {
     name: 'manage',

@@ -1,0 +1,17 @@
+@import 'config';
+
+.logo {
+  display: flex;
+  align-self: flex-start;
+  height: 48px;
+
+  .st0 {
+    fill: $mainColor !important;
+  }
+  .st1 {
+    fill: $lightColor !important;
+  }
+  .stline {
+    stop-color: $mainColor !important;
+  }
+}

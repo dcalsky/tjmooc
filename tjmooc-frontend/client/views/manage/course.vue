@@ -172,7 +172,6 @@
 
             <el-form-item label="修改视频">
               <el-upload
-                class="upload-demo"
                 :action="uploadTo"
                 :on-success="onVideoUploadSuccess"
                 :on-progress="onVideoUploadProgress"
@@ -181,8 +180,6 @@
                 <el-button size="small" type="primary" :disabled="uploading || unit.id < 0">点击上传</el-button>
                 <div slot="tip" class="el-upload__tip">只能上传flv格式视频，且文件名将作为这段视频的名称</div>
               </el-upload>
-
-
             </el-form-item>
           </el-form>
         </div>
@@ -192,8 +189,8 @@
 </template>
 
 <script>
-  import FootBar from "../../components/foot-bar/foot-bar.vue"
-  import Navbar from "../../components/navbar/navbar.vue"
+  import FootBar from "../../components/footbar"
+  import Navbar from "../../components/navbar/index.vue"
   import store from "./store"
   import {debounce} from "lodash"
   import { VueEditor } from 'vue2-editor'
@@ -201,7 +198,7 @@
   import urlJoin from 'url-join'
 
   export default {
-    name: 'manage',
+    name: 'manage-course',
     components: {
       FootBar,
       Navbar,

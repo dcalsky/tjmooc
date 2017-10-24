@@ -226,10 +226,27 @@ const actions = {
       actions.getVideo({commit})
       console.log('removeVideo', res.body)
     })
-  }
-  // updateUnitVideo ({commit}, {courseId, chapterId, unitId, fileList, cb}) {
-  //   manage.updateUnitVideo({courseId, chapterId, unitId, })
-  // }
+  },
+
+  getHomework ({commit}) {
+    // const courseId = state.course.id
+    // const chapterId = state.chapter.id
+    // const unitId = state.unit.id
+    // manage.getVideo({courseId, chapterId, unitId}, (err, res) => {
+      commit('getHomework')
+    // })
+  },
+  submitHomeworkForm ({commit}, {homeworkForm, cb}) {
+    // console.log(courseForm)
+    manage.postHomework(homeworkForm, (err, res) => {
+      if (err) {
+        console.error(err)
+      }
+      // commit('submitCourseForm', res.body)
+      console.log('updateCourse', res.body)
+      cb()
+    })
+  },
 }
 
 const mutations = {
@@ -288,6 +305,9 @@ const mutations = {
       id: x.id
     }))
   },
+  getHomework(state, c) {
+    state.homework = {}
+  },
 
   clearCourse(state) {
     mutations.clearChapter(state)
@@ -303,6 +323,8 @@ const mutations = {
     state.unit = Object()
     state.videos = []
   }
+
+
 }
 
 export default {

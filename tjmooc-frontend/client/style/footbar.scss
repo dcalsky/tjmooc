@@ -1,8 +1,8 @@
-@import "../config";
+@import "config";
 
-.foot-bar {
+.footbar {
   font-family: sans-serif;
-  font-size: 14px;
+  font-size: $font-xs;
   font-weight: 100;
   background-color: lighten($lightColor, 0%);
   padding: 30px 100px;
@@ -15,7 +15,7 @@
   a {
     color: white !important;
     margin-right: 40px;
-    padding: 15px 0;
+    padding: $font-xs 0;
     &:hover {
       color: white !important;
       transform: translateY(-3px);
@@ -29,8 +29,8 @@
     flex-wrap: wrap;
   }
   .brand {
-    text-align: right;
-    #foot-logo {
+    text-align: left;
+    .logo {
       filter: grayscale(1) invert(1) contrast(1.2) brightness(1.5) opacity(0.8);
       margin: 15px 0 8px 0;
     }

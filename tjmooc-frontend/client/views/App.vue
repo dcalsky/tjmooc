@@ -1,28 +1,32 @@
 <template>
-  <div id="forum">
+  <div id="app">
     <navbar></navbar>
     <router-view :style="{minHeight}"></router-view>
-    <foot-bar></foot-bar>
+    <footbar></footbar>
   </div>
 </template>
 
 <script>
-  import footBar from "components/footbar/footbar"
-  import Navbar from "components/navbar/navbar"
+  import Navbar from '../components/navbar/index.vue'
+  import Footbar from '../components/footbar/index.vue'
 
   export default {
-    name: 'forum',
+    components: {
+      Navbar,
+      Footbar,
+    },
     data () {
       return {
         minHeight: 0
+
       }
-    },
-    components: {
-      footBar,
-      Navbar,
     },
     mounted () {
       this.minHeight = window.innerHeight - 96 + 'px'
     }
   }
 </script>
+
+<style lang="sass" rel="stylesheet/sass">
+  @import "../style/app"
+</style>

@@ -74,5 +74,5 @@
 </script>
 
 <style lang="sass" rel="stylesheet/sass">
-  @import "navbar"
+  @import "../../style/navbar"
 </style>

@@ -2,7 +2,7 @@
   <div id="manage-afterclass" :style="{minHeight}">
     <div class="left">
       <h1 class="el-icon-arrow-left" @click="$router.push({ name: 'manage'})" data-text="课后管理" data-text-hover="返 回"></h1>
-      <a v-for="item in left" @click="item.click">
+      <a ref='left' v-for="item in left" @click="item.click">
         {{item.tag}}
       </a>
     </div>
@@ -16,11 +16,11 @@
             class="filter"
             size="small">
           </el-input>
-          <div class="cards">
+          <div class="cards" v-if="searchFilter(courses).length">
             <div v-for="c in searchFilter(courses)" @click="courseCardClick(c)" class="cardBox">
               <el-card :body-style="{ padding: '0px' }">
                 <div class="img">
-                  <img :src="c.img" class="image">
+                  <img :src="c.cover_image" class="image">
                 </div>
                 <div class="detail">
                   <div class="title">{{c.title}}</div>
@@ -29,6 +29,7 @@
               </el-card>
             </div>
           </div>
+          <div class="none" v-else style="margin-left: 10%;">暂无{{step}}</div>
         </div>
       </transition>
 
@@ -73,7 +74,6 @@
                 class="filter"
                 v-model="search"
                 size="small">
-                <el-button slot="append" icon="plus" @click="appendChapter"></el-button>
               </el-input>
 
               <div class="cards">
@@ -107,10 +107,13 @@
         <div id="homework" v-if="select.length === 3 && select[2] === -1">
 
           <el-form
+            ref="homeworkForm"
+            :rules="homeworkRules"
             :model="homeworkForm"
             label-width="80px"
             label-position="top"
           >
+            <div v-if="false">
             <el-form-item :label="`已提交 (${homework.submitted.length})`">
 
               <el-table
@@ -155,46 +158,47 @@
             </el-form-item>
 
 
-            <el-form-item :label="`未提交 (${homework.unsubmit.length})`">
-              <el-table
-                class="unsubmit"
-                ref="singleTable"
-                :data="homework.unsubmit.slice(0, (homework.unsubmit.length + 1) / 2)"
-                :show-header="false">
-                <el-table-column
-                  property="id"
-                  label="学号"
-                  width="140">
-                </el-table-column>
-                <el-table-column
-                  property="name"
-                  label="姓名"
-                  width="140">
-                </el-table-column>
-              </el-table>
+            <!--<el-form-item :label="`未提交 (${homework.unsubmit.length})`">-->
+              <!--<el-table-->
+                <!--class="unsubmit"-->
+                <!--ref="singleTable"-->
+                <!--:data="homework.unsubmit.slice(0, (homework.unsubmit.length + 1) / 2)"-->
+                <!--:show-header="false">-->
+                <!--<el-table-column-->
+                  <!--property="id"-->
+                  <!--label="学号"-->
+                  <!--width="140">-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                  <!--property="name"-->
+                  <!--label="姓名"-->
+                  <!--width="140">-->
+                <!--</el-table-column>-->
+              <!--</el-table>-->
 
-              <el-table
-                class="unsubmit"
-                ref="singleTable"
-                :data="homework.unsubmit.slice((homework.unsubmit.length + 1) / 2)"
-                :show-header="false">
-                <el-table-column
-                  property="id"
-                  label="学号"
-                  width="140">
-                </el-table-column>
-                <el-table-column
-                  property="name"
-                  label="姓名"
-                  width="140">
-                </el-table-column>
-              </el-table>
+              <!--<el-table-->
+                <!--class="unsubmit"-->
+                <!--ref="singleTable"-->
+                <!--:data="homework.unsubmit.slice((homework.unsubmit.length + 1) / 2)"-->
+                <!--:show-header="false">-->
+                <!--<el-table-column-->
+                  <!--property="id"-->
+                  <!--label="学号"-->
+                  <!--width="140">-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                  <!--property="name"-->
+                  <!--label="姓名"-->
+                  <!--width="140">-->
+                <!--</el-table-column>-->
+              <!--</el-table>-->
 
-            </el-form-item>
+            <!--</el-form-item>-->
 
             <div class="divide"></div>
+            </div>
 
-            <el-form-item label="作业标题">
+            <el-form-item label="作业标题" prop="title">
               <el-input v-model="homeworkForm.title"></el-input>
             </el-form-item>
             <el-form-item label="截止时间">
@@ -204,9 +208,8 @@
               placeholder="选择作业截止时间">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="作业描述"></el-form-item>
-              <vue-editor v-model="homeworkForm.introduction" style="transform: translateY(-20px)"></vue-editor>
-
+            <el-form-item label="作业描述" prop="desc"></el-form-item>
+              <vue-editor v-model="homeworkForm.desc" style="transform: translateY(-20px)"></vue-editor>
 
             <!--:editorToolbar="[-->
             <!--['bold', 'italic', 'underline'],-->
@@ -214,8 +217,23 @@
             <!--['image', 'code-block', 'formula', 'code-block']-->
             <!--]"-->
 
+            <el-form-item label="作业文件" prop="file">
+              <el-upload
+                :action="uploadTo"
+                :on-success="onHomeworkFileUploadSuccess"
+                :on-remove="onHomeworkFileUploadRemove">
+                <el-button
+                  size="small"
+                  plain
+                  type="primary"
+                  v-if="!homeworkForm.file"
+                >点击上传</el-button>
+                <div v-else>作业文件仅能有一个，删除当前文件以替换</div>
+              </el-upload>
+            </el-form-item>
+
             <el-form-item class="save">
-              <el-button type="primary">保存修改</el-button>
+              <el-button type="primary" @click="saveHomework">保存修改</el-button>
             </el-form-item>
           </el-form>
 
@@ -420,15 +438,17 @@
 </template>
 
 <script>
-  import FootBar from "../../components/foot-bar/foot-bar.vue"
-  import Navbar from "../../components/navbar/navbar.vue"
+  import FootBar from "../../components/footbar"
+  import Navbar from "../../components/navbar/index.vue"
   import ClickInput from "../../components/click-input/click-input.vue"
   import store from "./store"
   import {debounce} from "lodash"
   import { VueEditor } from 'vue2-editor'
+  import {server} from '../../config'
+  import urlJoin from 'url-join'
 
   export default {
-    name: 'manage',
+    name: 'manage-afterclass',
     components: {
       ClickInput,
       FootBar,
@@ -469,53 +489,27 @@
     },
     computed: {
       courses () {
-        return store.courses
+        return this.$store.state.manage.courses
       },
       chapters () {
-        return store.chapters
-      },
-      units () {
-        return store.units
-      },
-      videos () {
-        return store.videos
+        return this.$store.state.manage.chapters
       },
       assistants () {
         return store.assistants;
       },
       course () {
-        return store.course
-      },
-      chapter () {
-        return store.chapter
-      },
-      unit () {
-        return store.unit
+        return this.$store.state.manage.course
       },
       homework () {
-        return store.homework
+        return this.$store.state.manage.homework
       },
       test () {
         return store.test
-      },
-      questions () {
-        return store.questions
-      },
-      filterCourses () {
-        return this.courses.filter(x => x.title.search(this.search) > -1)
-      },
-      courseSelect () {
-        let f = this.courses.filter(x => x.id === this.select[0])
-        return f.length > 0 ? f[0] : null
       },
       step () {
         const u = ['课程', '章']
         return u[this.select.length - 1]
       },
-      sortit (l) {
-        console.log(l)
-        return l.sort()
-      }
     },
     data () {
       return {
@@ -525,22 +519,21 @@
           {
             tag: '全部课程',
             click: () => {
+              this.$store.dispatch('getAllCourses')
+              this.$store.commit('clearCourse')
               while (this.select.length) this.select.pop()
               this.select.push(-1)
               this.search = ''
-              store.clearChapter()
               this.left = this.left.slice(0, 1)
             }
           }
         ],
         afterclass: 0,
-        courseForm: {},
-        chapterForm: {},
-        unitForm: {},
 
         homeworkForm: {},
         testForm: {},
         questionsForm: [],
+        uploadTo: server.upload,
 
         minHeight: 0,
 
@@ -548,9 +541,34 @@
         assistantValue: '',
 
 
+        homeworkRules: {
+          title: [
+            {required: true, message: '请输入作业标题', trigger: 'blur'},
+          ],
+//          file: [
+//            {required: true, message: '请上传课程文件', trigger: 'blur'},
+//          ],
+          desc: [
+            {required: true, message: '请输入课程描述', trigger: 'blur'},
+          ],
+          ddl: [
+            {type: 'date', required: true, message: '请选择作业提交截止时间', trigger: 'change'},
+          ],
+        },
       }
     },
     methods: {
+      onHomeworkFileUploadSuccess (res, file, fileList) {
+        this.uploading = false
+        console.log(res, file, fileList)
+        const t = res.startsWith('http') ? res : urlJoin(server.host, res)
+        this.$set(this.homeworkForm, 'file', t)
+//        this.$store.dispatch('addVideo', {url: t, fileName: file.name, teacher: this.$store.state.session.userId})
+      },
+      onHomeworkFileUploadRemove (file, fileList) {
+        this.$set(this.homeworkForm, 'file', '')
+      },
+
       questionUp (i) {
         if (i > 0) {
           const p = this.$refs.question[i - 1]
@@ -607,19 +625,22 @@
         }, 200)
       },
 
+
       courseCardClick(c) {
+        c = c || this.$store.state.manage.courses.slice(-1)[0]
         this.select[0] = c.id
-        store.getCourse(c.id)
+        this.$store.dispatch('getCourse', c)
         this.select.push(-1)
         this.search = ''
         this.left.push(
           {
             tag: '课程信息',
             click: () => {
+              this.$store.dispatch('getAllChapters', this.course)
               while (this.select.length > 1) this.select.pop()
               this.select.push(-1)
               this.search = ''
-              store.clearChapter()
+              this.$store.commit('clearChapter')
               this.left = this.left.slice(0, 2)
             }
           },
@@ -627,7 +648,8 @@
       },
       homeworkCardClick(c) {
         this.select[1] = c.id
-        store.getChapter(c.id)
+        this.$store.dispatch('getHomework', c)
+        this.chapter = c
         this.select.push(-1)
         this.search = ''
         this.left.push({
@@ -640,18 +662,17 @@
             this.left = this.left.slice(0, 3)
           }
         })
-        store.getHomework()
       },
       testCardClick(c) {
         this.select[1] = c.id
-        store.getChapter(c.id)
+        this.chapter = c
         this.select.push(-2)
         this.search = ''
         this.left.push({
           tag: '测试管理',
           click: () => {
             while (this.select.length > 2) this.select.pop()
-            this.select.push(-1)
+            this.select.push(-2)
             this.search = ''
             store.clearChapter()
             this.left = this.left.slice(0, 3)
@@ -660,11 +681,21 @@
         store.getTest()
       },
 
-      appendChapter() {
-        store.appendChapter()
-      },
-      appendUnit() {
-        store.appendUnit()
+      saveHomework () {
+        this.$refs.homeworkForm.validate(valid => {
+          if (valid) {
+            const f = Object.assign({}, this.homeworkForm, {chapter: this.chapter.id})
+            console.log(f)
+            this.$store.dispatch('submitHomeworkForm', {
+              homeworkForm: f,
+              cb: () => {
+                this.$refs.left[2].click()
+              }
+            })
+          } else {
+            return false
+          }
+        })
       },
 
       addQuestion(type) {
@@ -702,6 +733,7 @@
       },
 
       searchFilter(val, key='title') {
+        val = val || [] // Ready for empty
         let l = val.filter(x => x[key].search(this.search) > -1)
         if (l.length === 0)
           l = val
@@ -733,6 +765,7 @@
       }
     },
     mounted () {
+      this.$store.dispatch('getAllCourses')
       this.minHeight = window.innerHeight - 96 + 'px'
     }
   }

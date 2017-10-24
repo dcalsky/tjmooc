@@ -25,16 +25,12 @@ const actions = {
     commit(types.GET_HOMEWORK_REQUEST)
     material.getHomework(data, (err, res) => {
       // error handle todo
-      if (err) {
+      console.log('getHomework', res.body)
+      if (err || !res.body || !res.body.results) {
         console.log(err)
         commit(types.GET_HOMEWORK_FAILED, errorHandler('error'))
       }
-      if (res.body && res.body.length) {
-        commit(types.GET_HOMEWORK_SUCCESS, { homework: res.body[0] })
-      } else {
-        // Fail: return fail message
-        commit(types.GET_HOMEWORK_FAILED, errorHandler(res.body))
-      }
+      commit(types.GET_HOMEWORK_SUCCESS, { homework: res.body.results[0] })
     })
   },
   getHomeworkSubmit({ commit }, data) {
@@ -53,21 +49,20 @@ const actions = {
       }
     })
   },
-  submitHomeworkFile({commit}, data, token) {
+  submitHomeworkFile({commit}, data) {
     commit(types.POST_HOMEWORK_REQUEST);
-    console.log('shf', token);
     material.submitHomeworkFile(data, (err, res) => {
       if (err) {
         console.log(err)
         commit(types.POST_HOMEWORK_FAILED, errorHandler('error'))
       }
       if (res.body && res.body.length) {
-        commit(types.POST_HOMEWORK_SUCCESS, { homeworkSubmit: res.body[0] })
+        commit(types.POST_HOMEWORK_SUCCESS, { homeworkSubmit: res.body })
       } else {
         // Fail: return fail message
         commit(types.POST_HOMEWORK_FAILED, errorHandler(res.body))
       }
-    }, token)
+    })
   },
   getVideo({ commit }, data) {
     commit(types.GET_VIDEO_REQUEST)

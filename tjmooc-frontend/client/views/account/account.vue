@@ -27,7 +27,7 @@
 
 <script>
   import logo from 'components/logo/logo'
-  import footBar from "../../components/foot-bar/foot-bar.vue"
+  import footBar from "../../components/footbar"
   export default {
     name: "account",
     components: {

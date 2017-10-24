@@ -7,8 +7,8 @@
             <span v-if="!timeRemain.past">距</span>
             <span v-if="timeRemain.past">逾</span>
             截止日
-            <span>{{homework.deadline | convertTime(dateInEnglish)}}</span>
-            <span>{{homework.deadline | showTime(dateInEnglish)}}</span>
+            <span>{{deadline | convertTime(dateInEnglish)}}</span>
+            <span>{{deadline | showTime(dateInEnglish)}}</span>
           </div>
           <div class="date" :class="{past: timeRemain.past}">
             <span class="val">
@@ -31,7 +31,14 @@
         </div>
       </div>
 
-      <input hidden type="file" @change="submitFile" id="homework-submit">
+      <el-upload
+        :action="uploadTo"
+        hidden
+        :on-success="onUploadSuccess">
+        <el-button size="small" type="primary" id="homework-submit">点击上传</el-button>
+      </el-upload>
+
+      <!--<input hidden type="file" @change="submitFile" id="homework-submit">-->
     </div>
     <div class="right">
       <div class="header">
@@ -40,9 +47,7 @@
           <div class="section">{{chapterTitle}}</div>
         </div>
         <div class="btn-box">
-          <a class="btn" :href="homework.problem_file" target="_self">作业文件</a>
-          <span class="d">|</span>
-          <a class="btn" :href="homework.answer_file" target="_self">参考答案</a>
+          <a class="btn" :href="homework.file" target="_self" download>作业文件</a>
         </div>
       </div>
       <div class="content" id="homework-content">
@@ -54,7 +59,10 @@
 
 <script>
   import * as marked from 'marked'
-  import divide from "../../divide/divide.vue"
+  import divide from "../../../../components/divide/divide.vue"
+  import {server} from '../../../../config/index'
+  import urlJoin from 'url-join'
+
   export default {
     name: "homework",
     components: {
@@ -65,6 +73,7 @@
         dateInEnglish: true,
         now: new Date(),
         katexRendered: false,
+        uploadTo: server.upload,
       }
     },
 //    directives: {
@@ -106,24 +115,22 @@
       },
     },
     computed: {
+
       compiledMarkdown() {
-        let
-          text = this.homework.introduction,
-          html = marked(text, {sanitize: true});
-        console.log('a')
-        this.katexRendered = false;
-        return html;
-      },
-      token() {
-        return this.$store.state.session.token;
+//        let
+//          text = this.homework.desc,
+//          html = marked(text, {sanitize: true});
+//        console.log('a')
+//        this.katexRendered = false;
+//        return html;
+        return this.homework.desc
       },
       homework() {
-        let
-          homework = Object.assign({}, this.$store.state.material.homework);
-//          homework.chapter = chapter.title;
-        // TODO: 增加章节号
-        homework.deadline = new Date(homework.deadline);
-        return homework;
+        return this.$store.state.material.homework
+      },
+      deadline () {
+        console.log(this.homework)
+        return new Date(this.homework.deadline);
       },
       homeworkSubmit() {
         return this.$store.state.material.homeworkSubmit;
@@ -134,7 +141,7 @@
       timeRemain() {
         let
           now = this.now.getTime(),
-          ddl = this.homework.deadline.getTime(),
+          ddl = this.deadline.getTime(),
           remain = parseInt(Math.abs(ddl - now) / 1000),
           past = ddl < now;
         let unit = [
@@ -170,27 +177,29 @@
       },
     },
     methods: {
+
+      onUploadSuccess (res, file, fileList) {
+        const t = res.startsWith('http') ? res : urlJoin(server.host, res)
+        this.$store.dispatch('submitHomeworkFile', {file: t, homework: this.homework.id});
+      },
       refreshTime() {
         this.now = new Date();
         setTimeout(this.refreshTime, 500);
       },
-      onUpdate() {
-          alert('update');
-      },
-      submitFile(e) {
-        let f = e.target.files[0];
-        console.log(f, this.token);
-        let data = {
-          submit_user_id: this.$store.state.session.userId,
-          submit_time: new Date(),
-          submit_file: f
-        }
-
-        this.$store.dispatch('submitHomeworkFile', {file: data, homeworkId: this.homework.id, token: this.token});
-      }
+//      submitFile(e) {
+//        let f = e.target.files[0];
+//        console.log(f)
+//        let data = {
+//          submit_user_id: this.$store.state.session.userId,
+//          submit_time: new Date(),
+//          file: f
+//        }
+//
+//        this.$store.dispatch('submitHomeworkFile', {file: f, homeworkId: this.homework.id});
+//      }
     },
     mounted() {
-      this.refreshTime();
+//      this.refreshTime();
 
 //      let mathId = document.getElementsByClassName("mathjax");
 //

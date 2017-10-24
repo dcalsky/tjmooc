@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { sync } from 'vuex-router-sync'
 import '../theme/index.css'
 import ElementUI from 'element-ui'
-import App from './components/App'
+import App from './views/App.vue'
 import router from './router'
 import store from './store'
 sync(store, router)

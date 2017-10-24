@@ -3,7 +3,9 @@
     <video ref="videoElement" class="centeredVideo" controls autoplay :width="width" height="100%">
       Your browser is too old which doesn't support HTML5 video.
     </video>
-    <div class="noVideo" :style="hoverStyle">请选择课程视频</div>
+    <div class="noVideo" :style="hoverStyle">
+      <img :src="alt" alt="">
+    </div>
   </div>
 </template>
 
@@ -24,7 +26,10 @@
           type: Number,
         default: 9 / 16
       },
-      flv: {}
+      flv: {},
+      alt: {
+        type: String,
+      }
     },
     data() {
         return {
@@ -40,10 +45,8 @@
       hoverStyle () {
         return (this.flv && this.flv.url) ? {
           opacity: 0,
-          height: 0
-        } : {
-            opacity: 1
-          }
+          transform: 'translateY(-100%)'
+        } : {}
       }
     },
     methods: {
@@ -59,6 +62,7 @@
         );
         this.player.attachMediaElement(element);
         this.player.load();
+        window.p = this.player
       },
       flv_start() {
         this.player && this.player.play();

@@ -55,8 +55,8 @@
 </template>
 
 <script>
-  import divide from "../../divide/divide.vue"
-  import search from "../../search/search.vue"
+  import divide from "../../../../components/divide/divide.vue"
+  import search from "../../../../components/search/search.vue"
   export default {
     name: "test",
     components: {
