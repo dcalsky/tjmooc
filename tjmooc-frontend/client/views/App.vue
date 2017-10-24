@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <navbar></navbar>
+    <navbar v-if="showNav"></navbar>
     <router-view :style="{minHeight}"></router-view>
-    <footbar></footbar>
+    <footbar v-if="showFoot"></footbar>
   </div>
 </template>
 
@@ -15,10 +15,28 @@
       Navbar,
       Footbar,
     },
+    watch: {
+      $route: {
+        deep: true,
+        handler ({name}) {
+
+          console.log(name)
+          this.showNav = !this.navRule[name] && true
+          this.showFoot = !this.footRule[name] && true
+        }
+      }
+    },
     data () {
       return {
-        minHeight: 0
-
+        minHeight: 0,
+        showNav: true,
+        showFoot: true,
+        navRule: {
+          register: 1,
+          login: 1
+        },
+        footRule: {
+        }
       }
     },
     mounted () {

@@ -1,16 +1,7 @@
 <template>
   <div>
-    <div id="account" :style="{minHeight}">
-      <!--<div class="paper">-->
-        <!--<div class="back-home" @click="backHome">-->
-          <!--<i class="fa fa-home fa-lg"></i>-->
-          <!--<span>返回主页</span>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;<router-view></router-view>&ndash;&gt;-->
-        <!--<div id="account-logo-tie"></div>-->
-      <!--</div>-->
+    <div id="account">
       <div class="front">
-
         <div class="back" :class="left ? 'back-left' : 'back-right'">
           <div class="title">{{title}}</div>
         </div>
@@ -18,21 +9,18 @@
       </div>
       <div class="home" @click="backHome" :class="left ? 'home-right' : 'home-left'">
         <div class="toggle">返回主页</div>
-        <logo url="/icon.svg"></logo>
+        <logo></logo>
       </div>
     </div>
-    <foot-bar></foot-bar>
   </div>
 </template>
 
 <script>
   import logo from 'components/logo/logo'
-  import footBar from "../../components/footbar"
   export default {
     name: "account",
     components: {
-      logo,
-      footBar
+      logo
     },
     data: function () {
       return {
@@ -57,9 +45,6 @@
           return this.$route.name === 'login'
       }
     },
-    mounted: function () {
-      this.minHeight = window.innerHeight - 147 + 'px'
-    }
   }
 </script>
 

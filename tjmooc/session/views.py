@@ -35,7 +35,7 @@ class DynamicFieldsModelSerializer(ModelSerializer):
 class UserSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ('id', 'username', 'email', 'nickname')
 
 
 def jwt_response_payload_handler(token, user=None, request=None):

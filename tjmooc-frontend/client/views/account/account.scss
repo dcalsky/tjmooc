@@ -85,26 +85,30 @@ $rc: lighten($lightColor, 44%);
       .toggle {
         width: 80px;
         color: $lightColor;
-        background: rgba($mainColor, .1);
+        border: solid $lightColor;
+        border-width: 0 2px;
       }
     }
   }
   .home-left {
     left: 12.5%;
+    .toggle {
+      left: -$w * .06;
+    }
     &:hover {
       .toggle {
-        padding: 0 $w * .05 0 $w * .75;
+        padding: 0 $w * .02 0 $w * .78;
       }
     }
   }
   .home-right {
     right: 12.5%;
     .toggle {
-      right: 0;
+      right: -$w * .06;
     }
     &:hover {
       .toggle {
-        padding: 0 $w * .75 0 $w * .05;
+        padding: 0 $w * .78 0 $w * .02;
       }
     }
   }

@@ -8,6 +8,7 @@ const state = {
   token: window.localStorage.getItem('token'),
   username: window.localStorage.getItem('username'),
   userId: window.localStorage.getItem('userId'),
+  id: window.localStorage.getItem('id'),
   messages: []
 }
 
@@ -25,7 +26,8 @@ const actions = {
         commit(types.LOGIN_SUCCESS, { user: res.body })
         // Set localStorage for session information
         window.localStorage.setItem('token', res.body.token)
-        window.localStorage.setItem('username', res.body.user.username)
+        window.localStorage.setItem('id', res.body.user.username)
+        window.localStorage.setItem('username', res.body.user.nickname)
         window.localStorage.setItem('userId', res.body.user.id)
         window.localStorage.setItem('email', res.body.user.email)
         // Success: enter profile page
@@ -48,7 +50,8 @@ const actions = {
 const mutations = {
   [types.LOGIN_SUCCESS] (state, { user }) {
     state.token = user.token
-    state.username = user.user.username
+    state.id = user.user.username
+    state.username = user.user.nickname
     state.userId = user.user.id
   },
   [types.LOGIN_FAILED] (state, messages) {
