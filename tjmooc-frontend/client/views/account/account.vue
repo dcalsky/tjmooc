@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="account">
-      <div class="account">
+      <div class="account" :style="{minHeight}">
         <div class="home" @click="backHome" :class="left ? 'home-right' : 'home-left'">
           <div class="toggle">返回主页</div>
           <logo></logo>
@@ -10,7 +10,7 @@
           <div class="back" :class="left ? 'back-left' : 'back-right'">
             <div class="title">{{title}}</div>
           </div>
-          <router-view :style="{minHeight}"></router-view>
+          <router-view :style="{minHeight: routerHeight}"></router-view>
         </div>
       </div>
     </div>
@@ -26,7 +26,8 @@
     },
     data: function () {
       return {
-        minHeight: 0
+        minHeight: 0,
+        routerHeight: 0
       }
     },
     methods: {
@@ -43,10 +44,16 @@
       },
       left() {
           return this.$route.name === 'login'
-      }
+      },
     },
     mounted () {
-      this.minHeight = window.innerHeight - 64 - 98 + 'px'
+      this.minHeight = window.innerHeight - 64 + 'px'
+      if (window.innerWidth <= 480) {
+        this.routerHeight = window.innerHeight - 64 - 98 + 'px'
+      }
+      else {
+        this.routerHeight = 0
+      }
     }
   }
 </script>
