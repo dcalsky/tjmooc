@@ -235,8 +235,3 @@
     }
   }
 </script>
-
-
-<style lang="sass" rel="stylesheet/sass" scoped>
-  @import "register"
-</style>

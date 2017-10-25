@@ -6,7 +6,8 @@
     </div>
     <div class="form">
       <div v-for="(l, index) in list">
-        <label>{{l.name}}
+        <label>
+          <span>{{l.name}}</span>
           <input v-if="l.type == 'number'" type="number" v-model="form[l.key]" :autofocus="{autofocus: !index}">
           <input v-if="l.type == 'text'" type="text" v-model="form[l.key]">
           <input v-if="l.type == 'password'" type="password" v-model="form[l.key]">
@@ -104,9 +105,3 @@
     }
   }
 </script>
-
-
-<style lang="sass" rel="stylesheet/sass" scoped>
-  @import "login"
-</style>
-

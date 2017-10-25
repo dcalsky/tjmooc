@@ -1,15 +1,17 @@
 <template>
   <div>
     <div id="account">
-      <div class="front">
-        <div class="back" :class="left ? 'back-left' : 'back-right'">
-          <div class="title">{{title}}</div>
+      <div class="account" :style="{minHeight}">
+        <div class="home" @click="backHome" :class="left ? 'home-right' : 'home-left'">
+          <div class="toggle">返回主页</div>
+          <logo></logo>
         </div>
-        <router-view></router-view>
-      </div>
-      <div class="home" @click="backHome" :class="left ? 'home-right' : 'home-left'">
-        <div class="toggle">返回主页</div>
-        <logo></logo>
+        <div class="front">
+          <div class="back" :class="left ? 'back-left' : 'back-right'">
+            <div class="title">{{title}}</div>
+          </div>
+          <router-view></router-view>
+        </div>
       </div>
     </div>
   </div>
@@ -24,8 +26,6 @@
     },
     data: function () {
       return {
-        width: 600,
-        height: 200,
         minHeight: 0
       }
     },
@@ -45,9 +45,12 @@
           return this.$route.name === 'login'
       }
     },
+    mounted () {
+      this.minHeight = window.innerHeight - 64 + 'px'
+    }
   }
 </script>
 
-<style lang="sass" rel="stylesheet/sass" scoped>
+<style lang="sass" rel="stylesheet/sass">
   @import "account"
 </style>

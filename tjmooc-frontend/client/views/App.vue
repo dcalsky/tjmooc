@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <navbar v-if="showNav"></navbar>
-    <div :style="{minHeight}">
-      <router-view></router-view>
-    </div>
+      <router-view :style="{minHeight}"></router-view>
     <footbar v-if="showFoot"></footbar>
   </div>
 </template>
@@ -42,7 +40,7 @@
       }
     },
     mounted () {
-      this.minHeight = window.innerHeight - 96 + 'px'
+      this.minHeight = window.innerHeight - 64 + 'px'
     }
   }
 </script>

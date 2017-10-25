@@ -6,448 +6,320 @@ $rc: lighten($lightColor, 44%);
 #account {
   background: $rc;
   width: 100%;
-  height: 800px;
-  position: relative;
-  text-align: center;
 
-  & > div, .back {
-    border-radius: 10px;
-    position: absolute;
-  }
-  .back {
-    height: 130%;
-    padding-bottom: 20px;
-    width: 300px;
-    background: rgba($mainColor, .1);
-    top: -30%;
-    z-index: 0;
-    transition: all .3s;
-    left: auto;
-    .title {
-      font-size: 45px;
-      text-align: center;
-      line-height: 140px;
-      font-weight: 300;
-    }
-
-  }
-  .back-left {
-    left: 8%;
-  }
-  .back-right {
-    left: 92%;
-    transform: translateX(-300px);
-  }
-
-  .front {
-    width: 700px;
-    max-width: 96%;
-    top: 30%;
+  .account {
+    max-width: 700px;
     margin: auto;
+    //height: 800px;
     position: relative;
-    background: white;
-    border: 1px rgba($lightColor, .8) solid;
-    box-shadow: 0 2px 20px -8px $lightColor;
-    z-index: 1;
-  }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-  $h: 70%;
-  $w: 140%;
-  $f: 16px;
-  .home {
-    top: 8%;
-    cursor: pointer;
-    margin: 10px 20px;
-    transition: all .3s;
-
-    .logo {
-      position: relative;
-    }
-    .toggle {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      word-break: keep-all;
-      height: $h;
-      font-size: $f;
-      padding: 0 $w / 2;
-      overflow: hidden;
-      width: 0;
-      color: transparent;
-      background: transparent;
+    .back {
+      height: 130%;
+      padding-bottom: 20px;
+      border-radius: 10px;
       position: absolute;
-      top: 50% - $h / 2;
-      border-radius: 8px;
+      width: 300px;
+      background: rgba($mainColor, .1);
+      top: -30%;
+      z-index: 0;
       transition: all .3s;
+      left: auto;
+      .title {
+        font-size: $font-xl;
+        text-align: center;
+        line-height: 140px;
+        font-weight: 300;
+      }
+
+    }
+    .back-left {
+      left: 8%;
+    }
+    .back-right {
+      left: 92%;
+      transform: translateX(-300px);
     }
 
-    &:hover {
+    .front {
+      //width: 700px;
+      //max-width: 96%;
+      //margin: auto;
+      position: relative;
+      background: white;
+      border-radius: 10px;
+      border: 1px rgba($lightColor, .8) solid;
+      box-shadow: 0 2px 20px -8px $lightColor;
+      z-index: 1;
+    }
+
+    $h: 70%;
+    $w: 140%;
+    .home {
+      cursor: pointer;
+      margin: 10px 20px 60px;
+      transition: all .3s;
+      position: relative;
+      display: inline-block;
+
       .toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        word-break: keep-all;
+        height: $h;
+        font-size: $font-sm;
+        padding: 0 $w / 2;
+        overflow: hidden;
+        width: 0;
+        color: transparent;
+        background: transparent;
+        position: absolute;
+        top: 50% - $h / 2;
+        border-radius: 8px;
+        transition: all .3s;
+      }
+
+      &:hover {
+        .toggle {
+          width: 80px;
+          color: $lightColor;
+          border: solid $lightColor;
+          border-width: 0 2px;
+        }
+      }
+    }
+    .home-left {
+      align-self: flex-start;
+      .toggle {
+        left: -$w * .06;
+      }
+      &:hover {
+        .toggle {
+          padding: 0 $w * .02 0 $w * .78;
+        }
+      }
+    }
+    .home-right {
+      align-self: flex-end;
+      .toggle {
+        right: -$w * .06;
+      }
+      &:hover {
+        .toggle {
+          padding: 0 $w * .78 0 $w * .02;
+        }
+      }
+    }
+  }
+
+  @include mobile {
+    .logo {
+      height: 40px;
+    }
+    .account {
+      justify-content: center;
+
+      .home {
+        margin: 20px 20px 35px;
+      }
+      .back {
+        top: -15%;
         width: 80px;
-        color: $lightColor;
-        border: solid $lightColor;
-        border-width: 0 2px;
+        height: 100%;
+        border-radius: 5px;
+        .title {
+          font-size: $font-md;
+          letter-spacing: -3px;
+          line-height: 60px;
+        }
       }
-    }
-  }
-  .home-left {
-    left: 12.5%;
-    .toggle {
-      left: -$w * .06;
-    }
-    &:hover {
-      .toggle {
-        padding: 0 $w * .02 0 $w * .78;
-      }
-    }
-  }
-  .home-right {
-    right: 12.5%;
-    .toggle {
-      right: -$w * .06;
-    }
-    &:hover {
-      .toggle {
-        padding: 0 $w * .78 0 $w * .02;
-      }
-    }
-  }
 
+      .back-left {
+        left: 7%;
+      }
+      .back-right {
+        left: 93%;
+        transform: translateX(-80px);
+      }
+
+      .front {
+        border-radius: 0;
+      }
+
+    }
+  }
 }
 
-//#account-register, #account-login {
-//  width: 100%;
-//  height: 100%;
-//  display: flex;
-//  justify-content: space-between;
-//  flex-direction: row-reverse;
-//
-//  .left {
-//    height: 60%;
-//    padding-bottom: 25%;
-//    $c: lighten($lightColor, 34%);
-//    background: linear-gradient(
-//        to bottom,
-//        rgba($c, 100) 0%,
-//        rgba($c, 0) 100%
-//    );
-//    box-shadow: 8px -8px 20px -10px $dark;
-//    display: flex;
-//    flex-direction: column;
-//    align-items: center;
-//    margin: 0;
-//    & > div {
-//      display: flex;
-//      flex-direction: column;
-//      justify-content: flex-start;
-//      align-items: flex-end;
-//      position: relative;
-//      height: 100%;
-//      margin: 0;
-//
-//      $right: 0px;
-//      letter-spacing: .4em;
-//      $bc: lighten($lightColor, 15%);
-//      h1 {
-//        margin: 60px $right 40px 0;
-//        width: 200px;
-//        text-align: center;
-//        font-size: 40px;
-//        @include respond-to(lg) {
-//          font-size: 48px;
-//        }
-//        position: relative;
-//        a {
-//          font-size: 20px;
-//          opacity: .6;
-//          cursor: pointer;
-//          &:after {
-//            content: "|";
-//            margin: 0 6px;
-//            color: $dark;
-//          }
-//        }
-//        &:after {
-//          content: "";
-//          position: absolute;
-//          width: .6rem;
-//          background-color: $bc;
-//          height: 25px;
-//          right: 15px;
-//          bottom: -30px;
-//          opacity: .8;
-//          transition: all .3s;
-//        }
-//      }
-//
-//      div {
-//        margin: 0 $right + 27px 0 0;
-//        height: 11%;
-//        position: relative;
-//        font-size: 12px;
-//        @include respond-to(lg) {
-//          font-size: 15px;
-//          margin-right: $right + 30px;
-//        }
-//        cursor: pointer;
-//        display: flex;
-//        flex-direction: column;
-//        justify-content: center;
-//        align-items: flex-end;
-//
-//        span:first-child {
-//          opacity: .6;
-//        }
-//        span:nth-last-child(2) {
-//          font-size: 15px;
-//          @include respond-to(lg) {
-//            font-size: 19px;
-//            font-weight: 300;
-//          }
-//          opacity: 1;
-//          margin-top: 2px;
-//        }
-//        .bar {
-//          position: absolute;
-//          display: inline-block;
-//          width: .6rem;
-//          height: 100%;
-//          right: -1em;
-//          top: -10px;
-//          opacity: .8;
-//          background-color: white;
-//          transition: all .3s;
-//        }
-//      }
-//
-//      .been .bar {
-//        background-color: $bc;
-//      }
-//      .now .bar {
-//        background-color: $mainColor;
-//      }
-//    }
-//  }
-//  .right {
-//    flex-grow: 1;
-//    background-color: $rc;
-//    display: flex;
-//    flex-direction: column;
-//    justify-content: center;
-//    align-items: center;
-//
-//    div {
-//      z-index: 1;
-//    }
-//    .info {
-//      font-size: 40px;
-//      font-weight: 300;
-//      letter-spacing: 2px;
-//      font-family: sans-serif;
-//      margin-bottom: 15px;
-//    }
-//
-//    .input {
-//      $s: 24px;
-//      border-radius: 4px;
-//      overflow: hidden;
-//      position: relative;
-//      margin: 15px 0 30px 0;
-//      width: 100%;
-//      text-align: center;
-//
-//
-//      input {
-//        $w: 60%;
-//        font-size: $s;
-//        font-weight: 100;
-//        letter-spacing: 2px;
-//        padding: 10px 40px 10px 10px;
-//        width: $w;
-//      }
-//      .remove {
-//        width: 20px;
-//        height: 20px;
-//        border-radius: 10px;
-//        color: lighten($dark, 40%);
-//        background-color: currentColor;
-//        opacity: .4;
-//        position: absolute;
-//        top: 16px;
-//        right: calc(-14px + 20%);
-//        transform: rotateZ(135deg);
-//        cursor: pointer;
-//
-//        &:before {
-//          content: "";
-//          width: 2px;
-//          height: 10px;
-//          position: absolute;
-//          background-color: white;
-//          left: 9px;
-//          top: 5px;
-//        }
-//        &:after {
-//          content: "";
-//          width: 10px;
-//          height: 2px;
-//          position: absolute;
-//          background-color: white;
-//          top: 9px;
-//          left: 5px;
-//        }
-//        &:hover {
-//          animation: acpop .5s;
-//        }
-//        @keyframes acpop {
-//          0%, 100% {
-//            opacity: .4;
-//            width: 20px;
-//            height: 20px;
-//            top: 16px;
-//            right: calc(-14px + 20%);
-//          }
-//          30% {
-//            opacity: .6;
-//            width: 18px;
-//            height: 18px;
-//            top: 17px;
-//            right: calc(-13px + 20%);
-//          }
-//        }
-//      }
-//    }
-//
-//    .next {
-//      color: white;
-//      background-color: $dark;
-//      font-size: 20px;
-//      padding: 10px 20px;
-//      border-radius: 4px;
-//      letter-spacing: 4px;
-//      cursor: pointer;
-//      &:hover {
-//        opacity: .6;
-//      }
-//      transition: opacity .3s;
-//    }
-//    .error {
-//      height: 43px;
-//      line-height: 40px;
-//      background-color: lighten($lightColor, 36%);
-//      border-radius: 4px;
-//      padding: 0 15px;
-//      cursor: pointer;
-//      text-align: center;
-//      white-space: pre-wrap;
-//      transition: all .3s;
-//      &:hover {
-//        background-color: lighten($lightColor, 38%);
-//      }
-//
-//      letter-spacing: 2px;
-//      p {
-//        margin: 3px;
-//      }
-//    }
-//
-//    .slice {
-//      width: 80%;
-//      background-color: white;
-//      display: flex;
-//      text-align: center;
-//      flex-direction: column;
-//      justify-content: flex-start;
-//      align-items: center;
-//      position: relative;
-//      border-radius: 4px 4px 0 0;
-//      box-shadow: 0 10px 60px -30px $dark;
-//      padding: 50px 0;
-//      $bottomHeight: 40px;
-//      margin-bottom: $bottomHeight / 2;
-//      z-index: auto;
-//      div {
-//        z-index: 1;
-//      }
-//
-//      .title {
-//        letter-spacing: 5px;
-//        div {
-//          padding: 2px 0;
-//        }
-//      }
-//
-//      .form {
-//        margin-bottom: 10px;
-//        div {
-//          margin: 20px 0;
-//          font-size: 21px;
-//          font-weight: 300;
-//          letter-spacing: 2px;
-//          font-family: sans-serif;
-//          input {
-//            border-width: 0 0 2px 0;
-//            transition: all .3s;
-//            font-size: 21px;
-//            font-weight: 300;
-//            letter-spacing: 2px;
-//            font-family: sans-serif;
-//            padding: 0 5px;
-//            &:hover, &:focus {
-//              border-color: $dark;
-//            }
-//          }
-//        }
-//      }
-//
-//      .login {
-//        border-radius: 4px;
-//        background-color: $dark;
-//        color: white;
-//        padding: 0 50px;
-//        line-height: 43px;
-//        display: flex;
-//        width: 50px;
-//        justify-content: space-between;
-//        cursor: pointer;
-//
-//        &:hover {
-//          opacity: .6;
-//        }
-//        transition: all .3s;
-//      }
-//      .submitting {
-//        width: 70px;
-//        padding: 0 40px;
-//        cursor: not-allowed;
-//        opacity: .5;
-//      }
-//
-//      &:after {
-//        $h: $bottomHeight;
-//        $c: white;
-//        content: "";
-//        position: absolute;
-//        width: 100%;
-//        height: $h;
-//        left: 0;
-//        bottom: -$h;
-//        background-image: linear-gradient(-135deg, $c 25%, transparent 25%, transparent), linear-gradient(-45deg, transparent 75%, $c 75%);
-//        background-size: 40px 40px;
-//        background-repeat: repeat-x;
-//        background-position: 0 100%;
-//      }
-//    }
-//  }
-//}
-//
-//.account-register {
-//  .error {
-//    background-color: transparent !important;
-//    cursor: auto !important;
-//  }
-//}
-//
-//.account-login .left div h1:after {
-//  opacity: 0;
-//}
+
+#account-register, #account-login {
+  color: $dark;
+  height: 100%;
+  background: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+
+  .title {
+    font-family: $font;
+    font-weight: 300;
+    font-size: $font-lg;
+    word-break: keep-all;
+    text-align: center;
+  }
+  .form > div {
+    text-align: center;
+    font-size: $font-md;
+    font-weight: 300;
+    margin: 10px 0;
+    letter-spacing: 2px;
+    input {
+      border-width: 0 0 1px 0;
+      border-color: $mainColor;
+      transition: all .3s;
+      font-size: $font-md;
+      font-weight: 300;
+      letter-spacing: 2px;
+      padding: 2px 10px;
+      &:hover, &:focus {
+        border-color: $lightColor;
+      }
+    }
+  }
+  .bottom {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    .error {
+      width: 50%;
+      margin-right: 5%;
+      color: $lightColor;
+    }
+    .btn-box {
+      width: 45%;
+      min-width: 250px;
+      display: flex;
+      position: relative;
+      align-self: flex-end;
+
+      div {
+        border-radius: 5px;
+        border: 1px solid currentColor;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+        padding: 0 10px;
+        margin: 0 10px;
+        cursor: pointer;
+        transition: all .3s;
+        &:hover {
+          color: white;
+          background: $mainColor;
+        }
+      }
+      .to {
+        color: $lightColor;
+        background: white;
+        letter-spacing: 2px;
+        flex-grow: 1;
+      }
+      .allowed {
+        cursor: not-allowed;
+        opacity: .5;
+      }
+
+      .next, .login {
+        color: white;
+        background: $lightColor;
+        flex-grow: 5;
+        span {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+
+  @include mobile {
+    border-radius: 0;
+    .title {
+      font-size: $font-md;
+    }
+    .form > div {
+      font-size: $font-sm;
+      width: 80%;
+      margin: auto;
+    }
+    label {
+      display: flex;
+      align-items: baseline;
+      span {
+        flex-shrink: 0;
+      }
+      input {
+        width: 0;
+        flex: 1;
+      }
+    }
+    .bottom {
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 80px;
+      .error {
+        margin: 0 10% 20px;
+        width: 80%;
+      }
+      .btn-box {
+        width: 80%;
+        min-width: 0;
+        align-self: center;
+        margin: 0 10%;
+        .to {
+          margin: 0 10px 0 0;
+        }
+        .next, .login {
+          margin: 0 0 0 10px;
+        }
+      }
+    }
+  }
+}
+
+#account-register {
+  padding: 15px 56px 45px;
+  .el-slider {
+    width: 80%;
+    margin: 30px auto 62px auto;
+  }
+  .form {
+    margin: 30px 0 50px 0;
+  }
+
+  @include mobile {
+    padding: 19px 10px 30px;
+
+    .el-slider {
+      margin-bottom: 50px;
+    }
+    .form {
+      margin: 20px 0 30px;
+    }
+  }
+}
+
+#account-login {
+  padding: 75px 56px 45px;
+  .form {
+    margin: 30px 0 40px 0;
+  }
+
+  @include mobile {
+    padding: 60px 10px 30px;
+  }
+}
