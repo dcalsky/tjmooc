@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="account">
-      <div class="account" :style="{minHeight}">
+      <div class="account">
         <div class="home" @click="backHome" :class="left ? 'home-right' : 'home-left'">
           <div class="toggle">返回主页</div>
           <logo></logo>
@@ -10,7 +10,7 @@
           <div class="back" :class="left ? 'back-left' : 'back-right'">
             <div class="title">{{title}}</div>
           </div>
-          <router-view></router-view>
+          <router-view :style="{minHeight}"></router-view>
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@
       }
     },
     mounted () {
-      this.minHeight = window.innerHeight - 64 + 'px'
+      this.minHeight = window.innerHeight - 64 - 98 + 'px'
     }
   }
 </script>
