@@ -9,6 +9,9 @@
     max-width: 920px;
     max-height: 920px / 16 * 9;
   }
+  .el-carousel__indicator {
+    padding: 24px 4px;
+  }
 
   .card .el-carousel__container {
     width: 160%;
@@ -22,7 +25,7 @@
   .img {
     position: absolute;
     min-height: 100%;
-    min-width: 100%;
+    width: 100%;
     top: 0;
     z-index: -1;
   }
@@ -48,7 +51,7 @@
     h1 {
       color: black;
       font-size: 50px;
-      margin: 10px 0 20px 0;
+      margin: 10px 0 0 0;
       letter-spacing: 10px;
       display: inline-block;
       width: 100%;
@@ -62,12 +65,17 @@
 
       font-size: 14px;
       letter-spacing: 1px;
-      max-height: 40px;
+      //max-height: 40px;
       line-height: 1.4;
       text-align: right;
       max-width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+    .subtitle {
+      width: 100%;
+      text-align: center;
+      line-height: 32px;
     }
   }
   @include mobile {
@@ -88,6 +96,14 @@
       }
     }
   }
+}
+
+.course-select-box {
+  width: 100%;
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 -10px 0 0 rgba(white, .5),
+  0 -6px 0 0 rgba(white, .5);
 }
 
 .course-select {
@@ -141,9 +157,16 @@
 
       .subject {
         display: inline-block;
-        width: 240px;
-        height: 100px;
-        line-height: 100px;
+        //width: 240px;
+        //height: 100px;
+        //line-height: 100px;
+        padding: 20px 30px;
+
+
+        .el-pagination__total {
+          display: block;
+        }
+
         text-align: center;
         border-radius: 4px;
         font-size: 32px;
@@ -156,19 +179,21 @@
         position: relative;
         cursor: pointer;
         &:hover {
-          box-shadow: none;
+          //box-shadow: none;
+          transform: translateY(-3px);
+          box-shadow: rgba($mainColor, .3) 5px 5px 100px -15px;
         }
 
-        .percentage {
-          position: absolute;
-          width: 0;
-          height: 2px;
-          background-color: $lightColor;
-          left: 0;
-          bottom: 0;
-          opacity: 0;
-          transition: all .3s;
-        }
+        //.percentage {
+        //  position: absolute;
+        //  width: 0;
+        //  height: 2px;
+        //  background-color: $lightColor;
+        //  left: 0;
+        //  bottom: 0;
+        //  opacity: 0;
+        //  transition: all .3s;
+        //}
       }
       .subject:nth-child(2n) {
         margin-left: 60px;
@@ -219,13 +244,14 @@
           opacity: .5;
           letter-spacing: 1px;
           line-height: 1.3;
+          margin-bottom: 0;
         }
         .btn {
           cursor: pointer;
           position: relative;
           letter-spacing: 2px;
-          padding: 0 5px;
-          background-color: lighten($lightColor, 40%);
+          //padding: 0 5px;
+          //background-color: lighten($lightColor, 40%);
 
           &:after {
             content: "";
@@ -236,7 +262,7 @@
             display: inline-block;
             border-right: 8px solid transparent;
             border-bottom: 12px solid currentColor;
-            transition: all .3s;
+            transition: all .1s;
 
           }
           @keyframes moveAni {
@@ -247,7 +273,7 @@
         &:hover {
           border-color: rgba($mainColor, 0.1);
           box-shadow: rgba($mainColor, .2) 2px 2px 25px -2px;
-          transform: translateY(-5px);
+          transform: translateY(-3px);
 
           .btn:after {
             animation: moveAni 1s infinite;
@@ -294,12 +320,18 @@
         }
       }
       .left {
+        order: 1;
         flex-direction: row;
         width: 100%;
         position: relative;
         min-height: 0;
         top: 0;
         .subject {
+          .el-pagination__total {
+            display: none;
+          }
+          width: 100%;
+          padding: 20px 0 0 0;
           margin: 0 !important;
           height: 30px;
           font-size: 15px;

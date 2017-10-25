@@ -1,222 +1,233 @@
 @import "config";
 
-.navbar {
-  font-family: PingFangSC;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  padding: 18px 30px 30px 30px;
-  max-width: 920px;
-  margin: auto;
-  @include respond-to(lg) {
-    padding: 18px 100px 30px 100px;
-  }
-  justify-content: space-between;
-
-  .navbar-more {
-    $w: 25px;
-    $h: 25px;
-    width: $w;
-    height: $h;
-    background-color: transparent;
-    display: none;
-    position: relative;
-    color: $lightColor;
-
-    .navbar-more-ch {
-      width: 100%;
-      height: 4px;
-      border-radius: 1px;
-      position: absolute !important;
-      background-color: currentColor;
-      box-shadow: $mainColor 0 1px 2px -1px;
-      transition: all 0.3s;
-    }
-    $top: 3px;
-    .navbar-more-ch1 {
-      top: $top;
-    }
-    .navbar-more-ch2 {
-      top: $top + 8px;
-    }
-    .navbar-more-ch3 {
-      top: $top + 16px;
-    }
-  }
-
-  .navbar-more-active {
-    .navbar-more-ch {
-      box-shadow: none;
-      border-radius: 2px;
-      color: $mainColor;
-    }
-    .navbar-more-ch1 {
-      transform: translate3d(6px, 10px, 0) rotate(120deg);
-
-    }
-    .navbar-more-ch2 {
-      transform: translate3d(-6px, 2px, 0) rotate(240deg);
-    }
-    .navbar-more-ch3 {
-      transform: translate3d(0, -16px, 0) rotate(360deg);
-    }
-  }
-
-  .link-box {
+#navbar {
+  width: 100%;
+  position: relative;
+  z-index: 10000;
+  box-shadow: 0 15px 0 0 rgba(white, .5),
+  0 6px 0 0 rgba(white, .5);
+  .navbar {
+    font-family: PingFangSC;
+    font-size: 16px;
     display: flex;
-    justify-content: space-around;
-    align-items: baseline;
-    transition: all .3s;
-    opacity: 1;
-    div {
-      margin-left: 40px;
-    }
-
-    .account-box {
-      $c: rgba($mainColor, .2);
-      display: inline-flex;
-      word-break: keep-all;
-      box-shadow: -2px 2px 15px -5px rgba($mainColor, 0.4);
-      border-radius: 2px;
-      transition: all .2s;
-      $w: 10px;
-      overflow: hidden;
-
-      &:hover {
-        background-color: white;
-        a {
-          opacity: .3;
-        }
-      }
-      a {
-        display: inline-block;
-        background-color: white;
-        position: relative;
-        cursor: pointer;
-        &:before {
-          content: "";
-          position: absolute;
-          width: 0;
-          height: 100%;
-          display: inline-block;
-          transition: all .2s;
-        }
-        &:hover {
-          transform: none;
-          opacity: 1;
-        }
-      }
-      .register {
-        $c: $lightColor;
-        color: $c;
-        background-color: lighten($c, 36%);
-        padding: 5px $w - 3.5px 5px $w;
-        margin-right: 7px;
-        border-radius: 2px 0 0 2px;
-        &:before {
-          right: -7px;
-          bottom: 0;
-          border-right: 7px solid transparent;
-          border-bottom: 28px solid lighten($c, 36%);
-        }
-        &:hover {
-          color: white !important;
-          background-color: $c;
-          &:before {
-            border-bottom-color: $c;
-          }
-        }
-      }
-      .login {
-        $c: $dark;
-        color: $c;
-        padding: 5px $w 5px $w - 3.5px;
-        border-radius: 0 2px 2px 0;
-        &:before {
-          left: -7px;
-          top: 0;
-          border-left: 7px solid transparent;
-          border-top: 28px solid white;
-        }
-        &:hover {
-          color: white !important;
-          background-color: $c;
-          &:before {
-            border-top-color: $c;
-          }
-        }
-      }
-    }
-  }
-
-
-
-  @include mobile {
-    font-weight: 300;
-    .logo {
-      height: 32px;
-    }
-    padding: 12px 18px;
+    align-items: center;
+    padding: 12px 0 4px;
+    max-width: 920px;
+    margin: auto;
+    justify-content: space-between;
 
     .navbar-more {
-      display: inline;
-      z-index: 11;
-    }
-    .link-box {
+      $w: 25px;
+      $h: 25px;
+      width: $w;
+      height: $h;
+      background-color: transparent;
       display: none;
-      left: 100%;
-    }
-    .side-box {
-      display: flex;
-      position: absolute;
-      z-index: 10;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      top: 0;
-      flex-direction: column;
-      justify-content: flex-start;
-      animation: fadeIn .3s;
+      position: relative;
+      color: $lightColor;
 
-      @keyframes fadeIn {
-        from {opacity: 0; top: -100%;}
-        to {opacity: 1; top: 0}
+      .navbar-more-ch {
+        width: 100%;
+        height: 4px;
+        border-radius: 1px;
+        position: absolute !important;
+        background-color: currentColor;
+        box-shadow: $mainColor 0 1px 2px -1px;
+        transition: all 0.3s;
       }
-      & > div {
-        margin: 15px 15%;
-        position: relative;
-        &:first-child {
-          margin-top: 100px;
-        }
-        &:after {
-          content: "";
-          width: 120%;
-          height: 1px;
-          background: currentColor;
-          position: absolute;
-          left: -5%;
-          opacity: .3;
-          bottom: -15px;
-        }
+      $top: 3px;
+      .navbar-more-ch1 {
+        top: $top;
       }
-      .account-box {
-        margin-top: 10px;
-        padding: 0 5px;
-        left: -10px;
-        display: flex;
-        flex-direction: column;
+      .navbar-more-ch2 {
+        top: $top + 8px;
+      }
+      .navbar-more-ch3 {
+        top: $top + 16px;
+      }
+    }
+
+    .navbar-more-active {
+      .navbar-more-ch {
         box-shadow: none;
-        .login {
-          letter-spacing: 10px;
-          padding: 10px 10px 10px 20px;
+        border-radius: 2px;
+        color: $mainColor;
+      }
+      .navbar-more-ch1 {
+        transform: translate3d(6px, 10px, 0) rotate(120deg);
+
+      }
+      .navbar-more-ch2 {
+        transform: translate3d(-6px, 2px, 0) rotate(240deg);
+      }
+      .navbar-more-ch3 {
+        transform: translate3d(0, -16px, 0) rotate(360deg);
+      }
+    }
+
+    .link-box {
+      display: flex;
+      justify-content: space-around;
+      align-items: baseline;
+      transition: all .3s;
+      opacity: 1;
+      div {
+        margin-left: 40px;
+      }
+
+      .account-box {
+        $c: rgba($mainColor, .2);
+        display: inline-flex;
+        word-break: keep-all;
+        box-shadow: -2px 2px 15px -5px rgba($mainColor, 0.4);
+        border-radius: 2px;
+        transition: all .2s;
+        $w: 10px;
+        overflow: hidden;
+
+        &:hover {
+          background-color: white;
+          a {
+            opacity: .3;
+          }
         }
         a {
-          margin: 5px auto !important;
-          box-shadow: 0 0 15px -5px rgba($mainColor, 0.4);
-
+          display: inline-block;
+          background-color: white;
+          position: relative;
+          cursor: pointer;
           &:before {
-            content: none;
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 100%;
+            display: inline-block;
+            transition: all .2s;
+          }
+          &:hover {
+            transform: none;
+            opacity: 1;
+          }
+        }
+        .register {
+          $c: $lightColor;
+          color: $c;
+          background-color: lighten($c, 36%);
+          padding: 5px $w - 3.5px 5px $w;
+          margin-right: 7px;
+          border-radius: 2px 0 0 2px;
+          &:before {
+            right: -7px;
+            bottom: 0;
+            border-right: 7px solid transparent;
+            border-bottom: 28px solid lighten($c, 36%);
+          }
+          &:hover {
+            color: white !important;
+            background-color: $c;
+            &:before {
+              border-bottom-color: $c;
+            }
+          }
+        }
+        .login {
+          $c: $dark;
+          color: $c;
+          padding: 5px $w 5px $w - 3.5px;
+          border-radius: 0 2px 2px 0;
+          &:before {
+            left: -7px;
+            top: 0;
+            border-left: 7px solid transparent;
+            border-top: 28px solid white;
+          }
+          &:hover {
+            color: white !important;
+            background-color: $c;
+            &:before {
+              border-top-color: $c;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include mobile {
+    box-shadow: none;
+    .navbar {
+      font-weight: 300;
+      .logo {
+        height: 32px;
+      }
+      padding: 12px 18px;
+
+      .navbar-more {
+        display: inline;
+        z-index: 11;
+      }
+      .link-box {
+        display: none;
+        left: 100%;
+      }
+      .side-box {
+        display: flex;
+        position: absolute;
+        z-index: 10;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        top: 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        animation: fadeIn .3s;
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            top: -100%;
+          }
+          to {
+            opacity: 1;
+            top: 0
+          }
+        }
+        & > div {
+          margin: 15px 15%;
+          position: relative;
+          &:first-child {
+            margin-top: 100px;
+          }
+          &:after {
+            content: "";
+            width: 120%;
+            height: 1px;
+            background: currentColor;
+            position: absolute;
+            left: -5%;
+            opacity: .3;
+            bottom: -15px;
+          }
+        }
+        .account-box {
+          margin-top: 10px;
+          padding: 0 5px;
+          left: -10px;
+          display: flex;
+          flex-direction: column;
+          box-shadow: none;
+          .login {
+            letter-spacing: 10px;
+            padding: 10px 10px 10px 20px;
+          }
+          a {
+            margin: 5px auto !important;
+            box-shadow: 0 0 15px -5px rgba($mainColor, 0.4);
+
+            &:before {
+              content: none;
+            }
           }
         }
       }

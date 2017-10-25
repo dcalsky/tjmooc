@@ -2,21 +2,22 @@
   <div id="home" ref="home">
     <!--slide-->
     <el-carousel :interval="-1" :type="type" arrow="hover" :height="slideHeight" :class="type">
-      <el-carousel-item v-for="s in sections" :autoplay="false" :key="s.id" class="page" :style="{height: slideHeight}">
-        <div @click="onEnterClicked(s.id)" >
-          <img :src="s.imgUrl" alt="" class="img">
+      <el-carousel-item v-for="t in tops" :autoplay="false" :key="t.id" class="page" :style="{height: slideHeight}">
+        <div @click="onEnterClicked(t.id)" >
+          <img :src="t.cover_image" alt="" class="img">
 
           <div class="text">
             <div class="detail">
-              {{s.desc}}
+              {{t.introduction}}
             </div>
-            <h1>{{s.title}}</h1>
+            <h1>{{t.title}}</h1>
+            <div class="subtitle">{{t.subtitle}}</div>
           </div>
         </div>
       </el-carousel-item>
     </el-carousel>
 
-    <!--<course-select></course-select>-->
+    <course-select></course-select>
   </div>
 </template>
 
@@ -50,12 +51,18 @@
         index: 0
       }
     },
+    computed: {
+      tops () {
+        return this.$store.state.course.tops
+      }
+    },
     methods: {
       onEnterClicked(id) {
         this.$router.push({path: `/course/display/${id}`})
       },
     },
     mounted: function () {
+      this.$store.dispatch('getTops')
       const w = this.$refs.home.getBoundingClientRect().width
       this.type = ((document.getElementsByClassName('navbar-more')[0].getBoundingClientRect().x === 0) &&
         (window.innerWidth < 1840)) ? '' : 'card'
