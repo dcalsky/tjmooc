@@ -10,9 +10,9 @@ class UnitSerializer(ModelSerializer):
 
 
 class ChapterSerializer(ModelSerializer):
-    tests = TestSerializer(source='get_tests', many=True, read_only=True)
-    homeworks = HomeworkSerializer(source='get_homeworks', many=True, read_only=True)
-    units = UnitSerializer(source='get_units', many=True, read_only=True)
+    tests = TestSerializer(source='test_set', many=True, read_only=True)
+    homeworks = HomeworkSerializer(source='homework_set', many=True, read_only=True)
+    units = serializers.PrimaryKeyRelatedField(source='unit_set', many=True, read_only=True)
 
     class Meta:
         model = Chapter
@@ -20,7 +20,7 @@ class ChapterSerializer(ModelSerializer):
 
 
 class CourseSerializer(ModelSerializer):
-    chapters = ChapterSerializer(source='get_chapters', many=True, read_only=True)
+    chapters = ChapterSerializer(source='chapter_set', many=True, read_only=True)
 
     class Meta:
         model = Course

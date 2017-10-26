@@ -20,12 +20,6 @@ class Test(models.Model):
     deadline = models.DateTimeField(default=datetime.now)
     chapter = models.ForeignKey('course.Chapter')
 
-    def get_questions(self):
-        return Question.objects.filter(test=self)
-
-    def get_test_submits(self):
-        return TestSubmit.objects.filter(test=self)
-
 
 class TestSubmit(models.Model):
     answer = models.TextField(null=True)
