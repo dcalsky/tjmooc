@@ -1,0 +1,338 @@
+@import "../../style/config";
+
+$rc: lighten($lightColor, 44%);
+
+
+#account {
+  background: $rc;
+  width: 100%;
+
+  .account {
+    max-width: 700px;
+    margin: auto;
+    //height: 800px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .back {
+      height: 130%;
+      padding-bottom: 20px;
+      border-radius: 10px;
+      position: absolute;
+      width: 300px;
+      background: rgba($mainColor, .1);
+      top: -30%;
+      z-index: 0;
+      transition: all .3s;
+      left: auto;
+      .title {
+        font-size: $font-xl;
+        text-align: center;
+        line-height: 140px;
+        font-weight: 300;
+      }
+
+    }
+    .back-left {
+      left: 8%;
+    }
+    .back-right {
+      left: 92%;
+      transform: translateX(-300px);
+    }
+
+    .front {
+      //width: 700px;
+      //max-width: 96%;
+      //margin: auto;
+      position: relative;
+      background: white;
+      border-radius: 10px;
+      border: 1px rgba($lightColor, .8) solid;
+      box-shadow: 0 2px 20px -8px $lightColor;
+      z-index: 1;
+    }
+
+    $h: 70%;
+    $w: 140%;
+    .home {
+      cursor: pointer;
+      margin: 10px 20px 60px;
+      transition: all .3s;
+      position: relative;
+      display: inline-block;
+
+      .toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        word-break: keep-all;
+        height: $h;
+        font-size: $font-sm;
+        padding: 0 $w / 2;
+        overflow: hidden;
+        width: 0;
+        color: transparent;
+        background: transparent;
+        position: absolute;
+        top: 50% - $h / 2;
+        border-radius: 8px;
+        transition: all .3s;
+      }
+
+      &:hover {
+        .toggle {
+          width: 80px;
+          color: $lightColor;
+          border: solid $lightColor;
+          border-width: 0 2px;
+        }
+      }
+    }
+    .home-left {
+      align-self: flex-start;
+      .toggle {
+        left: -$w * .06;
+      }
+      &:hover {
+        .toggle {
+          padding: 0 $w * .02 0 $w * .78;
+        }
+      }
+    }
+    .home-right {
+      align-self: flex-end;
+      .toggle {
+        right: -$w * .06;
+      }
+      &:hover {
+        .toggle {
+          padding: 0 $w * .78 0 $w * .02;
+        }
+      }
+    }
+  }
+
+  @include mobile {
+    .logo {
+      height: 40px !important;
+    }
+    .account {
+      justify-content: center;
+
+      .home {
+        margin: 20px;
+      }
+      .back {
+        top: -10%;
+        width: 80px;
+        height: 100%;
+        border-radius: 5px;
+        .title {
+          font-size: $font-md;
+          letter-spacing: -3px;
+          line-height: 60px;
+        }
+      }
+
+      .back-left {
+        left: 7%;
+      }
+      .back-right {
+        left: 93%;
+        transform: translateX(-80px);
+      }
+
+      .front {
+        border-radius: 0;
+      }
+
+    }
+  }
+}
+
+
+#account-register, #account-login {
+  color: $dark;
+  height: 100%;
+  background: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+
+  .title {
+    font-family: $font;
+    font-weight: 300;
+    font-size: $font-lg;
+    word-break: keep-all;
+    text-align: center;
+  }
+  .form > div {
+    text-align: center;
+    font-size: $font-md;
+    font-weight: 300;
+    margin: 10px 0;
+    letter-spacing: 2px;
+    input {
+      border-width: 0 0 1px 0;
+      border-color: $mainColor;
+      transition: all .3s;
+      font-size: $font-md;
+      font-weight: 300;
+      letter-spacing: 2px;
+      padding: 2px 10px;
+      &:hover, &:focus {
+        border-color: $lightColor;
+      }
+    }
+  }
+  .bottom {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    .error {
+      width: 50%;
+      margin-right: 5%;
+      color: $lightColor;
+    }
+    .btn-box {
+      width: 45%;
+      min-width: 250px;
+      display: flex;
+      position: relative;
+      align-self: flex-end;
+
+      div {
+        border-radius: 5px;
+        border: 1px solid currentColor;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+        padding: 0 10px;
+        margin: 0 10px;
+        cursor: pointer;
+        transition: all .3s;
+        &:hover {
+          color: white;
+          background: $mainColor;
+        }
+      }
+      .to {
+        color: $lightColor;
+        background: white;
+        letter-spacing: 2px;
+        flex-grow: 1;
+      }
+      .allowed {
+        cursor: not-allowed;
+        opacity: .5;
+      }
+
+      .next, .login {
+        color: white;
+        background: $lightColor;
+        flex-grow: 5;
+        span {
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+
+  @include mobile {
+    padding: 40px 10px !important;
+    border-radius: 0;
+    display: flex;
+    justify-content: space-between;
+    .title {
+      font-size: $font-md;
+    }
+    .form > div {
+      font-size: $font-sm;
+      width: 80%;
+      margin: auto;
+    }
+    label {
+      display: flex;
+      align-items: baseline;
+      span {
+        flex-shrink: 0;
+      }
+      input {
+        width: 0;
+        flex: 1;
+      }
+    }
+    .bottom {
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 80px;
+      .error {
+        margin: 0 10% 20px;
+        width: 80%;
+      }
+      .btn-box {
+        width: 80%;
+        min-width: 0;
+        align-self: center;
+        margin: 0 10%;
+        .to {
+          margin: 0 10px 0 0;
+        }
+        .next, .login {
+          margin: 0 0 0 10px;
+        }
+      }
+    }
+  }
+}
+
+#account-register {
+  padding: 15px 56px 45px;
+  .el-slider {
+    width: 80%;
+    margin: 30px auto 62px auto;
+  }
+  .form {
+    margin: 30px 0 50px 0;
+  }
+
+  @include mobile {
+
+    .el-slider {
+      margin: 0 auto 60px;
+    }
+    .form {
+      margin: 20px 0 30px;
+    }
+  }
+}
+
+
+
+#account-login {
+  padding: 75px 56px 45px;
+  .form {
+    margin: 30px 0 40px 0;
+  }
+
+  @include mobile {
+    .title {
+      margin-bottom: 20px;
+    }
+    .form {
+      flex: 1;
+      display: flex;
+      margin: 30px 0 40px 0;
+      flex-direction: column;
+      max-height: 100px;
+    }
+  }
+}
