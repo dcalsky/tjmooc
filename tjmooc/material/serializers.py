@@ -56,8 +56,8 @@ class TestSubmitSerializer(serializers.ModelSerializer):
 
 
 class TestSerializer(serializers.ModelSerializer):
-    questions = QuestionSerializer(source='get_questions', read_only=True, many=True)
-    test_submits = TestSubmitSerializer(source='get_test_submits', read_only=True, many=True)
+    questions = QuestionSerializer(source='question_set', read_only=True, many=True)
+    test_submits = serializers.PrimaryKeyRelatedField(source='testsubmit_set', read_only=True, many=True)
 
     class Meta:
         model = Test
