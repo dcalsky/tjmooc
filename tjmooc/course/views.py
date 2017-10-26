@@ -38,7 +38,7 @@ def get_unit_and_chapter_and_course(unit_id, chapter_id, course_id):
 
 
 class CourseViewSet(ModelViewSet):
-    permission_classes = (IsObligatorOrLeactureOrManagerOrReadOnly,)
+    permission_classes = (AllowAny,)
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
 
@@ -51,13 +51,13 @@ class CourseViewSet(ModelViewSet):
         return Response(serializer.errors)
 
 class ChapterViewSet(ModelViewSet):
-    permission_classes = (IsObligatorOrLeactureOrManagerOrReadOnly,)
+    permission_classes = (AllowAny,)
     serializer_class = ChapterSerializer
     queryset = Chapter.objects.all()
 
 
 class UnitViewSet(ModelViewSet):
-    permission_classes = (IsObligatorOrLeactureOrManagerOrReadOnly,)
+    permission_classes = (AllowAny,)
     serializer_class = UnitSerializer
     queryset = Unit.objects.all()
 

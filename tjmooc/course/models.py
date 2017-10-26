@@ -14,9 +14,6 @@ class Course(models.Model):
     lecturer = models.ForeignKey(User, null=True)
     top = models.BooleanField(default=False)
 
-    def get_chapters(self):
-        return Chapter.objects.filter(course=self)
-
     def __str__(self):
         return self.title
 
@@ -26,15 +23,6 @@ class Chapter(models.Model):
     description = models.TextField(help_text='说明')
     materials = jsonfield.JSONField(help_text='课程资料', default=list)
     course = models.ForeignKey(Course)
-
-    def get_homeworks(self):
-        return Homework.objects.filter(chapter=self)
-
-    def get_tests(self):
-        return Test.objects.filter(chapter=self)
-
-    def get_units(self):
-        return Unit.objects.filter(chapter=self)
 
     def __str__(self):
         return self.title
