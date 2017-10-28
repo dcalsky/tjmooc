@@ -12,7 +12,7 @@ class UnitSerializer(ModelSerializer):
 class ChapterSerializer(ModelSerializer):
     tests = TestSerializer(source='test_set', many=True, read_only=True)
     homeworks = HomeworkSerializer(source='homework_set', many=True, read_only=True)
-    units = serializers.PrimaryKeyRelatedField(source='unit_set', many=True, read_only=True)
+    units = UnitSerializer(source='unit_set', many=True, read_only=True)
 
     class Meta:
         model = Chapter
