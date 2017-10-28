@@ -467,7 +467,7 @@
   .el-date-editor .el-range__icon {
     font-size: 14px;
     margin-left: -5px;
-    color: #b4bccc;
+    color: #ccbfbc;
     float: left;
     line-height: 32px; }
   .el-date-editor .el-range-input {
@@ -483,15 +483,15 @@
     width: 38%;
     text-align: center;
     font-size: 14px;
-    color: #5a5e66; }
+    color: #665d5e; }
     .el-date-editor .el-range-input::-webkit-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-date-editor .el-range-input:-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-date-editor .el-range-input::-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-date-editor .el-range-input::placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
   .el-date-editor .el-range-separator {
     display: inline-block;
     height: 100%;
@@ -501,10 +501,10 @@
     line-height: 32px;
     font-size: 14px;
     width: 5%;
-    color: #2d2f33; }
+    color: #33302f; }
   .el-date-editor .el-range__close-icon {
     font-size: 14px;
-    color: #b4bccc;
+    color: #ccbfbc;
     width: 25px;
     display: inline-block;
     float: right;
@@ -558,26 +558,26 @@
   line-height: 20px; }
 
 .el-range-editor.is-disabled {
-  background-color: #f5f7fa;
-  border-color: #dfe4ed;
-  color: #b4bccc;
+  background-color: #faf7f5;
+  border-color: #ede4df;
+  color: #ccbfbc;
   cursor: not-allowed; }
   .el-range-editor.is-disabled:hover, .el-range-editor.is-disabled:focus {
-    border-color: #dfe4ed; }
+    border-color: #ede4df; }
   .el-range-editor.is-disabled input {
-    background-color: #f5f7fa;
-    color: #b4bccc;
+    background-color: #faf7f5;
+    color: #ccbfbc;
     cursor: not-allowed; }
     .el-range-editor.is-disabled input::-webkit-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-range-editor.is-disabled input:-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-range-editor.is-disabled input::-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-range-editor.is-disabled input::placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
   .el-range-editor.is-disabled .el-range-separator {
-    color: #b4bccc; }
+    color: #ccbfbc; }
 
 /* Element Chalk Variables */
 /* Transition
@@ -920,8 +920,8 @@
 /* Break-point
 --------------------------*/
 .el-picker-panel {
-  color: #5a5e66;
-  border: 1px solid #dfe4ed;
+  color: #665d5e;
+  border: 1px solid #ede4df;
   -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   background: #fff;
@@ -949,7 +949,7 @@
     background-color: transparent;
     line-height: 28px;
     font-size: 14px;
-    color: #5a5e66;
+    color: #665d5e;
     padding-left: 12px;
     text-align: left;
     outline: none;
@@ -974,7 +974,7 @@
       cursor: not-allowed; }
   .el-picker-panel__icon-btn {
     font-size: 12px;
-    color: #2d2f33;
+    color: #33302f;
     border: 0;
     background: transparent;
     cursor: pointer;
@@ -1041,7 +1041,7 @@
     .el-date-picker__header--bordered {
       margin-bottom: 0;
       padding-bottom: 12px;
-      border-bottom: solid 1px #e6ebf5; }
+      border-bottom: solid 1px #f5ebe6; }
       .el-date-picker__header--bordered + .el-picker-panel__content {
         margin-top: 0; }
   .el-date-picker__header-label {
@@ -1051,7 +1051,7 @@
     line-height: 22px;
     text-align: center;
     cursor: pointer;
-    color: #5a5e66; }
+    color: #665d5e; }
     .el-date-picker__header-label:hover {
       color: #c36055; }
     .el-date-picker__header-label.active {
@@ -1429,11 +1429,11 @@
     height: 0;
     cursor: pointer;
     border-radius: inherit;
-    background-color: rgba(135, 141, 153, 0.3);
+    background-color: rgba(153, 142, 141, 0.3);
     -webkit-transition: .3s background-color;
     transition: .3s background-color; }
     .el-scrollbar__thumb:hover {
-      background-color: rgba(135, 141, 153, 0.5); }
+      background-color: rgba(153, 142, 141, 0.5); }
   .el-scrollbar__bar {
     position: absolute;
     right: 2px;
@@ -1472,10 +1472,10 @@
   font-weight: bold; }
 
 .time-select-item.disabled {
-  color: #dfe4ed;
+  color: #ede4df;
   cursor: not-allowed; }
 
 .time-select-item:hover {
-  background-color: #f5f7fa;
+  background-color: #faf7f5;
   font-weight: bold;
   cursor: pointer; }

@@ -6,11 +6,11 @@
 
 <script>
   export default {
-    name: "divide",
+    name: 'divide',
     props: {
       text: {
         type: String,
-        default: "NEXT"
+        default: 'NEXT'
       }
     },
   }

@@ -6,17 +6,21 @@ import { errorHandler } from '../../utils'
 // state
 const state = {
   course: {
-    'id': 0,
-    'title': '加载中',
-    'subtitle': 'Loading...',
-    'introduction': '加载中...',
-    'cover_image': '',
-    'update_time': '',
-    'participants_count': 0,
-    'obligator': ''
+    id: 0,
+    title: '',
+    subtitle: '',
+    introduction: '',
+    cover_image: '',
+    chapters: []
   },
-  chapters: [],
+  chapter: {
+    id: 0,
+    title: '',
+    description: '',
+    units: []
+  },
   messages: [],
+
   tops: [],
   courses: [],
   count: 0

@@ -43,7 +43,7 @@
     },
     methods: {
       onEnterClicked (id) {
-        this.$router.push({path: `/course/display/${id}`})
+        this.$router.push({path: `/course/${id}`})
       }
     },
     mounted: function () {

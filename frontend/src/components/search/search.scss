@@ -1,7 +1,7 @@
 @import "../../style/config";
 
 .search {
-  $s: 24px;
+  $s: $font-md;
   border-radius: 4px;
   overflow: hidden;
   position: relative;
@@ -16,7 +16,7 @@
     font-weight: 100;
     //width: 100%;
     letter-spacing: 2px;
-    padding: 10px 40px 10px 10px;
+    padding: 3px 30px 3px 10px;
     flex-grow: 1;
     border: 1px solid rgba($dark, .6);
   }
@@ -28,8 +28,8 @@
     background-color: currentColor;
     opacity: .4;
     position: absolute;
-    top: 16px;
-    right: 14px;
+    top: 10px;
+    right: 9px;
     transform: rotateZ(135deg);
     cursor: pointer;
     transition: all .3s;
@@ -60,15 +60,12 @@
         opacity: .4;
         width: 20px;
         height: 20px;
-        top: 16px;
-        right: 14px;
       }
       30% {
         opacity: .6;
         width: 18px;
         height: 18px;
-        top: 17px;
-        right: 15px;
+        transform: rotateZ(135deg) translateX(1px) translateY(1px);
       }
     }
   }

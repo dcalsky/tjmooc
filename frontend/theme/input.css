@@ -254,10 +254,10 @@
     background-color: #fff;
     background-image: none;
     border-radius: 4px;
-    border: 1px solid #d8dce5;
+    border: 1px solid #e5dcd8;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    color: #5a5e66;
+    color: #665d5e;
     display: inline-block;
     font-size: inherit;
     height: 40px;
@@ -268,15 +268,15 @@
     transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     width: 100%; }
     .el-input__inner::-webkit-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-input__inner:-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-input__inner::-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-input__inner::placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-input__inner:hover {
-      border-color: #b4bccc; }
+      border-color: #ccbfbc; }
     .el-input__inner:focus {
       outline: none;
       border-color: #c36055; }
@@ -286,7 +286,7 @@
     right: 5px;
     top: 0;
     text-align: center;
-    color: #b4bccc;
+    color: #ccbfbc;
     -webkit-transition: all .3s;
     transition: all .3s;
     pointer-events: none; }
@@ -298,7 +298,7 @@
     left: 5px;
     top: 0;
     text-align: center;
-    color: #b4bccc;
+    color: #ccbfbc;
     -webkit-transition: all .3s;
     transition: all .3s; }
   .el-input__icon {
@@ -320,18 +320,18 @@
     outline: none;
     border-color: #c36055; }
   .el-input.is-disabled .el-input__inner {
-    background-color: #f5f7fa;
-    border-color: #dfe4ed;
-    color: #b4bccc;
+    background-color: #faf7f5;
+    border-color: #ede4df;
+    color: #ccbfbc;
     cursor: not-allowed; }
     .el-input.is-disabled .el-input__inner::-webkit-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-input.is-disabled .el-input__inner:-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-input.is-disabled .el-input__inner::-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-input.is-disabled .el-input__inner::placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
   .el-input.is-disabled .el-input__icon {
     cursor: not-allowed; }
   .el-input--suffix .el-input__inner {
@@ -366,12 +366,12 @@
     vertical-align: middle;
     display: table-cell; }
   .el-input-group__append, .el-input-group__prepend {
-    background-color: #f5f7fa;
-    color: #878d99;
+    background-color: #faf7f5;
+    color: #998d87;
     vertical-align: middle;
     display: table-cell;
     position: relative;
-    border: 1px solid #d8dce5;
+    border: 1px solid #e5dcd8;
     border-radius: 4px;
     padding: 0 20px;
     width: 1px;
@@ -417,36 +417,36 @@
     box-sizing: border-box;
     width: 100%;
     font-size: 14px;
-    color: #5a5e66;
+    color: #665d5e;
     background-color: #fff;
     background-image: none;
-    border: 1px solid #d8dce5;
+    border: 1px solid #e5dcd8;
     border-radius: 4px;
     -webkit-transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); }
     .el-textarea__inner::-webkit-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-textarea__inner:-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-textarea__inner::-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-textarea__inner::placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-textarea__inner:hover {
-      border-color: #b4bccc; }
+      border-color: #ccbfbc; }
     .el-textarea__inner:focus {
       outline: none;
       border-color: #c36055; }
   .el-textarea.is-disabled .el-textarea__inner {
-    background-color: #f5f7fa;
-    border-color: #dfe4ed;
-    color: #b4bccc;
+    background-color: #faf7f5;
+    border-color: #ede4df;
+    color: #ccbfbc;
     cursor: not-allowed; }
     .el-textarea.is-disabled .el-textarea__inner::-webkit-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-textarea.is-disabled .el-textarea__inner:-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-textarea.is-disabled .el-textarea__inner::-ms-input-placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }
     .el-textarea.is-disabled .el-textarea__inner::placeholder {
-      color: #b4bccc; }
+      color: #ccbfbc; }

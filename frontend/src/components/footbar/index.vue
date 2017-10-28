@@ -1,11 +1,11 @@
 <template>
-  <div class='footbar'>
-    <div class='link-box'>
-      <router-link :to='l[1]' v-for='l in links' :key="l[1]">{{l[0]}}</router-link>
+  <div id="footbar">
+    <div class="link-box">
+      <router-link :to="l[1]" v-for="l in links" :key="l[1]">{{l[0]}}</router-link>
     </div>
-    <div class='brand' @click='eggshell'>
-      <logo :height='32'></logo>
-      <a :href='school[0].url' @click='eggshell'>{{school[0].name}}</a>
+    <div class="brand" @click="eggshell">
+      <logo :height="32"></logo>
+      <a :href="school[0].url" @click="eggshell">{{school[0].name}}</a>
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@
           }
         ],
         links: [
-          ['主页', '/'],
+          ['首页', '/'],
           ['关于我们', '/about'],
           ['课堂论坛', '/forum'],
           ['版权声明', '/copyright'],

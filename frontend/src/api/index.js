@@ -77,9 +77,8 @@ const course = {
       page, cb
     })
   },
-  getCourseById (data, cb, token) {
-    const courseId = data.courseId
-    get(`${server.course}${courseId}`, {
+  getCourseById ({courseId}, cb, token) {
+    get(`${server.course}course/${courseId}`, {
       cb
     })
   },
@@ -187,31 +186,34 @@ const manage = {
   updateCourse (data, cb) {
     put(`${server.course}course/${data.id}/`, {data, cb})
   },
-  removeCourse (data, cb) {
-    delet(`${server.course}course/${data.id}`, {cb})
+  removeCourse ({id}, cb) {
+    delet(`${server.course}course/${id}`, {cb})
   },
 
-  getAllChapters ({courseId}, cb) {
-    get(`${server.course}${courseId}/chapter?id&title&description`, {cb})
+  // getAllChapters ({courseId}, cb) {
+  //   get(`${server.course}${courseId}/chapter?id&title&description`, {cb})
+  // },
+  getChapter (data, cb) {
+    get(`${server.course}chapter/${data.id}`, {cb})
   },
-  postChapter ({courseId, data}, cb) {
-    post(`${server.course}${courseId}/chapter`, {data, cb})
+  postChapter (data, cb) {
+    post(`${server.course}chapter/`, {data, cb})
   },
-  updateChapter ({courseId, data}, cb) {
-    put(`${server.course}${courseId}/chapter/${data.id}`, {data, cb})
+  updateChapter (data, cb) {
+    put(`${server.course}chapter/${data.id}/`, {data, cb})
   },
-  removeChapter ({courseId, chapterId}, cb) {
-    delet(`${server.course}${courseId}/chapter/${chapterId}`, {cb})
+  removeChapter ({id}, cb) {
+    delet(`${server.course}chapter/${id}`, {cb})
   },
 
-  getAllUnits ({courseId, chapterId}, cb) {
-    get(`${server.course}${courseId}/chapter/${chapterId}/unit?id&title&description`, {cb})
+  // getAllUnits ({courseId, chapterId}, cb) {
+  //   get(`${server.course}${courseId}/chapter/${chapterId}/unit?id&title&description`, {cb})
+  // },
+  postUnit (data, cb) {
+    post(`${server.course}unit/`, {data, cb})
   },
-  postUnit ({courseId, chapterId, data}, cb) {
-    post(`${server.course}${courseId}/chapter/${chapterId}/unit`, {data, cb})
-  },
-  updateUnit ({courseId, chapterId, data}, cb) {
-    put(`${server.course}${courseId}/chapter/${chapterId}/unit/${data.id}`, {data, cb})
+  updateUnit (data, cb) {
+    put(`${server.course}unit/${data.id}/`, {data, cb})
   },
   removeUnit ({courseId, chapterId, unitId}, cb) {
     delet(`${server.course}${courseId}/chapter/${chapterId}/unit/${unitId}`, {cb})

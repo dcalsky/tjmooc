@@ -14,7 +14,7 @@
           class="filter"
           v-model="search"
           size="small">
-          <el-button slot="append" icon="plus" @click="appendCourse"></el-button>
+          <el-button slot="append" icon="el-icon-plus" @click="appendCourse"></el-button>
         </el-input>
           <div class="cards" v-if="searchFilter(courses).length">
             <div v-for="c in searchFilter(courses)" @click="courseCardClick(c)" class="cardBox">
@@ -67,9 +67,7 @@
             </el-form-item>
             <el-form-item label="置顶" prop="top">
               <el-switch
-                v-model="courseForm.top"
-                on-text="Top"
-                off-text="">
+                v-model="courseForm.top">
               </el-switch>
             </el-form-item>
             <el-form-item class="save">
@@ -85,7 +83,7 @@
                 class="filter"
                 v-model="search"
                 size="small">
-                <el-button slot="append" icon="plus" @click="appendChapter"></el-button>
+                <el-button slot="append" icon="el-icon-plus" @click="appendChapter"></el-button>
               </el-input>
 
               <div class="cards" v-if="searchFilter(chapters).length">
@@ -135,7 +133,7 @@
                 class="filter"
                 v-model="search"
                 size="small">
-                <el-button slot="append" icon="plus" @click="appendUnit"></el-button>
+                <el-button slot="append" icon="el-icon-plus" @click="appendUnit"></el-button>
               </el-input>
 
               <div class="cards" v-if="searchFilter(units).length">
@@ -215,7 +213,7 @@
       course: {
         deep: true,
         handler (val) {
-          this.courseForm = Object.assign({}, this.courseForm, val)
+          this.courseForm = Object.assign({}, val)
         }
       },
       chapter: {
@@ -369,7 +367,7 @@
           if (valid) {
             const f = Object.assign({}, this.chapterForm, {leacturer: this.$store.state.session.userId})
             this.$store.dispatch('submitChapterForm', {
-              courseId: this.course.id,
+              course: this.course.id,
               chapterForm: f,
               cb: () => {
                 this.$refs.left[1].click()
@@ -385,8 +383,7 @@
           if (valid) {
             const f = Object.assign({}, this.unitForm, {leacturer: this.$store.state.session.userId})
             this.$store.dispatch('submitUnitForm', {
-              courseId: this.course.id,
-              chapterId: this.chapter.id,
+              chapter: this.chapter.id,
               unitForm: f,
               cb: () => {
                 this.$refs.left[2].click()
@@ -418,8 +415,7 @@
           type: 'warning'
         }).then(() => {
           this.$store.dispatch('removeChapter', {
-            courseId: this.course.id,
-            chapterId: this.chapter.id,
+            id: this.chapter.id,
             cb: () => {
               this.$refs.left[1].click()
             }
@@ -446,6 +442,7 @@
       courseCardClick (c) {
         c = c || this.$store.state.manage.courses.slice(-1)[0]
         this.select[0] = c.id
+        console.log('ccc', c)
         this.$store.dispatch('getCourse', c)
         this.select.push(-1)
         this.search = ''
@@ -453,7 +450,7 @@
           {
             tag: '课程信息',
             click: () => {
-              this.$store.dispatch('getAllChapters', this.course)
+              this.$store.dispatch('getCourse', c)
               while (this.select.length > 1) this.select.pop()
               this.select.push(-1)
               this.search = ''
@@ -472,7 +469,7 @@
         this.left.push({
           tag: '章信息',
           click: () => {
-            this.$store.dispatch('getAllUnits', this.chapter)
+            this.$store.dispatch('getChapter', c)
             while (this.select.length > 2) this.select.pop()
             this.select.push(-1)
             this.search = ''

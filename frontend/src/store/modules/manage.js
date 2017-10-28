@@ -55,17 +55,17 @@ const actions = {
     }
   },
   getCourse ({commit}, course) {
-    // manage.getCourse(course, (err, res) => {
-    //   if (err) {
-    //     console.error(err)
-    //   }
-    //   commit('getCourse', res.body)
-    // })
     // console.log(course)
     if (course.id >= 0) {
-      actions.getAllChapters({commit}, course)
+      manage.getCourse(course, (err, res) => {
+        if (err) {
+          console.error(err)
+        }
+        commit('getCourse', res.body)
+      })
+    } else {
+      commit('getCourse', course)
     }
-    commit('getCourse', course)
   },
   removeCourse ({commit}, {course, cb}) {
     manage.removeCourse(course, (err, res) => {
@@ -81,24 +81,31 @@ const actions = {
   appendBlankChapter ({commit}) {
     commit('appendBlankChapter')
   },
-  getAllChapters ({commit}, {id}) {
-    manage.getAllChapters({courseId: id}, (err, res) => {
-      if (err) {
-        console.error(err)
-      }
-      commit('getAllChapters', res.body)
-    })
-  },
+  // getAllChapters ({commit}, {id}) {
+  //   manage.getAllChapters({courseId: id}, (err, res) => {
+  //     if (err) {
+  //       console.error(err)
+  //     }
+  //     commit('getAllChapters', res.body)
+  //   })
+  // },
   getChapter ({commit}, chapter) {
+    // console.log(course)
     if (chapter.id >= 0) {
-      actions.getAllUnits({commit}, chapter)
+      manage.getChapter(chapter, (err, res) => {
+        if (err) {
+          console.error(err)
+        }
+        commit('getChapter', res.body)
+      })
+    } else {
+      commit('getChapter', chapter)
     }
-    commit('getChapter', chapter)
   },
-  submitChapterForm ({commit}, {courseId, chapterForm, cb}) {
-    // console.log(courseForm)
+  submitChapterForm ({commit}, {course, chapterForm, cb}) {
+    const {title, description, id} = chapterForm
     if (chapterForm.id < 0) {
-      manage.postChapter({courseId, data: chapterForm}, (err, res) => {
+      manage.postChapter({course, title, description}, (err, res) => {
         if (err) {
           console.error(err)
         }
@@ -107,18 +114,18 @@ const actions = {
         cb()
       })
     } else {
-      manage.updateChapter({courseId, data: chapterForm}, (err, res) => {
+      manage.updateChapter({course, title, description, id}, (err, res) => {
         if (err) {
           console.error(err)
         }
         // commit('submitCourseForm', res.body)
-        console.log('postChapter', res.body)
+        console.log('updateChapter', res.body)
         cb()
       })
     }
   },
-  removeChapter ({commit}, {courseId, chapterId, cb}) {
-    manage.removeChapter({courseId, chapterId}, (err, res) => {
+  removeChapter ({commit}, {id, cb}) {
+    manage.removeChapter({id}, (err, res) => {
       if (err) {
         console.error(err)
       }
@@ -146,9 +153,10 @@ const actions = {
       actions.getVideo({commit})
     }
   },
-  submitUnitForm ({commit}, {courseId, chapterId, unitForm, cb}) {
+  submitUnitForm ({commit}, {chapter, unitForm, cb}) {
+    const {title, description, id} = unitForm
     if (unitForm.id < 0) {
-      manage.postUnit({courseId, chapterId, data: unitForm}, (err, res) => {
+      manage.postUnit({title, description, chapter}, (err, res) => {
         if (err) {
           console.error(err)
         }
@@ -157,7 +165,7 @@ const actions = {
         cb()
       })
     } else {
-      manage.updateUnit({courseId, chapterId, data: unitForm}, (err, res) => {
+      manage.updateUnit({title, description, chapter, id}, (err, res) => {
         if (err) {
           console.error(err)
         }
@@ -290,6 +298,7 @@ const mutations = {
 
   getCourse (state, c) {
     state.course = Object.assign({}, state.course, c)
+    state.chapters = c.chapters
   },
   getChapter (state, c) {
     state.chapter = Object.assign({}, state.chapter, c)

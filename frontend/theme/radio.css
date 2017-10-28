@@ -340,7 +340,7 @@
 /* Break-point
 --------------------------*/
 .el-radio {
-  color: #5a5e66;
+  color: #665d5e;
   font-weight: 500;
   line-height: 1;
   position: relative;
@@ -354,12 +354,12 @@
   .el-radio.is-bordered {
     padding: 10px 20px 10px 10px;
     border-radius: 4px;
-    border: 1px solid #d8dce5; }
+    border: 1px solid #e5dcd8; }
     .el-radio.is-bordered.is-checked {
       border-color: #c36055; }
     .el-radio.is-bordered.is-disabled {
       cursor: not-allowed;
-      border-color: #e6ebf5; }
+      border-color: #f5ebe6; }
     .el-radio.is-bordered + .el-radio.is-bordered {
       margin-left: 10px; }
   .el-radio--medium.is-bordered {
@@ -397,21 +397,21 @@
     position: relative;
     vertical-align: middle; }
     .el-radio__input.is-disabled .el-radio__inner {
-      background-color: #f5f7fa;
-      border-color: #dfe4ed;
+      background-color: #faf7f5;
+      border-color: #ede4df;
       cursor: not-allowed; }
       .el-radio__input.is-disabled .el-radio__inner::after {
         cursor: not-allowed;
-        background-color: #f5f7fa; }
+        background-color: #faf7f5; }
       .el-radio__input.is-disabled .el-radio__inner + .el-radio__label {
         cursor: not-allowed; }
     .el-radio__input.is-disabled.is-checked .el-radio__inner {
-      background-color: #f5f7fa;
-      border-color: #dfe4ed; }
+      background-color: #faf7f5;
+      border-color: #ede4df; }
       .el-radio__input.is-disabled.is-checked .el-radio__inner::after {
-        background-color: #b4bccc; }
+        background-color: #ccbfbc; }
     .el-radio__input.is-disabled + span.el-radio__label {
-      color: #b4bccc;
+      color: #ccbfbc;
       cursor: not-allowed; }
     .el-radio__input.is-checked .el-radio__inner {
       border-color: #c36055;
@@ -424,7 +424,7 @@
     .el-radio__input.is-focus .el-radio__inner {
       border-color: #c36055; }
   .el-radio__inner {
-    border: 1px solid #d8dce5;
+    border: 1px solid #e5dcd8;
     border-radius: 100%;
     width: 14px;
     height: 14px;

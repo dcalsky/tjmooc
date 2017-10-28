@@ -247,7 +247,7 @@
     font-weight: 500;
     cursor: pointer;
     vertical-align: middle;
-    color: #2d2f33; }
+    color: #33302f; }
     .el-switch__label.is-active {
       color: #c36055; }
     .el-switch__label--left {
@@ -272,12 +272,12 @@
     position: relative;
     width: 40px;
     height: 20px;
-    border: 1px solid #d8dce5;
+    border: 1px solid #e5dcd8;
     outline: none;
     border-radius: 10px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    background: #d8dce5;
+    background: #e5dcd8;
     cursor: pointer;
     -webkit-transition: border-color .3s, background-color .3s;
     transition: border-color .3s, background-color .3s;

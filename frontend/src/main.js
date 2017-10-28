@@ -2,12 +2,13 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
 import 'normalize-css/normalize.css'
+import 'font-awesome/css/font-awesome.css'
+import '../theme/index.css'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import App from './views/App.vue'
 import router from './router'
 import store from './store'
-import '../theme/index.css'
 import { sync } from 'vuex-router-sync'
 
 sync(store, router)

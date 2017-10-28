@@ -28,7 +28,7 @@ $--color-primary-light-9: mix($--color-white, $--color-primary, 90%); /* ecf5ff 
 $--color-success: #67c23a !default;
 $--color-warning: #eb9e05 !default;
 $--color-danger: #fa5555 !default;
-$--color-info: #878d99 !default;
+$--color-info: #998d87 !default;
 
 $--color-success-light: mix($--color-white, $--color-success, 80%);
 $--color-warning-light: mix($--color-white, $--color-warning, 80%);
@@ -40,10 +40,10 @@ $--color-warning-lighter: mix($--color-white, $--color-warning, 90%);
 $--color-danger-lighter: mix($--color-white, $--color-danger, 90%);
 $--color-info-lighter: mix($--color-white, $--color-info, 90%);
 
-$--color-text-primary: #2d2f33 !default;
-$--color-text-regular: #5a5e66 !default;
-$--color-text-secondary: #878d99 !default;
-$--color-text-placeholder: #b4bccc !default;
+$--color-text-primary: #33302f !default;
+$--color-text-regular: #665d5e !default;
+$--color-text-secondary: #998e8d !default;
+$--color-text-placeholder: #ccbfbc !default;
 
 /* Link
 -------------------------- */
@@ -52,16 +52,16 @@ $--link-hover-color: $--color-primary;
 
 /* Background
 -------------------------- */
-$--background-color-base: #f5f7fa;
+$--background-color-base: #faf7f5;
 
 /* Border
 -------------------------- */
 $--border-width-base: 1px;
 $--border-style-base: solid;
-$--border-color-base: #d8dce5 !default;
-$--border-color-light: #dfe4ed !default;
-$--border-color-lighter: #e6ebf5 !default;
-$--border-color-extra-light: #edf2fc !default;
+$--border-color-base: #e5dcd8 !default;
+$--border-color-light: #ede4df !default;
+$--border-color-lighter: #f5ebe6 !default;
+$--border-color-extra-light: #fcf2ed !default;
 $--border-color-hover: $--color-text-placeholder;
 $--border-base: $--border-width-base $--border-style-base $--border-color-base;
 $--border-radius-base: 4px;

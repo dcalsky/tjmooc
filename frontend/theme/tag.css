@@ -260,15 +260,15 @@
       background-color: #c36055;
       color: #fff; }
   .el-tag--info {
-    background-color: rgba(135, 141, 153, 0.1);
-    border-color: rgba(135, 141, 153, 0.2);
-    color: #878d99; }
+    background-color: rgba(153, 141, 135, 0.1);
+    border-color: rgba(153, 141, 135, 0.2);
+    color: #998d87; }
     .el-tag--info.is-hit {
-      border-color: #878d99; }
+      border-color: #998d87; }
     .el-tag--info .el-tag__close {
-      color: #878d99; }
+      color: #998d87; }
     .el-tag--info .el-tag__close:hover {
-      background-color: #878d99;
+      background-color: #998d87;
       color: #fff; }
   .el-tag--success {
     background-color: rgba(103, 194, 58, 0.1);

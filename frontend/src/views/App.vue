@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <navbar v-if="showNav"></navbar>
-      <router-view :style="{minHeight}"></router-view>
+      <div :style="{minHeight}">
+        <router-view :style="{minHeight}"></router-view>
+      </div>
     <footbar v-if="showFoot"></footbar>
   </div>
 </template>

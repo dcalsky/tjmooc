@@ -3,7 +3,7 @@
     <div id="account">
       <div class="account" :style="{minHeight}">
         <div class="home" @click="backHome" :class="left ? 'home-right' : 'home-left'">
-          <div class="toggle">返回主页</div>
+          <div class="toggle">返回首页</div>
           <logo></logo>
         </div>
         <div class="front">
@@ -58,5 +58,5 @@
 </script>
 
 <style lang="sass" rel="stylesheet/sass">
-  @import "account"
+  @import "../../style/account"
 </style>

@@ -173,9 +173,6 @@
           border-bottom: 1px solid rgba($dark, .3);
           font-weight: 300;
         }
-        .active {
-          font-weight: bold;
-        }
         .el-pagination__total, .btn-prev, .btn-next{
           font-size: $font-sm;
         }
@@ -186,18 +183,17 @@
         text-align: center;
         border-radius: 4px;
         font-size: $font-lg;
-        font-weight: 300;
         margin: 30px;
-        color: darken($mainColor, 5%);
+        //color: darken($mainColor, 5%);
         background-color: white;
-        box-shadow: rgba($mainColor, .3) 5px 5px 100px -20px;
+        box-shadow: rgba($mainColor, .3) 5px 5px 50px -20px;
         transition: 0.3s all;
         position: relative;
         cursor: pointer;
         &:hover {
           //box-shadow: none;
           transform: translateY(-3px);
-          box-shadow: rgba($mainColor, .3) 5px 5px 100px -15px;
+          box-shadow: rgba($mainColor, .3) 5px 5px 50px -15px;
         }
 
         //.percentage {
@@ -235,11 +231,9 @@
       }
       .course {
         margin: 20px;
-        padding: 50px;
-        width: 400px;
-        box-shadow: rgba($mainColor, .15) 2px 2px 20px -2px;
-        border: 1px solid white;
-        border-radius: 4px;
+        padding: 20px;
+        width: 420px;
+        box-shadow: 0 2px 12px 0 rgba($dark, 0.1);
         transition: all .3s;
         position: relative;
         cursor: pointer;

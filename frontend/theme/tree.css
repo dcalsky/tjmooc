@@ -231,7 +231,7 @@
 .el-tree {
   cursor: default;
   background: #fff;
-  color: #5a5e66; }
+  color: #665d5e; }
   .el-tree__empty-block {
     position: relative;
     min-height: 60px;
@@ -262,7 +262,7 @@
     .el-tree-node__content > .el-checkbox {
       margin-right: 8px; }
     .el-tree-node__content:hover {
-      background-color: #f5f7fa; }
+      background-color: #faf7f5; }
   .el-tree-node__expand-icon {
     cursor: pointer;
     width: 0;
@@ -270,7 +270,7 @@
     margin-left: 10px;
     border: 3.5px solid transparent;
     border-right-width: 0;
-    border-left-color: #b4bccc;
+    border-left-color: #ccbfbc;
     border-left-width: 6px;
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
@@ -289,7 +289,7 @@
   .el-tree-node__loading-icon {
     margin-right: 8px;
     font-size: 14px;
-    color: #b4bccc; }
+    color: #ccbfbc; }
   .el-tree-node > .el-tree-node__children {
     overflow: hidden;
     background-color: transparent; }

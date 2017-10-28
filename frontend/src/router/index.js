@@ -11,7 +11,7 @@ const AccountRegister = r => require.ensure([], () => r(require('../views/accoun
 const AccountLogin = r => require.ensure([], () => r(require('../views/account/login/login.vue')), 'account')
 
 // // Course
-// const Course = r => require.ensure([], () => r(require('views/course/course')), 'course')
+const Course = r => require.ensure([], () => r(require('../views/course')), 'course')
 // const CourseDisplay = r => require.ensure([], () => r(require('views/course/display')), 'course')
 // const CourseList = r => require.ensure([], () => r(require('views/course/list')), 'course')
 // const CourseAdd = r => require.ensure([], () => r(require('views/course/add')), 'course')
@@ -63,10 +63,10 @@ export default new Router({
       name: 'profile',
       component: Home
     },
-    // {
-    //   path: '/course',
-    //   component: Course,
-    //   name: 'course',
+    {
+      path: '/course/:courseId',
+      component: Course,
+      name: 'course'
     //   children: [
     //     {
     //       path: 'display/:courseId',
@@ -81,7 +81,7 @@ export default new Router({
     //       component: CourseAdd
     //     }
     //   ]
-    // },
+    },
     {
       path: '/manage',
       component: Manage,

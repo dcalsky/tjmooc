@@ -1,4 +1,4 @@
-@import "../../style/config";
+@import "config";
 
 $rc: lighten($lightColor, 44%);
 
@@ -75,6 +75,7 @@ $rc: lighten($lightColor, 44%);
         overflow: hidden;
         width: 0;
         color: transparent;
+        opacity: .6;
         background: transparent;
         position: absolute;
         top: 50% - $h / 2;
@@ -295,7 +296,7 @@ $rc: lighten($lightColor, 44%);
 }
 
 #account-register {
-  padding: 15px 56px 45px;
+  padding: 14px 56px 45px;
   .el-slider {
     width: 80%;
     margin: 30px auto 62px auto;
@@ -318,7 +319,7 @@ $rc: lighten($lightColor, 44%);
 
 
 #account-login {
-  padding: 75px 56px 45px;
+  padding: 60px 56px 45px;
   .form {
     margin: 30px 0 40px 0;
   }
