@@ -5,15 +5,8 @@ import { errorHandler } from '../../utils'
 
 // state
 const state = {
-  homework: {
-    'id': 0,
-    'title': '',
-    'introduction': '',
-    'problem_file': '',
-    'answer_file': '',
-    'deadline': '',
-    'chapter': 0
-  },
+  homework: {},
+  test: {},
   homeworkSubmit: {},
   videos: {},
   videosLen: 0
@@ -23,15 +16,43 @@ const state = {
 const actions = {
   getHomework ({commit}, data) {
     commit(types.GET_HOMEWORK_REQUEST)
-    material.getHomework(data, (err, res) => {
-      // error handle todo
-      console.log('getHomework', res.body)
-      if (err || !res.body || !res.body.results) {
-        console.log(err)
-        commit(types.GET_HOMEWORK_FAILED, errorHandler('error'))
-      }
-      commit(types.GET_HOMEWORK_SUCCESS, {homework: res.body.results[0]})
-    })
+    if (data) {
+      material.getHomework(data, (err, res) => {
+        // error handle todo
+        // console.log('getHomework', res.body)
+        // if (err || !res.body || !res.body.results) {
+        //   console.log(err)
+        //   commit(types.GET_HOMEWORK_FAILED, errorHandler('error'))
+        // }
+        // commit(types.GET_HOMEWORK_SUCCESS, {homework: res.body.results[0]})
+        if (err) {
+          commit(types.GET_HOMEWORK_FAILED, errorHandler('error'))
+        }
+        commit(types.GET_HOMEWORK_SUCCESS, res.body)
+      })
+    } else {
+      commit(types.GET_HOMEWORK_SUCCESS, {
+        file: '',
+        title: '',
+        desc: '',
+        deadline: '',
+        id: -1
+      })
+    }
+  },
+  getTest ({commit}, data) {
+    commit(types.GET_TEST_REQUEST)
+    console.log(data)
+    if (data) {
+      material.getTest(data, (err, res) => {
+        if (err) {
+          commit(types.GET_TEST_FAILED, errorHandler('error'))
+        }
+        commit(types.GET_TEST_SUCCESS, res.body)
+      })
+    } else {
+      commit(types.GET_TEST_SUCCESS, {})
+    }
   },
   getHomeworkSubmit ({commit}, data) {
     commit(types.GET_HOMEWORK_REQUEST)
@@ -88,7 +109,7 @@ const actions = {
 }
 
 const mutations = {
-  [types.GET_HOMEWORK_SUCCESS] (state, {homework}) {
+  [types.GET_HOMEWORK_SUCCESS] (state, homework) {
     state.homework = homework
   },
   [types.GET_HOMEWORK_FAILED] (state, messages) {
@@ -96,6 +117,17 @@ const mutations = {
     state.messages = messages
   },
   [types.GET_HOMEWORK_REQUEST] (state) {
+    state.messages = []
+  },
+
+  [types.GET_TEST_SUCCESS] (state, test) {
+    state.test = test
+  },
+  [types.GET_TEST_FAILED] (state, messages) {
+    state.test = {}
+    state.messages = messages
+  },
+  [types.GET_TEST_REQUEST] (state) {
     state.messages = []
   },
 

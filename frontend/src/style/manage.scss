@@ -283,14 +283,19 @@
     }
     .el-tag {
       margin-right: 5px;
-      padding: .5px 5px 3.5px;
     }
     .el-button, input {
-      padding: 6px 5px 4px;
       font-weight: 300;
     }
-    input {
-      height: 24px;
+    .el-button {
+      height: 32px;
+      line-height: 30px;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .el-input {
+      width: 140px;
+      vertical-align: bottom;
     }
   }
 
@@ -353,8 +358,6 @@
 
 #test {
   .question {
-    padding-right: 15px;
-
     .el-card {
       overflow: visible;
       margin: 20px 0;
@@ -371,15 +374,20 @@
     }
     .el-card__body {
       flex-direction: column;
+      padding: 20px 25px;
     }
     .el-card__header {
       border-bottom: none;
       position: absolute;
       transform: rotateZ(90deg);
-      right: -98px;
+      right: -97px;
       top: 34px;
-      opacity: .4;
+      opacity: 0;
       transition: all .2s;
+
+      .el-button {
+        padding: 7px 10px;
+      }
     }
 
     .flex {
@@ -402,10 +410,10 @@
       width: 100%;
       align-items: baseline;
       .el-button {
-        margin: 5px 0;
+        margin: 15px 0 5px;
       }
       .click-input {
-        width: 456px;
+        width: 452px;
       }
     }
     .el-radio-group, .el-checkbox-group {
@@ -414,7 +422,7 @@
       box-sizing: border-box;
     }
     .el-radio, .el-checkbox {
-      margin: 5px 0;
+      margin: 0;
       display: block;
       width: 100%;
     }

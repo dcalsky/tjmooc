@@ -442,7 +442,6 @@
       courseCardClick (c) {
         c = c || this.$store.state.manage.courses.slice(-1)[0]
         this.select[0] = c.id
-        console.log('ccc', c)
         this.$store.dispatch('getCourse', c)
         this.select.push(-1)
         this.search = ''

@@ -11,7 +11,7 @@
         <div id="courses" v-if="select.length === 1">
           <el-input
             :placeholder="`输入${step}名称以筛选`"
-            icon="search"
+            suffix-icon="el-icon-search"
             v-model="search"
             class="filter"
             size="small">
@@ -37,14 +37,13 @@
         <div id="course" v-if="select.length === 2">
 
           <el-form
-            :model="courseForm"
             label-width="80px"
             label-position="top"
           >
 
             <el-form-item label="助教" class="assistant">
               <el-tag
-                :key="a"
+                :key="a.id"
                 v-for="a in assistants"
                 :closable="true"
                 :close-transition="false"
@@ -58,7 +57,7 @@
                 v-if="assistantVisible"
                 v-model="assistantValue"
                 ref="assistantSaveTagInput"
-                size="mini"
+                size="small"
                 @keyup.enter.native="handleInputConfirm"
                 @blur="handleInputConfirm"
               ></el-input>
@@ -71,6 +70,7 @@
             <el-form-item label="选择章" class="changeChapter">
               <el-input
                 :placeholder="`输入${step}名称以筛选`"
+                suffix-icon="el-icon-search"
                 class="filter"
                 v-model="search"
                 size="small">
@@ -82,18 +82,19 @@
                     <div slot="header" class="dark">
                       <div class="title">{{c.title}}</div>
                       <div class="subtitle">作业
-                        <span v-if="1">已布置</span>
-                        <span class="dim" v-else>未布置</span>
-                        <span class="right">5/60</span>
+                        <span>{{c.homeworks[0] && tf(c.homeworks[0].deadline)}}</span>
+                        <span class="right" v-if="c.homeworks.length > 0">已布置</span>
+                        <span class="right dim" v-else>未布置</span>
                       </div>
                       <div class="subtitle">测试
-                        <span v-if="0">10题</span>
-                        <span class="dim" v-else>未布置</span>
-                        <span class="right">5/60</span>
+                        <span>{{c.tests[0] && tf(c.tests[0].deadline)}}</span>
+                        <span class="right" v-if="c.tests.length > 0">已布置</span>
+                        <span class="right dim" v-else>未布置</span>
+                        <!--<span class="right">5/60</span>-->
                       </div>
                     </div>
-                    <el-button @click="homeworkCardClick(c)">查看作业</el-button>
-                    <el-button @click="testCardClick(c)">查看测试</el-button>
+                    <el-button @click="homeworkCardClick(c)">{{c.homeworks.length > 0 ? `查看` : `布置`}}作业</el-button>
+                    <el-button @click="testCardClick(c)">{{c.tests.length > 0 ? `查看` : `布置`}}测试</el-button>
                   </el-card>
                 </div>
               </div>
@@ -201,7 +202,7 @@
             <el-form-item label="作业标题" prop="title">
               <el-input v-model="homeworkForm.title"></el-input>
             </el-form-item>
-            <el-form-item label="截止时间">
+            <el-form-item label="截止时间" prop="deadline">
               <el-date-picker
               v-model="homeworkForm.deadline"
               type="datetime"
@@ -220,20 +221,32 @@
             <el-form-item label="作业文件" prop="file">
               <el-upload
                 :action="uploadTo"
+                :file-list="homeworkFileList"
                 :on-success="onHomeworkFileUploadSuccess"
                 :on-remove="onHomeworkFileUploadRemove">
                 <el-button
                   size="small"
                   plain
                   type="primary"
-                  v-if="!homeworkForm.file"
+                  v-if="!homeworkForm.file || homeworkForm.file.length === 0"
                 >点击上传</el-button>
-                <div v-else>作业文件仅能有一个，删除当前文件以替换</div>
+
+                <el-button
+                  size="small"
+                  plain
+                  type="primary"
+                  icon="el-icon-check"
+                  disabled
+                  v-else
+                >已上传作业文件</el-button>
+
+                <div slot="tip" v-if="homeworkForm.file && homeworkForm.file.length > 0">作业文件仅能有一个，删除当前文件以重新上传</div>
               </el-upload>
             </el-form-item>
 
             <el-form-item class="save">
               <el-button type="primary" @click="saveHomework">保存修改</el-button>
+              <el-button plain type="primary" @click="removeHomework" v-if="homeworkForm.id >= 0">删除作业</el-button>
             </el-form-item>
           </el-form>
 
@@ -249,7 +262,7 @@
             label-width="80px"
             label-position="top"
           >
-            <el-form-item :label="`已提交 (${test.submitted.length})`">
+            <el-form-item :label="`已提交 (${test.submitted.length})`" v-if="false">
 
               <el-table
                 ref="singleTable"
@@ -293,26 +306,26 @@
               </el-date-picker>
             </el-form-item>
 
-            <el-form-item :label="'测试题目' + (questionsForm.length ? '' : ' - 请添加测试题目')">
-              <div v-if="questionsForm.length" style="margin-top: -20px;">
-                <div ref='question' class="question" v-for="(q, i) in questionsForm">
+            <el-form-item :label="'测试题目' + (questionForm.length ? '' : ' - 请添加测试题目')">
+              <div v-if="questionForm.length" style="margin-top: -20px;">
+                <div ref='question' class="question" v-for="(q, i) in questionForm">
                   <el-card
                     v-if="q.type === 'select'"
                   >
                     <div slot="header">
                       <el-button-group>
-                        <el-button type="primary" size="small" icon="arrow-left" @click="questionUp(i)"></el-button>
-                        <el-button type="primary" size="small" icon="close" @click="questionRemove(i)"></el-button>
-                        <el-button type="primary" size="small" icon="arrow-right" @click="questionDown(i)"></el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-arrow-left" @click="questionUp(i)"></el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-close" @click="questionRemove(i)"></el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-arrow-right" @click="questionDown(i)"></el-button>
                       </el-button-group>
                     </div>
 
                     <div class="flex">
                       <span class="text">题干：</span>
-                      <!--<el-input size="small" v-model="q.question"></el-input>-->
+                      <!--<el-input size="small" v-model="q.desc"></el-input>-->
                       <click-input
                         size="small"
-                        v-model="q.question"
+                        v-model="q.desc"
                         style="margin-left: -10px;"
                         textarea
                       ></click-input>
@@ -320,21 +333,31 @@
                     <div class="flex">
                       <span class="text">选项：</span>
                       <div class="box">
-                        <el-radio-group v-model="q.answer">
-                          <el-radio :label="i" v-for="o, i in q.options" :key="q.id">
+                        <el-radio-group v-model="q.right_answer">
+                          <el-radio v-for="(o, j) in q.options" :label="j" :key="j">
                             <click-input
                               size="small"
-                              v-model="q.options[i]"
-                              v-on:remove="q.options.splice(i, 1)"
+                              v-model="q.options[j]"
+                              v-on:remove="q.options.splice(j, 1)"
                             ></click-input>
                           </el-radio>
                         </el-radio-group>
-                        <el-button size="small" plain icon="plus" @click="addOption(i)">新建选项</el-button>
+
+                        <el-button size="mini" plain icon="el-icon-plus" @click="addOption(i)">新建选项</el-button>
                       </div>
                     </div>
                     <div class="flex">
                       <span class="text">答案：</span>
-                      <span>{{q.options[q.answer] || '请选择正确答案'}}</span>
+                      <span>{{q.options[q.right_answer] || '请选择正确答案'}}</span>
+                    </div>
+                    <div class="flex">
+                      <span class="text">分值：</span>
+                      <el-input-number
+                        v-model="q.score"
+                        size="mini"
+                        controls-position="right"
+                        :min="1"
+                      ></el-input-number>
                     </div>
                   </el-card>
 
@@ -344,18 +367,18 @@
                   >
                     <div slot="header">
                       <el-button-group>
-                        <el-button type="primary" size="small" icon="arrow-left" @click="questionUp(i)"></el-button>
-                        <el-button type="primary" size="small" icon="close" @click="questionRemove(i)"></el-button>
-                        <el-button type="primary" size="small" icon="arrow-right" @click="questionDown(i)"></el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-arrow-left" @click="questionUp(i)"></el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-close" @click="questionRemove(i)"></el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-arrow-right" @click="questionDown(i)"></el-button>
                       </el-button-group>
                     </div>
 
                     <div class="flex">
                       <span class="text">题干：</span>
-                      <!--<el-input size="small" v-model="q.question"></el-input>-->
+                      <!--<el-input size="small" v-model="q.desc"></el-input>-->
                       <click-input
                         size="small"
-                        v-model="q.question"
+                        v-model="q.desc"
                         style="margin-left: -10px;"
                         textarea
                       ></click-input>
@@ -363,22 +386,32 @@
                     <div class="flex">
                       <span class="text">选项：</span>
                       <div class="box">
-                        <el-checkbox-group v-model="q.answer">
-                          <el-checkbox :label="i" v-for="o, i in q.options" :key="q.id">
+                        <el-checkbox-group v-model="q.right_answer">
+                          <el-checkbox :label="j" v-for="o, j in q.options" :key="j">
                             <click-input
                               size="small"
-                              v-model="q.options[i]"
-                              v-on:remove="q.options.splice(i, 1)"
+                              v-model="q.options[j]"
+                              v-on:remove="q.options.splice(j, 1)"
                             ></click-input>
                           </el-checkbox>
                         </el-checkbox-group>
-                        <el-button size="small" plain icon="plus" @click="addOption(i)">新建选项</el-button>
+                        <el-button size="mini" plain icon="el-icon-plus" @click="addOption(i)">新建选项</el-button>
                       </div>
                     </div>
                     <div class="flex">
                       <span class="text">答案：</span>
-                      <span v-if="q.answer.length === 0">请选择正确答案</span>
-                      <span v-for="i in q.answer" :style="{order: i, marginRight: '10px'}">{{q.options[i]}}</span>
+                      <span v-if="q.right_answer.length === 0">请选择正确答案</span>
+                      <span v-for="i in q.right_answer" :style="{order: i, marginRight: '10px'}">{{q.options[i]}}</span>
+                    </div>
+
+                    <div class="flex">
+                      <span class="text">分值：</span>
+                      <el-input-number
+                        v-model="q.score"
+                        size="mini"
+                        controls-position="right"
+                        :min="1"
+                      ></el-input-number>
                     </div>
                   </el-card>
 
@@ -387,18 +420,18 @@
                   >
                     <div slot="header">
                       <el-button-group>
-                        <el-button type="primary" size="small" icon="arrow-left" @click="questionUp(i)"></el-button>
-                        <el-button type="primary" size="small" icon="close" @click="questionRemove(i)"></el-button>
-                        <el-button type="primary" size="small" icon="arrow-right" @click="questionDown(i)"></el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-arrow-left" @click="questionUp(i)"></el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-close" @click="questionRemove(i)"></el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-arrow-right" @click="questionDown(i)"></el-button>
                       </el-button-group>
                     </div>
 
                     <div class="flex">
                       <span class="text">题干：</span>
-                      <!--<el-input size="small" v-model="q.question"></el-input>-->
+                      <!--<el-input size="small" v-model="q.desc"></el-input>-->
                       <click-input
                         size="small"
-                        v-model="q.question"
+                        v-model="q.desc"
                         style="margin-left: -10px;"
                         textarea
                       ></click-input>
@@ -407,11 +440,21 @@
                       <span class="text">答案：</span>
                       <click-input
                       size="small"
-                      v-model="q.answer"
+                      v-model="q.right_answer"
                       class="box"
                       textarea
                       style="margin-left: -10px;"
                     ></click-input>
+                    </div>
+
+                    <div class="flex">
+                      <span class="text">分值：</span>
+                      <el-input-number
+                        v-model="q.score"
+                        size="mini"
+                        controls-position="right"
+                        :min="1"
+                      ></el-input-number>
                     </div>
                   </el-card>
 
@@ -426,7 +469,8 @@
 
 
             <el-form-item class="save" style="margin-top: 50px;">
-              <el-button type="primary">保存修改</el-button>
+              <el-button type="primary" @click="saveQuestion">保存修改</el-button>
+              <el-button plain type="primary" @click="removeTest" v-if="test.id >= 0">删除测试</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -446,6 +490,7 @@
   import { VueEditor } from 'vue2-editor'
   import {server} from '../../config'
   import urlJoin from 'url-join'
+  import { timeFormat } from '../../utils'
 
   export default {
     name: 'manage-afterclass',
@@ -456,34 +501,43 @@
       VueEditor
     },
     watch: {
-      course: {
-        deep: true,
-        handler (val) {
-          this.courseForm = Object.assign({}, this.courseForm, val)
-        }
-      },
-      chapter: {
-        deep: true,
-        handler (val) {
-          this.chapterForm = Object.assign({}, this.chapterForm, val)
-        }
-      },
+      //      course: {
+      //        deep: true,
+      //        handler (val) {
+      //          this.courseForm = Object.assign({}, this.courseForm, val)
+      //        }
+      //      },
+      //      chapter: {
+      //        deep: true,
+      //        handler (val) {
+      //          this.chapterForm = Object.assign({}, this.chapterForm, val)
+      //        }
+      //      },
       homework: {
         deep: true,
         handler (val) {
-          this.homeworkForm = Object.assign({}, this.homeworkForm, val)
+          this.homeworkForm = Object.assign({}, val, {deadline: new Date(val.deadline)})
         }
       },
       test: {
         deep: true,
         handler (val) {
-          this.testForm = Object.assign({}, this.testForm, val)
+          this.testForm = Object.assign({}, val, {deadline: new Date(val.deadline)})
         }
       },
       questions: {
         deep: true,
         handler (val) {
-          this.questionsForm = [...val]
+          this.questionForm = (val && val.length) ? val.map(x => {
+            const res = Object.assign({}, x)
+            if (res.options) {
+              res.options = JSON.parse(res.options)
+            }
+            if (res.right_answer) {
+              res.right_answer = JSON.parse(res.right_answer)
+            }
+            return res
+          }) : []
         }
       }
     },
@@ -501,14 +555,24 @@
         return this.$store.state.manage.course
       },
       homework () {
-        return this.$store.state.manage.homework
+        return this.$store.state.material.homework
       },
       test () {
-        return store.test
+        return this.$store.state.material.test
+      },
+      questions () {
+        return this.test.questions
       },
       step () {
         const u = ['课程', '章']
         return u[this.select.length - 1]
+      },
+      homeworkFileList () {
+        if (this.homeworkForm.file) {
+          return [{name: this.homeworkForm.file.split('/').pop()}]
+        } else {
+          return []
+        }
       }
     },
     data () {
@@ -532,7 +596,7 @@
 
         homeworkForm: {},
         testForm: {},
-        questionsForm: [],
+        questionForm: [],
         uploadTo: server.upload,
 
         minHeight: 0,
@@ -544,14 +608,14 @@
           title: [
             {required: true, message: '请输入作业标题', trigger: 'blur'}
           ],
-          //          file: [
-          //            {required: true, message: '请上传课程文件', trigger: 'blur'},
-          //          ],
+          file: [
+            {required: true, message: '请上传课程文件', trigger: 'change'}
+          ],
           desc: [
             {required: true, message: '请输入课程描述', trigger: 'blur'}
           ],
-          ddl: [
-            {type: 'date', required: true, message: '请选择作业提交截止时间', trigger: 'change'}
+          deadline: [
+            {type: 'date', min: new Date(), required: true, message: '请设置合理的作业提交截止时间', trigger: 'change'}
           ]
         }
       }
@@ -580,14 +644,14 @@
           setTimeout(() => {
             p.removeAttribute('style')
             q.removeAttribute('style')
-            const t = this.questionsForm[i - 1]
-            this.$set(this.questionsForm, i - 1, this.questionsForm[i])
-            this.$set(this.questionsForm, i, t)
+            const t = this.questionForm[i - 1]
+            this.$set(this.questionForm, i - 1, this.questionForm[i])
+            this.$set(this.questionForm, i, t)
           }, 200)
         }
       },
       questionDown (i) {
-        if (i < this.questionsForm.length - 1) {
+        if (i < this.questionForm.length - 1) {
           const p = this.$refs.question[i]
           const q = this.$refs.question[i + 1]
           const ph = p.getBoundingClientRect().height
@@ -598,9 +662,9 @@
           setTimeout(() => {
             p.removeAttribute('style')
             q.removeAttribute('style')
-            const t = this.questionsForm[i + 1]
-            this.$set(this.questionsForm, i + 1, this.questionsForm[i])
-            this.$set(this.questionsForm, i, t)
+            const t = this.questionForm[i + 1]
+            this.$set(this.questionForm, i + 1, this.questionForm[i])
+            this.$set(this.questionForm, i, t)
           }, 200)
         }
       },
@@ -610,16 +674,16 @@
         const pw = p.getBoundingClientRect().width
         p.setAttribute('style', `transform: translateX(${pw / 2 + 'px'});opacity: 0;transition: all .2s;`)
 
-        for (let t = i + 1; t < this.questionsForm.length; ++t) {
+        for (let t = i + 1; t < this.questionForm.length; ++t) {
           const q = this.$refs.question[t]
           q.setAttribute('style', `transform: translateY(-${ph + 20 + 'px'});transition: all .2s;`)
         }
         setTimeout(() => {
-          for (let t = i; t < this.questionsForm.length; ++t) {
+          for (let t = i; t < this.questionForm.length; ++t) {
             const q = this.$refs.question[t]
             q.removeAttribute('style')
           }
-          this.questionsForm.splice(i, 1)
+          this.questionForm.splice(i, 1)
         }, 200)
       },
 
@@ -633,7 +697,7 @@
           {
             tag: '课程信息',
             click: () => {
-              this.$store.dispatch('getAllChapters', this.course)
+              this.$store.dispatch('getCourse', c)
               while (this.select.length > 1) this.select.pop()
               this.select.push(-1)
               this.search = ''
@@ -645,7 +709,7 @@
       },
       homeworkCardClick (c) {
         this.select[1] = c.id
-        this.$store.dispatch('getHomework', c)
+        this.$store.dispatch('getHomework', c.homeworks[0] ? {id: c.homeworks[0].id} : null)
         this.chapter = c
         this.select.push(-1)
         this.search = ''
@@ -655,13 +719,14 @@
             while (this.select.length > 2) this.select.pop()
             this.select.push(-1)
             this.search = ''
-            store.clearChapter()
+            //            store.clearChapter()
             this.left = this.left.slice(0, 3)
           }
         })
       },
       testCardClick (c) {
         this.select[1] = c.id
+        this.$store.dispatch('getTest', c.tests[0] ? {id: c.tests[0].id} : null)
         this.chapter = c
         this.select.push(-2)
         this.search = ''
@@ -671,11 +736,10 @@
             while (this.select.length > 2) this.select.pop()
             this.select.push(-2)
             this.search = ''
-            store.clearChapter()
+            //            store.clearChapter()
             this.left = this.left.slice(0, 3)
           }
         })
-        store.getTest()
       },
 
       saveHomework () {
@@ -686,7 +750,7 @@
             this.$store.dispatch('submitHomeworkForm', {
               homeworkForm: f,
               cb: () => {
-                this.$refs.left[2].click()
+                this.$refs.left[1].click()
               }
             })
           } else {
@@ -694,39 +758,99 @@
           }
         })
       },
+      saveQuestion () {
+        if (this.test.id) {
+          this.$store.dispatch('submitQuestionForm', {
+            questionForm: this.questionForm,
+            test: this.test.id,
+            cb: () => {
+              this.$refs.left[1].click()
+            }
+          })
+        } else {
+          this.$store.dispatch('submitTestForm', {
+            deadline: this.testForm.deadline,
+            chapter: this.chapter.id,
+            cb: test => {
+              console.log('ok')
+              this.$store.commit('GET_TEST_SUCCESS', test)
+              this.$store.dispatch('submitQuestionForm', {
+                questionForm: this.questionForm,
+                test: this.test.id,
+                cb: () => {
+                  this.$refs.left[1].click()
+                }
+              })
+            }
+          })
+        }
+      },
+      removeHomework () {
+        this.$confirm(`此操作将永久删除这次作业, 是否继续?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$store.dispatch('removeHomework', {
+            id: this.homework.id,
+            cb: () => {
+              this.$refs.left[1].click()
+            }
+          })
+        })
+      },
+      removeTest () {
+        this.$confirm(`此操作将永久删除这次测试，以及与之相关的学生提交, 是否继续?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$store.dispatch('removeTest', {
+            id: this.test.id,
+            cb: () => {
+              this.$refs.left[1].click()
+            }
+          })
+        })
+      },
 
       addQuestion (type) {
-        const f = {
-          select: () => {
-            this.questionsForm.push({
-              type,
-              question: '',
-              options: [],
-              answer: -1
-            })
+        let id = -1
+        const qf = {
+          select: {
+            type,
+            desc: '',
+            options: [
+              ''
+            ],
+            right_answer: -1,
+            score: 1,
+            id
           },
-
-          check: () => {
-            this.questionsForm.push({
-              type,
-              question: '',
-              options: [],
-              answer: []
-            })
+          check: {
+            type,
+            desc: '',
+            options: [
+              ''
+            ],
+            right_answer: [],
+            score: 1,
+            id
           },
-          blank: () => {
-            this.questionsForm.push({
-              type,
-              question: '',
-              options: null,
-              answer: ''
-            })
+          blank: {
+            type,
+            desc: '',
+            options: null,
+            right_answer: '',
+            score: 1,
+            id
           }
         }
-        f[type] && f[type]()
+        id -= 1
+        qf[type] && this.questionForm.push(qf[type])
       },
       addOption (index) {
-        this.questionsForm[index].options.push('')
+        this.questionForm[index].options.push('')
       },
 
       searchFilter (val, key = 'title') {
@@ -759,6 +883,9 @@
       },
       download (url) {
         console.log('download', url)
+      },
+      tf (t) {
+        return timeFormat(t, '%M月%d日 %h:%m') + ' 截止'
       }
     },
     mounted () {

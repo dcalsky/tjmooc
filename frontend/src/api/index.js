@@ -124,8 +124,12 @@ const course = {
 // material
 const material = {
   getHomework (data, cb, token) {
-    console.log(data)
-    get(`${server.material}homework?course=${data.courseId}&chapter=${data.chapterId}`, {
+    get(`${server.material}homework/${data.id}`, {
+      cb
+    })
+  },
+  getTest (data, cb, token) {
+    get(`${server.material}test/${data.id}`, {
       cb
     })
   },
@@ -230,7 +234,26 @@ const manage = {
   },
 
   postHomework (data, cb) {
-    post(`${server.material}homework`, {data, cb})
+    post(`${server.material}homework/`, {data, cb})
+  },
+  updateHomework (data, cb) {
+    put(`${server.material}homework/${data.id}/`, {data, cb})
+  },
+  removeHomework ({id}, cb) {
+    delet(`${server.material}homework/${id}/`, {cb})
+  },
+
+  postTest (data, cb) {
+    post(`${server.material}test/`, {data, cb})
+  },
+  removeTest ({id}, cb) {
+    delet(`${server.material}test/${id}`, {cb})
+  },
+  postQuestionList (data, cb) {
+    post(`${server.material}question/list/`, {
+      data,
+      cb
+    })
   }
 }
 

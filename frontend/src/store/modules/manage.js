@@ -138,14 +138,14 @@ const actions = {
   appendBlankUnit ({commit}) {
     commit('appendBlankUnit')
   },
-  getAllUnits ({commit}, {id}) {
-    manage.getAllUnits({courseId: state.course.id, chapterId: id}, (err, res) => {
-      if (err) {
-        console.error(err)
-      }
-      commit('getAllUnits', res.body)
-    })
-  },
+  // getAllUnits ({commit}, {id}) {
+  //   manage.getAllUnits({courseId: state.course.id, chapterId: id}, (err, res) => {
+  //     if (err) {
+  //       console.error(err)
+  //     }
+  //     commit('getAllUnits', res.body)
+  //   })
+  // },
   getUnit ({commit}, unit) {
     commit('getUnit', unit)
     if (unit.id >= 0) {
@@ -234,22 +234,83 @@ const actions = {
     })
   },
 
-  getHomework ({commit}) {
-    // const courseId = state.course.id
-    // const chapterId = state.chapter.id
-    // const unitId = state.unit.id
-    // manage.getVideo({courseId, chapterId, unitId}, (err, res) => {
-    commit('getHomework')
-    // })
-  },
   submitHomeworkForm ({commit}, {homeworkForm, cb}) {
     // console.log(courseForm)
-    manage.postHomework(homeworkForm, (err, res) => {
+    if (homeworkForm.id >= 0) {
+      manage.updateHomework(homeworkForm, (err, res) => {
+        if (err) {
+          console.error(err)
+        }
+        console.log('updateHomework', res.body)
+        cb()
+      })
+    } else {
+      manage.postHomework(homeworkForm, (err, res) => {
+        if (err) {
+          console.error(err)
+        }
+        // commit('submitCourseForm', res.body)
+        console.log('postHomework', res.body)
+        cb()
+      })
+    }
+  },
+  submitQuestionForm ({commit}, {questionForm, test, cb}) {
+    console.log(questionForm, test)
+    const questions = questionForm.map(
+      ({right_answer, options, desc, score, type}) => ({
+        type,
+        score,
+        desc,
+        options: options && JSON.stringify(options),
+        // eslint-disable-next-line
+        right_answer: right_answer && JSON.stringify(right_answer),
+        test
+      })
+    )
+    console.log(questions)
+    manage.postQuestionList({questions}, (err, res) => {
+      if (err) {
+        console.error(err)
+      }
+      console.log('postQuestionList', res.body)
+      cb()
+    })
+  },
+  submitTestForm ({commit}, {deadline, chapter, cb}) {
+    manage.postTest({deadline, chapter}, (err, res) => {
+      if (err) {
+        console.error(err)
+
+        const info = res.body
+        let t = ''
+        for (let i in info) {
+          t = t + i + ': ' + info[i].join('; ') + '\n'
+        }
+
+        window.$app.$message.error(t)
+        return
+      }
+      console.log('submitTestForm', res.body)
+      cb(res.body)
+    })
+  },
+  removeTest ({commit}, {id, cb}) {
+    manage.removeTest({id}, (err, res) => {
+      if (err) {
+        console.error(err)
+      }
+      console.log('removeTest', res.body)
+      cb()
+    })
+  },
+  removeHomework ({commit}, {id, cb}) {
+    manage.removeHomework({id}, (err, res) => {
       if (err) {
         console.error(err)
       }
       // commit('submitCourseForm', res.body)
-      console.log('updateCourse', res.body)
+      console.log('removeHomework', res.body)
       cb()
     })
   }
@@ -312,9 +373,9 @@ const mutations = {
       id: x.id
     }))
   },
-  getHomework (state, c) {
-    state.homework = {}
-  },
+  // getHomework (state, c) {
+  //   state.homework = {}
+  // },
 
   clearCourse (state) {
     mutations.clearChapter(state)

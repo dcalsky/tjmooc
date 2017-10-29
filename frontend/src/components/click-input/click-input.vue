@@ -1,17 +1,16 @@
 <template>
   <span class="click-input">
-    {{textarea}}
     <el-input
       :size="size"
-      :type="textarea === undefined ? '' : 'textarea'"
+      :type="textarea === 'textarea' ? 'textarea' : ''"
       :autosize="{ minRows: 1 }"
       resize="none"
       v-model="val"
       class="w"
-      icon="close"
-      :on-icon-click="click"
       :class="{t: val}"
-    ></el-input>
+    >
+      <i slot="suffix" class="el-input__icon el-icon-close" @click="click"></i>
+    </el-input>
   </span>
 </template>
 
@@ -31,6 +30,7 @@
     },
     methods: {
       click () {
+        this.$emit('input', '')
         this.$emit('remove')
       }
     },
@@ -50,7 +50,7 @@
     width: 100%;
   }
   .t {
-    textarea {
+    input, textarea {
       border-color: transparent;
     }
   }

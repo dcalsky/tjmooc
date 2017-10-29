@@ -66,3 +66,20 @@ export function deepCopy (obj, cache = []) {
 
   return copy
 }
+
+export function timeFormat (time, format) {
+  const d = (typeof (time) === 'string') ? new Date(time) : time
+  const rule = {
+    '%Y': d.getFullYear(),
+    '%M': d.getMonth() + 1,
+    '%d': d.getDate(),
+    '%h': d.getHours(),
+    '%m': d.getMinutes(),
+    '%s': d.getSeconds() > 9 ? d.getSeconds() : '0' + d.getSeconds()
+  }
+  let t = format
+  for (let r in rule) {
+    t = t.replace(new RegExp(r), rule[r])
+  }
+  return t
+}
