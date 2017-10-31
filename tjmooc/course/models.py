@@ -31,7 +31,6 @@ class Chapter(models.Model):
 class Unit(models.Model):
     title = models.TextField(help_text='标题')
     description = models.TextField(help_text='说明')
-    lists = jsonfield.JSONField(help_text='内容', default=list)
     chapter = models.ForeignKey(Chapter)
 
     def __str__(self):

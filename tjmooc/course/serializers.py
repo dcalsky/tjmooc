@@ -4,6 +4,8 @@ from material.serializers import *
 
 
 class UnitSerializer(ModelSerializer):
+    videos = VideoSerializer(source='video_set', many=True, read_only=True)
+
     class Meta:
         model = Unit
         fields = '__all__'
