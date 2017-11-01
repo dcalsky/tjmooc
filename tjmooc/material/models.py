@@ -56,7 +56,7 @@ class Question(models.Model):
 class Video(models.Model):
     title = models.TextField(help_text='标题')
     description = models.TextField(help_text='说明')
-    unit = models.ForeignKey('course.Unit')
+    unit = models.ForeignKey('course.Unit', null=True)
     upload_time = models.DateTimeField(auto_now_add=True, help_text='创建时间', blank=True)
     url = models.URLField(help_text='链接')
     teacher = models.ForeignKey(User)
