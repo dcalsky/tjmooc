@@ -19,6 +19,12 @@ const state = {
     description: '',
     units: []
   },
+  unit: {
+    id: 0,
+    title: '',
+    description: '',
+    videos: []
+  },
   messages: [],
 
   tops: [],
@@ -64,10 +70,41 @@ const actions = {
         commit(types.GET_COURSE_FAILED, errorHandler('error'))
       }
       if (res.body && 'id' in res.body) {
-        commit(types.GET_COURSE_SUCCESS, { course: res.body })
+        commit(types.GET_COURSE_SUCCESS, res.body)
       } else {
         // Fail: return fail message
         commit(types.GET_COURSE_FAILED, errorHandler(res.body))
+      }
+    })
+  },
+  getChapterById ({ commit }, data) {
+    commit(types.GET_CHAPTER_REQUEST)
+    course.getChapterById(data, (err, res) => {
+      // error handle todo
+      if (err) {
+        console.log(err)
+        commit(types.GET_CHAPTER_FAILED, errorHandler('error'))
+      }
+      if (res.body && 'id' in res.body) {
+        commit(types.GET_CHAPTER_SUCCESS, res.body)
+      } else {
+        // Fail: return fail message
+        commit(types.GET_CHAPTER_FAILED, errorHandler(res.body))
+      }
+    })
+  },
+  getUnitById ({ commit }, data) {
+    commit(types.GET_UNIT_REQUEST)
+    course.getUnitById(data, (err, res) => {
+      if (err) {
+        console.log(err)
+        commit(types.GET_UNIT_FAILED, errorHandler('error'))
+      }
+      if (res.body && 'id' in res.body) {
+        commit(types.GET_UNIT_SUCCESS, res.body)
+      } else {
+        // Fail: return fail message
+        commit(types.GET_UNIT_FAILED, errorHandler(res.body))
       }
     })
   },
@@ -120,27 +157,11 @@ const actions = {
       }
     })
   }
-  // getChapterById({ commit }, data) {
-  //   commit(types.GET_COURSE_REQUEST)
-  //   course.getChapterById(data, (err, res) => {
-  //     // error handle todo
-  //     if (err) {
-  //       console.log(err)
-  //       commit(types.GET_COURSE_FAILED, errorHandler('error'))
-  //     }
-  //     if (res.body && 'id' in res.body) {
-  //       commit(types.GET_COURSE_SUCCESS, { course: res.body })
-  //     } else {
-  //       // Fail: return fail message
-  //       commit(types.GET_COURSE_FAILED, errorHandler(res.body))
-  //     }
-  //   })
-  // },
 }
 
 const mutations = {
-  [types.GET_COURSE_SUCCESS] (state, {course}) {
-    state.course = course
+  [types.GET_COURSE_SUCCESS] (state, course) {
+    state.course = Object.assign({}, course)
   },
   [types.GET_COURSE_FAILED] (state, messages) {
     // state.course = {}
@@ -164,15 +185,27 @@ const mutations = {
     state.messages = []
   },
 
-  [types.GET_CHAPTERS_SUCCESS] (state, {chapters}) {
-    state.chapters = chapters
+  [types.GET_CHAPTER_SUCCESS] (state, chapter) {
+    state.chapter = Object.assign({}, chapter)
   },
-  [types.GET_CHAPTERS_FAILED] (state, messages) {
-    state.course = {}
+  [types.GET_CHAPTER_FAILED] (state, messages) {
+    state.chapter = {}
     state.messages = messages
   },
-  [types.GET_CHAPTERS_REQUEST] (state) {
-    state.course = {}
+  [types.GET_CHAPTER_REQUEST] (state) {
+    // state.course = {}
+    state.messages = []
+  },
+
+  [types.GET_UNIT_SUCCESS] (state, unit) {
+    state.unit = Object.assign({}, unit)
+  },
+  [types.GET_UNIT_FAILED] (state, messages) {
+    state.unit = {}
+    state.messages = messages
+  },
+  [types.GET_UNIT_REQUEST] (state) {
+    // state.course = {}
     state.messages = []
   },
 
@@ -195,8 +228,7 @@ const mutations = {
   },
 
   [types.GET_UNITS_SUCCESS] (state, {units, chapter}) {
-    // eslint-disable-next-line
-    state.chapters.find(x => x.id == chapter).units = units
+    state.chapters.find(x => parseInt(x.id) === chapter).units = units
   },
   [types.GET_UNITS_FAILED] (state, messages) {
     state.messages = messages

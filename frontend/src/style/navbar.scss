@@ -178,6 +178,7 @@
         flex-direction: column;
         justify-content: flex-start;
         top: -100%;
+        letter-spacing: 2px;
         & > div {
           margin: 15px 15%;
           position: relative;
@@ -203,10 +204,8 @@
           flex-direction: column;
           box-shadow: none;
           .register, .login {
-            letter-spacing: 5px;
             padding: 10px 5px;
             background: none;
-            margin: auto;
             &:before {
               content: none;
             }

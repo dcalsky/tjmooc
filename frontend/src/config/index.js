@@ -1,7 +1,7 @@
 const server = {
-  // host: 'http://115.159.218.143:8000',
+  host: 'http://115.159.218.143:8000',
   // host: 'http://lisirrx.tpddns.cn',
-  host: 'http://127.0.0.1:8000',
+  // host: 'http://127.0.0.1:8000',
   session: '/sessions/',
   post: '/bbs/posts',
   floor: '/bbs/floors',

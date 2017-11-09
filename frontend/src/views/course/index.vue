@@ -1,20 +1,20 @@
 <template>
   <div id="course">
-    <player></player>
+    <display></display>
+    <exercise></exercise>
   </div>
 </template>
 
 <script>
-  import Player from './player/player.vue'
-//  import AfterClass from './after-class/after-class.vue'
+  import Display from './display.vue'
+  import Exercise from './exercise.vue'
   export default {
     components: {
-      Player
-      //      AfterClass
+      Display,
+      Exercise
     },
     data () {
-      return {
-      }
+      return {}
     }
   }
 </script>

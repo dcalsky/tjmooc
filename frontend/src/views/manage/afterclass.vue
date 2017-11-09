@@ -569,7 +569,7 @@
       },
       homeworkFileList () {
         if (this.homeworkForm.file) {
-          return [{name: this.homeworkForm.file.split('/').pop()}]
+          return [{name: decodeURI(this.homeworkForm.file).split('/').pop()}]
         } else {
           return []
         }

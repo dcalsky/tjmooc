@@ -3,8 +3,8 @@
     <video ref="videoElement" class="centeredVideo" controls autoplay :width="width" height="100%">
       Your browser is too old which doesn"t support HTML5 video.
     </video>
-    <div class="noVideo" :style="hoverStyle">
-      <img :src="url" alt="请选择课程章节">
+    <div class="noVideo" :style="hoverStyle" v-if="!url">
+      <img :src="alt" alt="请选择课程章节">
     </div>
   </div>
 </template>
@@ -27,7 +27,8 @@
         default: 9 / 16
       },
       url: {
-        type: String
+        type: String,
+        default: ''
       },
       alt: {
         type: String

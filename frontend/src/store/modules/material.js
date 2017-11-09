@@ -18,13 +18,6 @@ const actions = {
     commit(types.GET_HOMEWORK_REQUEST)
     if (data) {
       material.getHomework(data, (err, res) => {
-        // error handle todo
-        // console.log('getHomework', res.body)
-        // if (err || !res.body || !res.body.results) {
-        //   console.log(err)
-        //   commit(types.GET_HOMEWORK_FAILED, errorHandler('error'))
-        // }
-        // commit(types.GET_HOMEWORK_SUCCESS, {homework: res.body.results[0]})
         if (err) {
           commit(types.GET_HOMEWORK_FAILED, errorHandler('error'))
         }

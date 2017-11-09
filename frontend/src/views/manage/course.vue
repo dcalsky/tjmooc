@@ -219,13 +219,13 @@
       chapter: {
         deep: true,
         handler (val) {
-          this.chapterForm = Object.assign({}, this.chapterForm, val)
+          this.chapterForm = Object.assign({}, val)
         }
       },
       unit: {
         deep: true,
         handler (val) {
-          this.unitForm = Object.assign({}, this.unitForm, val)
+          this.unitForm = Object.assign({}, val)
         }
       },
       homework: {
@@ -429,9 +429,7 @@
           type: 'warning'
         }).then(() => {
           this.$store.dispatch('removeUnit', {
-            courseId: this.course.id,
-            chapterId: this.chapter.id,
-            unitId: this.unit.id,
+            id: this.unit.id,
             cb: () => {
               this.$refs.left[2].click()
             }

@@ -77,10 +77,8 @@ const course = {
       page, cb
     })
   },
-  getCourseById ({courseId}, cb, token) {
-    get(`${server.course}course/${courseId}`, {
-      cb
-    })
+  getCourseById ({id}, cb) {
+    get(`${server.course}course/${id}`, {cb})
   },
   getChapters (data, cb, token) {
     const courseId = data.courseId
@@ -88,12 +86,8 @@ const course = {
       cb
     })
   },
-  getChapterById (data, cb, token) {
-    const courseId = data.courseId
-    const chapterId = data.chapterId
-    get(`${server.course}${courseId}/chapter/${chapterId}`, {
-      cb
-    })
+  getChapterById ({id}, cb) {
+    get(`${server.course}chapter/${id}`, {cb})
   },
   getUnits (data, cb, token) {
     const courseId = data.courseId
@@ -111,25 +105,20 @@ const course = {
       cb
     })
   },
-  getUnitById (data, cb, token) {
-    const courseId = data.courseId
-    const chapterId = data.chapterId
-    const unitId = data.unitId
-    get(`${server.course}${courseId}/chapter/${chapterId}/unit/${unitId}`, {
-      cb
-    })
+  getUnitById ({id}, cb, token) {
+    get(`${server.course}unit/${id}`, {cb})
   }
 }
 
 // material
 const material = {
-  getHomework (data, cb, token) {
-    get(`${server.material}homework/${data.id}`, {
+  getHomework ({id}, cb, token) {
+    get(`${server.material}homework/${id}`, {
       cb
     })
   },
-  getTest (data, cb, token) {
-    get(`${server.material}test/${data.id}`, {
+  getTest ({id}, cb, token) {
+    get(`${server.material}test/${id}`, {
       cb
     })
   },
@@ -207,20 +196,23 @@ const manage = {
     put(`${server.course}chapter/${data.id}/`, {data, cb})
   },
   removeChapter ({id}, cb) {
-    delet(`${server.course}chapter/${id}`, {cb})
+    delet(`${server.course}chapter/${id}/`, {cb})
   },
 
   // getAllUnits ({courseId, chapterId}, cb) {
   //   get(`${server.course}${courseId}/chapter/${chapterId}/unit?id&title&description`, {cb})
   // },
+  getUnit (data, cb) {
+    get(`${server.course}unit/${data.id}`, {cb})
+  },
   postUnit (data, cb) {
     post(`${server.course}unit/`, {data, cb})
   },
   updateUnit (data, cb) {
     put(`${server.course}unit/${data.id}/`, {data, cb})
   },
-  removeUnit ({courseId, chapterId, unitId}, cb) {
-    delet(`${server.course}${courseId}/chapter/${chapterId}/unit/${unitId}`, {cb})
+  removeUnit ({id}, cb) {
+    delet(`${server.course}unit/${id}/`, {cb})
   },
 
   getVideo ({courseId, chapterId, unitId}, cb) {

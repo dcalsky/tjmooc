@@ -147,11 +147,23 @@ const actions = {
   //   })
   // },
   getUnit ({commit}, unit) {
-    commit('getUnit', unit)
     if (unit.id >= 0) {
-      // actions.getAllChapters({commit}, course)
-      actions.getVideo({commit})
+      manage.getUnit(unit, (err, res) => {
+        if (err) {
+          console.error(err)
+        }
+        commit('getUnit', res.body)
+      })
+    } else {
+      commit('getUnit', unit)
     }
+    //
+    //
+    // commit('getUnit', unit)
+    // if (unit.id >= 0) {
+    //   // actions.getAllChapters({commit}, course)
+    //   actions.getVideo({commit})
+    // }
   },
   submitUnitForm ({commit}, {chapter, unitForm, cb}) {
     const {title, description, id} = unitForm
@@ -175,8 +187,8 @@ const actions = {
       })
     }
   },
-  removeUnit ({commit}, {courseId, chapterId, unitId, cb}) {
-    manage.removeUnit({courseId, chapterId, unitId}, (err, res) => {
+  removeUnit ({commit}, {id, cb}) {
+    manage.removeUnit({id}, (err, res) => {
       if (err) {
         console.error(err)
       }
@@ -258,16 +270,18 @@ const actions = {
   submitQuestionForm ({commit}, {questionForm, test, cb}) {
     console.log(questionForm, test)
     const questions = questionForm.map(
-      ({right_answer, options, desc, score, type}) => ({
-        type,
-        score,
-        desc,
-        options: options && JSON.stringify(options),
-        // eslint-disable-next-line
-        right_answer: right_answer && JSON.stringify(right_answer),
-        test
+      ({right_answer, options, desc, score, type}) => {
+        right_answer.sort && right_answer.sort()
+        return {
+          type,
+          score,
+          desc,
+          options: options && JSON.stringify(options),
+          // eslint-disable-next-line
+          right_answer: right_answer && JSON.stringify(right_answer),
+          test
+        }
       })
-    )
     console.log(questions)
     manage.postQuestionList({questions}, (err, res) => {
       if (err) {
@@ -363,16 +377,19 @@ const mutations = {
   },
   getChapter (state, c) {
     state.chapter = Object.assign({}, state.chapter, c)
+    state.units = c.units
   },
   getUnit (state, c) {
     state.unit = Object.assign({}, state.unit, c)
+    // state.videos = c.lists
+    // TODO: videos
   },
-  getVideo (state, c) {
-    state.videos = c.map(x => ({
-      name: x.title,
-      id: x.id
-    }))
-  },
+  // getVideo (state, c) {
+  //   state.videos = c.map(x => ({
+  //     name: x.title,
+  //     id: x.id
+  //   }))
+  // },
   // getHomework (state, c) {
   //   state.homework = {}
   // },
