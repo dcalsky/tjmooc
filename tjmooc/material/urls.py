@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^video$', VideoListView.as_view()),
     url(r'^video/(?P<id>\d+)$', VideoDetailView.as_view()),
-    url(r'^upload/', upload)
+    url(r'^upload/', upload),
+    url(r'^submits/(?P<id>\d+$)', BothSumbitViewSet.as_view())
 
 ]

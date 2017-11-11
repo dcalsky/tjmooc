@@ -2,16 +2,29 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.generics import *
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
+from rest_framework.viewsets import *
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route, list_route
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from course.models import Unit
 from course.views import get_unit_and_chapter_and_course
-from material.models import *
-from material.permissions import IsTeacherOrManagerOrReadOnly, IsLeacturerOrManagerOrReadOnly
+from material.permissions import *
 from material.serializers import *
+
+
+class BothSumbitViewSet(APIView):
+    def get(self, request, id):
+        test_submits_queryset = TestSubmit.objects.filter(user=request.user, test__chapter_id=id)
+        homework_submit_queryset = HomeworkSubmit.objects.filter(user=request.user, homework__chapter_id=id)
+        test_submits_serialzier = TestSubmitSerializer(test_submits_queryset, many=True)
+        homework_submits_serializer = HomeworkSubmitSerializer(homework_submit_queryset, many=True)
+
+        return Response({
+            'homework_submits': homework_submits_serializer.data,
+            'test_submits': test_submits_serialzier.data
+        })
 
 
 class HomeworkViewSet(ModelViewSet):
@@ -31,6 +44,13 @@ class TestViewSet(ModelViewSet):
     serializer_class = TestSerializer
     queryset = Test.objects.all()
 
+    @detail_route(methods=['delete'])
+    def clear_questions(self, request, pk=None):
+        test = self.get_object()
+        Question.objects.filter(test=test).delete()
+        return Response({
+            'message': 'ok'
+        })
 
 class TestSumitViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
@@ -77,7 +97,7 @@ def get_course_chapter_unit_id(request):
 class VideoListView(ListCreateAPIView):
     serializer_class = VideoSerializer
     queryset = Video.objects.all()
-    permission_classes = (IsTeacherOrManagerOrReadOnly,)
+    permission_classes = (AllowAny,)
 
     def get(self, request, *args, **kwargs):
         user_id = request.query_params.get('user')
@@ -111,7 +131,7 @@ class VideoListView(ListCreateAPIView):
 class VideoDetailView(RetrieveUpdateDestroyAPIView):
     serializer_class = VideoSerializer
     queryset = Video.objects.all()
-    permission_classes = (IsLeacturerOrManagerOrReadOnly,)
+    permission_classes = (AllowAny,)
     lookup_field = 'id'
 
     def delete(self, request, *args, **kwargs):

@@ -18,6 +18,7 @@ def homework_submit_path(instance, filename):
 
 class Test(models.Model):
     deadline = models.DateTimeField(default=datetime.now)
+    test_time = models.DateTimeField(default=datetime.now)
     chapter = models.ForeignKey('course.Chapter')
 
 

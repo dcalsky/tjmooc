@@ -11,8 +11,9 @@ class Course(models.Model):
     cover_image = models.TextField(help_text='封面图')
     update_time = models.DateTimeField(auto_now_add=True, help_text='更新时间')
     participants_count = models.IntegerField(default=0, help_text='参与人数')
-    lecturer = models.ForeignKey(User, null=True)
+    lecturer = models.ForeignKey(User, null=True, related_name='lecturer')
     top = models.BooleanField(default=False)
+    assistant = models.ForeignKey(User, null=True, related_name='assistant')
 
     def __str__(self):
         return self.title
