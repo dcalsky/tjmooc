@@ -2,7 +2,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView, Response, status
 from rest_framework.decorators import detail_route, list_route
-from course.permissions import IsObligatorOrLeactureOrManagerOrReadOnly, IsStudent
+from course.permissions import *
 from course.serializers import *
 from course.models import Course, Chapter, CourseParticipation, Unit
 from django.http import Http404
@@ -49,6 +49,16 @@ class CourseViewSet(ModelViewSet):
         if serializer.is_valid():
             return Response(serializer.data)
         return Response(serializer.errors)
+
+    @detail_route(methods=['post'])
+    def add_assistant(self, request, pk):
+        course = self.get_object()
+        course.assistant = User.objects.get(id=request.data['user_id'])
+        course.save()
+        return Response({
+            'message': 'ok'
+        })
+
 
 class ChapterViewSet(ModelViewSet):
     permission_classes = (AllowAny,)

@@ -5,12 +5,6 @@ from rest_framework import serializers
 from .models import *
 
 
-class HomeworkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Homework
-        fields = '__all__'
-
-
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
@@ -64,8 +58,17 @@ class TestSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class UserSerializerLite(serializers.ModelSerializer):
+    username = serializers.CharField(read_only=True)
+    nickname = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'nickname']
+
+
 class HomeworkSubmitSerializer(serializers.ModelSerializer):
-    homework = serializers.PrimaryKeyRelatedField(queryset=Homework.objects.all())
+    user = UserSerializerLite(read_only=True)
 
     class Meta:
         model = HomeworkSubmit
@@ -77,3 +80,11 @@ class HomeworkSubmitSerializer(serializers.ModelSerializer):
                 message='请勿重复提交作业'
             )
         ]
+
+
+class HomeworkSerializer(serializers.ModelSerializer):
+    homework_submits = HomeworkSubmitSerializer(source='homeworksubmit_set', read_only=True, many=True)
+
+    class Meta:
+        model = Homework
+        fields = '__all__'

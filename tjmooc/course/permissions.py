@@ -1,5 +1,6 @@
 from rest_framework import permissions
 from django.conf import settings
+from .models import *
 
 secret = settings.SECRET_KEY
 
@@ -17,7 +18,16 @@ class IsObligatorOrLeactureOrManagerOrReadOnly(permissions.IsAuthenticatedOrRead
                 return request.user == obj.leacturer
 
 
-
-class IsStudent(permissions.IsAuthenticated):
+class IsManager(permissions.IsAuthenticatedOrReadOnly):
     def has_object_permission(self, request, view, obj):
-        return request.user.groups.filter(name__in=['student']).exists()
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        else:
+            if isinstance(obj, Course):
+                return request.user.id == obj.assistant.id or request.user.id == obj.lecturer.id
+
+
+class IsOwner(permissions.IsAuthenticated):
+    def has_object_permission(self, request, view, obj):
+        if isinstance(obj, TestSubmit) or isinstance(obj, HomeworkSubmit):
+            return request.user.id == obj.user.id
