@@ -19,7 +19,7 @@ class BothSumbitViewSet(APIView):
         test_submits_queryset = TestSubmit.objects.filter(user=request.user, test__chapter_id=id)
         homework_submit_queryset = HomeworkSubmit.objects.filter(user=request.user, homework__chapter_id=id)
         test_submits_serialzier = TestSubmitSerializer(test_submits_queryset, many=True)
-        homework_submits_serializer = HomeworkSubmitSerializer(homework_submit_queryset, many=True)
+        homework_submits_serializer = HomeworkSubmitDisplaySerializer(homework_submit_queryset, many=True)
 
         return Response({
             'homework_submits': homework_submits_serializer.data,

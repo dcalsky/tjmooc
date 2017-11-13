@@ -67,8 +67,15 @@ class UserSerializerLite(serializers.ModelSerializer):
         fields = ['username', 'nickname']
 
 
-class HomeworkSubmitSerializer(serializers.ModelSerializer):
+class HomeworkSubmitDisplaySerializer(serializers.ModelSerializer):
     user = UserSerializerLite(read_only=True)
+
+    class Meta:
+        model = HomeworkSubmit
+        fields = '__all__'
+
+
+class HomeworkSubmitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HomeworkSubmit
