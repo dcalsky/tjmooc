@@ -8,11 +8,10 @@ router.register(r'test-submit', TestSumitViewSet)
 router.register(r'homework', HomeworkViewSet)
 router.register(r'homework-submit', HomeworkSubmitViewSet)
 router.register(r'question', QuestionViewSet)
+router.register(r'video', VideoViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
-    url(r'^video$', VideoListView.as_view()),
-    url(r'^video/(?P<id>\d+)$', VideoDetailView.as_view()),
     url(r'^upload/', upload),
     url(r'^submits/(?P<id>\d+$)', BothSumbitViewSet.as_view())
 
