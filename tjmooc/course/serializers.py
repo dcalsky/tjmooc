@@ -27,3 +27,14 @@ class CourseSerializer(ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
+
+
+class UpdateAssistantSerializer(Serializer):
+    user = PrimaryKeyRelatedField(queryset=User.objects.all())
+    course = PrimaryKeyRelatedField(queryset=Course.objects.all())
+
+    def update(self, instance, validated_data):
+        instance.assistant = validated_data.get('user', instance.assistant)
+        instance.save()
+        return instance
+

@@ -1,5 +1,5 @@
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import *
 from rest_framework.views import APIView, Response, status
 from rest_framework.decorators import detail_route, list_route
 from course.permissions import *
@@ -50,11 +50,28 @@ class CourseViewSet(ModelViewSet):
             return Response(serializer.data)
         return Response(serializer.errors)
 
-    @detail_route(methods=['post'])
+    @detail_route(methods=['post', 'delete'])
+    def assistant(self, request, pk):
+        if request.method == 'POST':
+            return self.add_assistant(request, pk)
+        else:
+            return self.remove_assistant(request, pk)
+
     def add_assistant(self, request, pk):
         course = self.get_object()
-        course.assistant = User.objects.get(id=request.data['user_id'])
+        serializer = UpdateAssistantSerializer(course, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'message': 'ok'
+            })
+        return Response(serializer.errors)
+
+    def remove_assistant(self, request, pk):
+        course = self.get_object()
+        course.assistant = None
         course.save()
+
         return Response({
             'message': 'ok'
         })
