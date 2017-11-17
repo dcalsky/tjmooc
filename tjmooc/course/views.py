@@ -50,7 +50,7 @@ class CourseViewSet(ModelViewSet):
             return Response(serializer.data)
         return Response(serializer.errors)
 
-    @detail_route(methods=['post', 'delete'])
+    @detail_route(methods=['post', 'delete'], serializer_class=UpdateAssistantSerializer)
     def assistant(self, request, pk):
         if request.method == 'POST':
             return self.add_assistant(request, pk)
