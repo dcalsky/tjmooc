@@ -3,6 +3,12 @@ from course.models import Course, Chapter, Unit
 from material.serializers import *
 
 
+class AssistantSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'nickname']
+
+
 class UnitSerializer(ModelSerializer):
     videos = VideoSerializer(source='video_set', many=True, read_only=True)
 
@@ -23,6 +29,7 @@ class ChapterSerializer(ModelSerializer):
 
 class CourseSerializer(ModelSerializer):
     chapters = ChapterSerializer(source='chapter_set', many=True, read_only=True)
+    assistant = AssistantSerializer(read_only=True)
 
     class Meta:
         model = Course
@@ -43,4 +50,3 @@ class UpdateAssistantSerializer(Serializer):
         instance.assistant = user
         instance.save()
         return instance
-
