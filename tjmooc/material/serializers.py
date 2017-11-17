@@ -52,7 +52,7 @@ class TestSubmitSerializer(serializers.ModelSerializer):
 class TestSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(source='question_set', read_only=True, many=True)
     # test_submits = serializers.PrimaryKeyRelatedField(source='testsubmit_set', read_only=True, many=True)
-    test_submits = TestSubmitSerializer(source='testsubmit_set', read_only=True, many=True)
+    test_submits = TestSubmitDisplaySerializer(source='testsubmit_set', read_only=True, many=True)
 
     class Meta:
         model = Test
@@ -91,7 +91,7 @@ class HomeworkSubmitSerializer(serializers.ModelSerializer):
 
 
 class HomeworkSerializer(serializers.ModelSerializer):
-    homework_submits = HomeworkSubmitSerializer(source='homeworksubmit_set', read_only=True, many=True)
+    homework_submits = HomeworkSubmitDisplaySerializer(source='homeworksubmit_set', read_only=True, many=True)
 
     class Meta:
         model = Homework
