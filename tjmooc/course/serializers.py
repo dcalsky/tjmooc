@@ -30,11 +30,17 @@ class CourseSerializer(ModelSerializer):
 
 
 class UpdateAssistantSerializer(Serializer):
-    user = PrimaryKeyRelatedField(queryset=User.objects.all())
-    course = PrimaryKeyRelatedField(queryset=Course.objects.all())
+    username = CharField(min_length=5)
+
+    def validate_username(self, value):
+        user = User.objects.filter(username=value).first()
+        if user is None:
+            raise ValidationError('This user is not exist!')
+        return value
 
     def update(self, instance, validated_data):
-        instance.assistant = validated_data.get('user', instance.assistant)
+        user = User.objects.filter(username=validated_data['username']).first()
+        instance.assistant = user
         instance.save()
         return instance
 
