@@ -2,6 +2,7 @@ import json
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 from rest_framework import serializers
+from user.serializers import UserCommonSerializer
 from .models import *
 
 
@@ -30,10 +31,6 @@ class QuestionListSerializer(serializers.Serializer):
 
 
 class TestSubmitSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
-        default=serializers.CurrentUserDefault()
-    )
     answer = serializers.ListField(child=serializers.CharField())
 
     class Meta:
@@ -49,6 +46,10 @@ class TestSubmitSerializer(serializers.ModelSerializer):
         ]
 
 
+class TestSubmitDisplaySerializer(TestSubmitSerializer):
+    user = UserCommonSerializer(read_only=True)
+
+
 class TestSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(source='question_set', read_only=True, many=True)
     # test_submits = serializers.PrimaryKeyRelatedField(source='testsubmit_set', read_only=True, many=True)
@@ -59,25 +60,7 @@ class TestSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UserSerializerLite(serializers.ModelSerializer):
-    username = serializers.CharField(read_only=True)
-    nickname = serializers.CharField(read_only=True)
-
-    class Meta:
-        model = User
-        fields = ['username', 'nickname']
-
-
-class HomeworkSubmitDisplaySerializer(serializers.ModelSerializer):
-    user = UserSerializerLite(read_only=True)
-
-    class Meta:
-        model = HomeworkSubmit
-        fields = '__all__'
-
-
 class HomeworkSubmitSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = HomeworkSubmit
         fields = '__all__'
@@ -88,6 +71,10 @@ class HomeworkSubmitSerializer(serializers.ModelSerializer):
                 message='请勿重复提交作业'
             )
         ]
+
+
+class HomeworkSubmitDisplaySerializer(HomeworkSubmitSerializer):
+    user = UserCommonSerializer(read_only=True)
 
 
 class HomeworkSerializer(serializers.ModelSerializer):

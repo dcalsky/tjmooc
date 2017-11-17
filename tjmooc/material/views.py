@@ -35,6 +35,9 @@ class HomeworkSubmitViewSet(ModelViewSet):
     serializer_class = HomeworkSubmitSerializer
     queryset = HomeworkSubmit.objects.all()
 
+    def get_serializer_class(self):
+        return HomeworkSubmitSerializer if self.action == 'create' else HomeworkSubmitDisplaySerializer
+
 
 class TestViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
@@ -54,6 +57,9 @@ class TestSumitViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
     serializer_class = TestSubmitSerializer
     queryset = TestSubmit.objects.all()
+
+    def get_serializer_class(self):
+        return TestSubmitSerializer if self.action == 'create' else TestSubmitDisplaySerializer
 
     def create(self, request, *args, **kwargs):
         serializer = TestSubmitSerializer(data=request.data, context={
