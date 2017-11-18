@@ -37,9 +37,11 @@
             :key="c.id"
             @click="$router.push({path: `/course/${c.id}`})"
           >
-            <div class="title">{{c.title}}</div><div class="teacher">{{c.subtitle}}</div>
-            <p class="desc">{{c.introduction}}</p>
+            <div @click="$router.push({path: `/course/${c.id}`})">
+              <div class="title">{{c.title}}</div><div class="teacher">{{c.subtitle}}</div>
+              <p class="desc">{{c.introduction}}</p>
             <!--<router-link class="btn" :to=""/course/display/" + c.courseId">参与这门课</router-link>-->
+            </div>
           </el-card>
         </div>
       </div>

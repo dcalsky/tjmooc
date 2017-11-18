@@ -96,15 +96,15 @@ const course = {
       cb
     })
   },
-  getVideos (data, cb, token) {
-    console.log(data)
-    const {courseId, chapterId, unitId} = data
-    // get(`${server.course}${courseId}/chapter/${chapterId}/unit/${unitId}/video`, {
-    get(`${server.material}video?course=${courseId}&chapter=${chapterId}&unit=${unitId}`, {
-      page: -1,
-      cb
-    })
-  },
+  // getVideos (data, cb, token) {
+  //   console.log(data)
+  //   const {courseId, chapterId, unitId} = data
+  //   // get(`${server.course}${courseId}/chapter/${chapterId}/unit/${unitId}/video`, {
+  //   get(`${server.material}video?course=${courseId}&chapter=${chapterId}&unit=${unitId}`, {
+  //     page: -1,
+  //     cb
+  //   })
+  // },
   getUnitById ({id}, cb, token) {
     get(`${server.course}unit/${id}`, {cb})
   }
@@ -128,16 +128,31 @@ const material = {
       cb
     })
   },
-  submitHomeworkFile ({file, homework}, cb) {
-    console.log(file)
-    post(`${server.material}homework/${homework}/submit`, {
-      data: {file},
+  removeHomeworkSubmit ({id}, cb) {
+    delet(`${server.material}homework-submit/${id}/`, {
+      cb
+    })
+  },
+  submitHomework (data, cb) {
+    post(`${server.material}homework-submit/`, {
+      data,
+      cb
+    })
+  },
+  submitTest (data, cb) {
+    post(`${server.material}test-submit/`, {
+      data,
       cb
     })
   },
   getVideo (data, cb, token) {
     console.log(data)
     get(`${server.material}video/${data.videoId}`, {
+      cb
+    })
+  },
+  getSubmits ({id}, cb) {
+    get(`${server.material}submits/${id}`, {
       cb
     })
   }
@@ -215,14 +230,14 @@ const manage = {
     delet(`${server.course}unit/${id}/`, {cb})
   },
 
-  getVideo ({courseId, chapterId, unitId}, cb) {
-    get(`${server.material}video?course=${courseId}&chapter=${chapterId}&unit=${unitId}`, {cb})
+  // getVideo ({courseId, chapterId, unitId}, cb) {
+  //   get(`${server.material}video/`, {cb})
+  // },
+  postVideo (data, cb) {
+    post(`${server.material}video/`, {data, cb})
   },
-  postVideo ({courseId, chapterId, unitId, data}, cb) {
-    post(`${server.material}video?course=${courseId}&chapter=${chapterId}&unit=${unitId}`, {data, cb})
-  },
-  removeVideo ({courseId, chapterId, unitId, videoId}, cb) {
-    delet(`${server.material}video/${videoId}?course=${courseId}&chapter=${chapterId}&unit=${unitId}`, {cb})
+  removeVideo ({id}, cb) {
+    delet(`${server.material}video/${id}`, {cb})
   },
 
   postHomework (data, cb) {
@@ -238,12 +253,34 @@ const manage = {
   postTest (data, cb) {
     post(`${server.material}test/`, {data, cb})
   },
+  updateTest (data, cb) {
+    put(`${server.material}test/${data.id}/`, {data, cb})
+  },
   removeTest ({id}, cb) {
     delet(`${server.material}test/${id}`, {cb})
   },
   postQuestionList (data, cb) {
     post(`${server.material}question/list/`, {
       data,
+      cb
+    })
+  },
+
+  clearQuestions ({id}, cb) {
+    delet(`${server.material}test/${id}/clear_questions/`, {
+      cb
+    })
+  },
+  appendAssistant ({course, username}, cb) {
+    post(`${server.course}course/${course.id}/assistant/`, {
+      data: {
+        username
+      },
+      cb
+    })
+  },
+  removeAssistant (course, cb) {
+    delet(`${server.course}course/${course.id}/assistant/`, {
       cb
     })
   }

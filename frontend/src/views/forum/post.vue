@@ -32,36 +32,36 @@
 <script>
   export default {
     name: 'post-detail',
-    created() {
+    created () {
       this.$store.dispatch('getFloorDetail', this.$route.params.floorId)
       this.$store.dispatch('getPostDetail', this.$route.params.floorId)
     },
-    data() {
+    data () {
       return {
         replyContent: ''
       }
     },
     computed: {
-      floor() {
+      floor () {
         return this.$store.state.forum.currentFloor
       },
-      posts() {
+      posts () {
         return this.$store.state.forum.posts
       },
-      hasNext() {
+      hasNext () {
         return this.$store.state.forum.floorPage.next
       }
     },
     methods: {
-      submit() {
+      submit () {
         this.$store.dispatch('addPost', {floorId: this.$route.params.floorId, content: this.replyContent})
       },
-      enterDetail(forumId) {
+      enterDetail (forumId) {
         this.$router.push({
           name: `floorDetail`,
-          params: { forumId }
-        });
-      },
+          params: {forumId}
+        })
+      }
     }
   }
 </script>

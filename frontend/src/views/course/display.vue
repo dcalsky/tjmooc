@@ -170,6 +170,8 @@
     },
     created () {
       const id = this.$route.params.courseId
+      this.$store.commit('clearMaterial')
+      this.$store.commit('clearCourse')
       this.$store.dispatch('getCourseById', {id})
     }
   }

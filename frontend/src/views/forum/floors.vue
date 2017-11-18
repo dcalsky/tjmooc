@@ -32,10 +32,10 @@
 <script>
   export default {
     name: 'floor-list',
-    created() {
+    created () {
       this.$store.dispatch('getFloorList', this.$route.params.forumId)
     },
-    data() {
+    data () {
       return {
         replyShow: false,
         replyTitle: '',
@@ -43,25 +43,29 @@
       }
     },
     computed: {
-      floors() {
+      floors () {
         return this.$store.state.forum.floors
       },
-      hasNext() {
+      hasNext () {
         return this.$store.state.forum.floorPage.next
       }
     },
     methods: {
-      enterDetail(floorId, floorIndex) {
+      enterDetail (floorId, floorIndex) {
         this.$router.push({
           name: `postDetail`,
-          params: { floorId, floorIndex }
-        });
+          params: {floorId, floorIndex}
+        })
       },
-      sendPost() {
+      sendPost () {
         this.replyShow = !this.replyShow
       },
-      submit() {
-        this.$store.dispatch('addFloor', {forumId: this.$route.params.forumId, content: this.replyContent, title: this.replyTitle})
+      submit () {
+        this.$store.dispatch('addFloor', {
+          forumId: this.$route.params.forumId,
+          content: this.replyContent,
+          title: this.replyTitle
+        })
       }
     }
   }

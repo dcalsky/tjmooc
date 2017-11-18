@@ -1,7 +1,7 @@
 <template>
   <div id="manage-afterclass" :style="{minHeight}">
     <div class="left">
-      <h1 class="el-icon-arrow-left" @click="$router.push({ name: 'manage'})" data-text="课后管理" data-text-hover="返 回"></h1>
+      <h1 class="fa fa-sticky-note" @click="$router.push({ name: 'manage'})" data-text="课后管理" data-text-hover="返 回"></h1>
       <a ref='left' v-for="item in left" @click="item.click">
         {{item.tag}}
       </a>
@@ -42,19 +42,26 @@
           >
 
             <el-form-item label="助教" class="assistant">
+              <!--<el-tag-->
+                <!--:key="a.id"-->
+                <!--v-for="a in assistants"-->
+                <!--:closable="true"-->
+                <!--:close-transition="false"-->
+                <!--@close="handleClose(a)"-->
+                <!--type="gray"-->
+              <!--&gt;-->
               <el-tag
-                :key="a.id"
-                v-for="a in assistants"
                 :closable="true"
                 :close-transition="false"
-                @close="handleClose(a)"
+                @close="removeAssistant"
+                v-if="assistant && !assistantEditable"
                 type="gray"
               >
-                {{a.id}} - {{a.name}}
+                {{assistant.username}} - {{assistant.nickname}}
               </el-tag>
 
               <el-input
-                v-if="assistantVisible"
+                v-else-if="assistantEditable"
                 v-model="assistantValue"
                 ref="assistantSaveTagInput"
                 size="small"
@@ -302,8 +309,15 @@
               <el-date-picker
                 v-model="testForm.deadline"
                 type="datetime"
-                placeholder="选择作业截止时间">
+                placeholder="选择截止时间">
               </el-date-picker>
+            </el-form-item>
+
+            <el-form-item label="测试时间">
+              <el-time-picker
+                v-model="testForm.testTime"
+                placeholder="选择测试时间">
+              </el-time-picker>
             </el-form-item>
 
             <el-form-item :label="'测试题目' + (questionForm.length ? '' : ' - 请添加测试题目')">
@@ -485,7 +499,7 @@
   import FootBar from '../../components/footbar'
   import Navbar from '../../components/navbar/index.vue'
   import ClickInput from '../../components/click-input/click-input.vue'
-  import store from './store'
+//  import store from './store'
 //  import {debounce} from 'lodash'
   import { VueEditor } from 'vue2-editor'
   import {server} from '../../config'
@@ -522,7 +536,7 @@
       test: {
         deep: true,
         handler (val) {
-          this.testForm = Object.assign({}, val, {deadline: new Date(val.deadline)})
+          this.testForm = Object.assign({}, val, {deadline: new Date(val.deadline), testTime: new Date(val['test_time'] || '1969-12-31T16:00:00.000Z')})
         }
       },
       questions: {
@@ -548,8 +562,8 @@
       chapters () {
         return this.$store.state.manage.chapters
       },
-      assistants () {
-        return store.assistants
+      assistant () {
+        return this.course.assistant
       },
       course () {
         return this.$store.state.manage.course
@@ -601,7 +615,7 @@
 
         minHeight: 0,
 
-        assistantVisible: false,
+        assistantEditable: false,
         assistantValue: '',
 
         homeworkRules: {
@@ -760,17 +774,33 @@
       },
       saveQuestion () {
         if (this.test.id) {
-          this.$store.dispatch('submitQuestionForm', {
-            questionForm: this.questionForm,
-            test: this.test.id,
+          this.$store.dispatch('clearQuestions', {
+            id: this.test.id,
             cb: () => {
-              this.$refs.left[1].click()
+              this.$store.dispatch('submitTestForm', {
+                deadline: this.testForm.deadline,
+                testTime: this.testForm.testTime,
+                chapter: this.chapter.id,
+                id: this.test.id,
+                cb: test => {
+                  this.$store.commit('GET_TEST_SUCCESS', test)
+                  this.$store.dispatch('submitQuestionForm', {
+                    questionForm: this.questionForm,
+                    test: this.test.id,
+                    cb: () => {
+                      this.$refs.left[1].click()
+                    }
+                  })
+                }
+              })
             }
           })
         } else {
           this.$store.dispatch('submitTestForm', {
             deadline: this.testForm.deadline,
+            testTime: this.testForm.testTime,
             chapter: this.chapter.id,
+            id: this.test.id,
             cb: test => {
               console.log('ok')
               this.$store.commit('GET_TEST_SUCCESS', test)
@@ -862,12 +892,12 @@
         return l
       },
 
-      handleClose (tag) {
-        store.removeAssistant(tag)
+      removeAssistant () {
+        this.$store.dispatch('removeAssistant', this.course)
       },
 
       showInput () {
-        this.assistantVisible = true
+        this.assistantEditable = true
         this.$nextTick(_ => {
           this.$refs.assistantSaveTagInput.$refs.input.focus()
         })
@@ -876,9 +906,12 @@
       handleInputConfirm () {
         let assistantValue = this.assistantValue
         if (assistantValue) {
-          store.appendAssistant(assistantValue)
+          this.$store.dispatch('appendAssistant', {
+            username: assistantValue,
+            course: this.course
+          })
         }
-        this.assistantVisible = false
+        this.assistantEditable = false
         this.assistantValue = ''
       },
       download (url) {

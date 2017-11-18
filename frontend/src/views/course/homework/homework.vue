@@ -21,9 +21,9 @@
         </div>
         <divide :text="homeworkStatus"></divide>
         <div class="btn-box" v-if="homeworkSubmitted">
-          <a class="btn" :href="homeworkSubmit.submit_file" target="_self">查看作业</a>
+          <a class="btn" :href="homeworkSubmit.file" target="_self" download style="color: currentColor;">查看作业</a>
           <span class="d" v-if="!timeRemain.past">|</span>
-          <label class="btn" v-if="!timeRemain.past" for="homework-submit">重新提交</label>
+          <a class="btn" v-if="!timeRemain.past" @click="cancelUpload" style="color: currentColor;">取消提交</a>
         </div>
         <div class="btn-box" v-if="!homeworkSubmitted">
           <label class="btn" v-if="!timeRemain.past" for="homework-submit">提交作业</label>
@@ -134,11 +134,14 @@
         console.log(this.homework)
         return new Date(this.homework.deadline)
       },
+      chapter () {
+        return this.$store.state.course.chapter
+      },
       homeworkSubmit () {
         return this.$store.state.material.homeworkSubmit
       },
       homeworkSubmitted () {
-        return Boolean(this.homeworkSubmit.id)
+        return Boolean(this.homeworkSubmit && this.homeworkSubmit.id)
       },
       timeRemain () {
         const now = this.now.getTime()
@@ -173,14 +176,27 @@
         }
       },
       chapterTitle () {
-        return this.$store.state.course.chapter.title
+        return this.chapter.title
       }
     },
     methods: {
-
       onUploadSuccess (res, file, fileList) {
         const t = res.startsWith('http') ? res : urlJoin(server.host, res)
-        this.$store.dispatch('submitHomeworkFile', {file: t, homework: this.homework.id})
+        this.$store.dispatch('submitHomeworkFile', {
+          file: t,
+          homework: this.homework.id,
+          user: this.$store.state.session.userId,
+          chapterId: this.chapter.id
+        })
+      },
+      cancelUpload () {
+        console.log(this.homeworkSubmit)
+        if (this.homeworkSubmit && this.homeworkSubmit.id) {
+          this.$store.dispatch('removeHomeworkSubmit', {
+            id: this.homeworkSubmit.id,
+            chapterId: this.chapter.id
+          })
+        }
       },
       refreshTime () {
         this.now = new Date()
@@ -200,6 +216,7 @@
     },
     mounted () {
       this.refreshTime()
+      this.$store.dispatch('getSubmits', this.chapter)
     }
   }
 </script>

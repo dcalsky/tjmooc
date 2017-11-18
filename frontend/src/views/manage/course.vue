@@ -1,7 +1,7 @@
 <template>
   <div id="manage-course" :style="{minHeight}">
     <div class="left">
-      <h1 class="el-icon-arrow-left" @click="$router.push({ name: 'manage'})" data-text="课程管理" data-text-hover="返 回"></h1>
+      <h1 class="el-icon-menu" @click="$router.push({ name: 'manage'})" data-text="课程管理" data-text-hover="返 回"></h1>
       <a ref='left' v-for="item in left" @click="item.click">
         {{item.tag}}
       </a>
@@ -246,7 +246,8 @@
         return this.$store.state.manage.units
       },
       videos () {
-        return this.$store.state.manage.videos
+        const v = this.$store.state.manage.unit.videos
+        return v && v.map(({title, id}) => ({id, name: title}))
       },
       course () {
         return this.$store.state.manage.course
@@ -344,7 +345,7 @@
       onVideoUploadRemove (file, fileList) {
         this.uploading = false
         console.log(file, fileList)
-        this.$store.dispatch('removeVideo', {fileName: file.name})
+        this.$store.dispatch('removeVideo', file)
       },
 
       saveCourse () {

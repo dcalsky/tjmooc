@@ -239,6 +239,35 @@ const mutations = {
 
   getTops (state, tops) {
     state.tops = tops
+  },
+  clearCourse () {
+    Object.assign(state, {
+      course: {
+        id: 0,
+        title: '',
+        subtitle: '',
+        introduction: '',
+        cover_image: '',
+        chapters: []
+      },
+      chapter: {
+        id: 0,
+        title: '',
+        description: '',
+        units: []
+      },
+      unit: {
+        id: 0,
+        title: '',
+        description: '',
+        videos: []
+      },
+      messages: [],
+
+      tops: [],
+      courses: [],
+      count: 0
+    })
   }
 
 }

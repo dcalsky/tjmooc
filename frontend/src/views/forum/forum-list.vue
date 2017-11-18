@@ -18,25 +18,25 @@
 <script>
   export default {
     name: 'forum-list',
-    created() {
+    created () {
       // Ajax to get data
       this.$store.dispatch('getForumList', this.$route.params.forumId)
     },
     computed: {
-      forums() {
+      forums () {
         return this.$store.state.forum.forums
       },
-      hasNext() {
+      hasNext () {
         return this.$store.state.forum.forumPage.next
       }
     },
     methods: {
-      enterDetail(forumId) {
+      enterDetail (forumId) {
         this.$router.push({
           name: `forumDetail`,
-          params: { forumId }
-        });
-      },
+          params: {forumId}
+        })
+      }
     }
   }
 </script>

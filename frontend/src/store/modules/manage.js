@@ -13,7 +13,6 @@ const state = {
   chapter: {},
   units: [],
   unit: {},
-  videos: [],
   assistants: [],
 
   homework: {}
@@ -198,50 +197,41 @@ const actions = {
     })
   },
 
-  getVideo ({commit}) {
-    const courseId = state.course.id
-    const chapterId = state.chapter.id
-    const unitId = state.unit.id
-    manage.getVideo({courseId, chapterId, unitId}, (err, res) => {
-      if (err) {
-        console.error(err)
-      }
-      commit('getVideo', res.body)
-    })
-  },
+  // getVideo ({commit}) {
+  //   const courseId = state.course.id
+  //   const chapterId = state.chapter.id
+  //   const unitId = state.unit.id
+  //   manage.getVideo({courseId, chapterId, unitId}, (err, res) => {
+  //     if (err) {
+  //       console.error(err)
+  //     }
+  //     commit('getVideo', res.body)
+  //   })
+  // },
   addVideo ({commit}, {url, fileName, teacher}) {
     // const f = /(.+)\.(.+?)/i.exec(fileName)[1] // TODO: 扩展名flv, change later
     // console.log(url, f)
-    const courseId = state.course.id
-    const chapterId = state.chapter.id
-    const unitId = state.unit.id
-    const data = {
+    manage.postVideo({
       title: fileName,
       description: fileName,
+      unit: state.unit.id,
       url,
       teacher
-    }
-    manage.postVideo({courseId, chapterId, unitId, data}, (err, res) => {
+    }, (err, res) => {
       if (err) {
         console.error(err)
       }
       // commit('submitCourseForm', res.body)
-      actions.getVideo({commit})
-      console.log('addVideo', res.body)
+      actions.getUnit({commit}, state.unit)
     })
   },
-  removeVideo ({commit}, {fileName}) {
-    const courseId = state.course.id
-    const chapterId = state.chapter.id
-    const unitId = state.unit.id
-    console.log(state.videos)
-    const videoId = state.videos.filter(x => x.name === fileName)[0].id
-    manage.removeVideo({courseId, chapterId, unitId, videoId}, (err, res) => {
+  removeVideo ({commit}, {id}) {
+    manage.removeVideo({id}, (err, res) => {
       if (err) {
         console.error(err)
       }
       // commit('submitCourseForm', res.body)
-      actions.getVideo({commit})
+      actions.getUnit({commit}, state.unit)
       console.log('removeVideo', res.body)
     })
   },
@@ -291,22 +281,50 @@ const actions = {
       cb()
     })
   },
-  submitTestForm ({commit}, {deadline, chapter, cb}) {
-    manage.postTest({deadline, chapter}, (err, res) => {
+  submitTestForm ({commit}, {deadline, chapter, testTime, id, cb}) {
+    if (id) {
+      manage.updateTest({deadline, test_time: testTime, chapter, id}, (err, res) => {
+        if (err) {
+          console.error(err)
+
+          const info = res.body
+          let t = ''
+          for (let i in info) {
+            t = t + i + ': ' + info[i].join('; ') + '\n'
+          }
+
+          window.$app.$message.error(t)
+          return
+        }
+        console.log('submitTestForm', res.body)
+        cb(res.body)
+      })
+    } else {
+      manage.postTest({deadline, test_time: testTime, chapter}, (err, res) => {
+        if (err) {
+          console.error(err)
+
+          const info = res.body
+          let t = ''
+          for (let i in info) {
+            t = t + i + ': ' + info[i].join('; ') + '\n'
+          }
+
+          window.$app.$message.error(t)
+          return
+        }
+        console.log('submitTestForm', res.body)
+        cb(res.body)
+      })
+    }
+  },
+  clearQuestions ({commit}, {id, cb}) {
+    manage.clearQuestions({id}, (err, res) => {
       if (err) {
         console.error(err)
-
-        const info = res.body
-        let t = ''
-        for (let i in info) {
-          t = t + i + ': ' + info[i].join('; ') + '\n'
-        }
-
-        window.$app.$message.error(t)
-        return
       }
-      console.log('submitTestForm', res.body)
-      cb(res.body)
+      console.log('clearQuestions', res.body)
+      cb()
     })
   },
   removeTest ({commit}, {id, cb}) {
@@ -326,6 +344,24 @@ const actions = {
       // commit('submitCourseForm', res.body)
       console.log('removeHomework', res.body)
       cb()
+    })
+  },
+  appendAssistant ({commit}, data) {
+    manage.appendAssistant(data, (err, res) => {
+      if (err) {
+        console.error(err)
+      }
+      console.log('appendAssistant', res.body)
+      actions.getCourse({commit}, data.course)
+    })
+  },
+  removeAssistant ({commit}, course) {
+    manage.removeAssistant(course, (err, res) => {
+      if (err) {
+        console.error(err)
+      }
+      console.log('removeAssistant', res.body)
+      actions.getCourse({commit}, course)
     })
   }
 }

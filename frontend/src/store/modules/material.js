@@ -8,6 +8,7 @@ const state = {
   homework: {},
   test: {},
   homeworkSubmit: {},
+  testSubmit: {},
   videos: {},
   videosLen: 0
 }
@@ -55,8 +56,8 @@ const actions = {
         console.log(err)
         commit(types.GET_HOMEWORK_SUBMIT_FAILED, errorHandler('error'))
       }
-      if (res.body && res.body.length) {
-        commit(types.GET_HOMEWORK_SUBMIT_SUCCESS, {homeworkSubmit: res.body[0]})
+      if (res.body) {
+        commit(types.GET_HOMEWORK_SUBMIT_SUCCESS, {homeworkSubmit: res.body})
       } else {
         // Fail: return fail message
         commit(types.GET_HOMEWORK_SUBMIT_FAILED, errorHandler(res.body))
@@ -64,18 +65,28 @@ const actions = {
     })
   },
   submitHomeworkFile ({commit}, data) {
-    commit(types.POST_HOMEWORK_REQUEST)
-    material.submitHomeworkFile(data, (err, res) => {
+    material.submitHomework(data, (err, res) => {
       if (err) {
         console.log(err)
-        commit(types.POST_HOMEWORK_FAILED, errorHandler('error'))
       }
-      if (res.body && res.body.length) {
-        commit(types.POST_HOMEWORK_SUCCESS, {homeworkSubmit: res.body})
-      } else {
-        // Fail: return fail message
-        commit(types.POST_HOMEWORK_FAILED, errorHandler(res.body))
+      actions.getSubmits({commit}, {id: data.chapterId})
+    })
+  },
+  removeHomeworkSubmit ({commit}, data) {
+    material.removeHomeworkSubmit(data, (err, res) => {
+      if (err) {
+        console.log(err)
       }
+      actions.getSubmits({commit}, {id: data.chapterId})
+    })
+  },
+  submitTest ({commit}, data) {
+    material.submitTest(data, (err, res) => {
+      if (err) {
+        console.log(err)
+      }
+      console.log(res.body)
+      actions.getSubmits({commit}, {id: data.chapterId})
     })
   },
   getVideo ({commit}, data) {
@@ -98,6 +109,15 @@ const actions = {
         commit(types.GET_VIDEO_FAILED, errorHandler(res.body))
       }
     })
+  },
+  getSubmits ({commit}, data) {
+    material.getSubmits(data, (err, res) => {
+      if (err) {
+        console.log(err)
+      }
+      console.log(res.body)
+      commit('getSubmits', res.body)
+    })
   }
 }
 
@@ -110,6 +130,7 @@ const mutations = {
     state.messages = messages
   },
   [types.GET_HOMEWORK_REQUEST] (state) {
+    state.homework = {}
     state.messages = []
   },
 
@@ -121,6 +142,7 @@ const mutations = {
     state.messages = messages
   },
   [types.GET_TEST_REQUEST] (state) {
+    state.test = {}
     state.messages = []
   },
 
@@ -161,6 +183,18 @@ const mutations = {
   },
   [types.GET_VIDEO_REQUEST] (state) {
     state.messages = []
+  },
+  getSubmits (state, data) {
+    state.homeworkSubmit = data['homework_submits'] && data['homework_submits'][0]
+    state.testSubmit = data['test_submits'] && data['test_submits'][0]
+  },
+  clearMaterial () {
+    Object.assign(state, {
+      homework: {},
+      test: {},
+      homeworkSubmit: {},
+      testSubmit: {}
+    })
   }
 }
 

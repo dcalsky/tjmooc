@@ -5,14 +5,14 @@
       <div class="types">
         <div class="type" @click="routerTo('course')">
           <el-card>
-            <i class="el-icon-setting"></i>
+            <i class="el-icon-menu"></i>
             <div>课程管理</div>
           </el-card>
         </div>
 
         <div class="type" @click="routerTo('afterclass')">
           <el-card>
-            <i class="el-icon-document"></i>
+            <i class="fa fa-sticky-note"></i>
             <div>课后管理</div>
           </el-card>
         </div>

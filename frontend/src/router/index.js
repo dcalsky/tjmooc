@@ -17,10 +17,10 @@ const Course = r => require.ensure([], () => r(require('../views/course')), 'cou
 // const CourseAdd = r => require.ensure([], () => r(require('views/course/add')), 'course')
 //
 // // Forum
-// const Forum = r => require(['views/forum/forum'], r)
-// const ForumList = r => require(['views/forum/forum-list'], r)
-// const ForumDetail = r => require(['views/forum/floors'], r)
-// const PostDetail = r => require(['views/forum/post'], r)
+const Forum = r => require(['../views/forum/forum'], r)
+const ForumList = r => require(['../views/forum/forum-list'], r)
+const ForumDetail = r => require(['../views/forum/floors'], r)
+const PostDetail = r => require(['../views/forum/post'], r)
 //
 // Manage
 const Manage = r => require(['../views/manage'], r)
@@ -29,21 +29,30 @@ const ManageCourse = r => require(['../views/manage/course.vue'], r)
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'hash',
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        scrollTop: 0
+      }
     },
     {
       path: '/about',
       name: 'about',
-      component: About
+      component: About,
+      meta: {
+        scrollTop: 0
+      }
     }, {
       path: '/copyright',
-      component: Copyright
+      component: Copyright,
+      meta: {
+        scrollTop: 0
+      }
     }, {
       path: '/account',
       component: Account,
@@ -57,30 +66,39 @@ export default new Router({
           component: AccountLogin,
           name: 'login'
         }
-      ]
+      ],
+      meta: {
+        scrollTop: 0
+      }
     }, {
       path: '/profile',
       name: 'profile',
-      component: Home
+      component: Home,
+      meta: {
+        scrollTop: 0
+      }
     },
     {
       path: '/course/:courseId',
       component: Course,
-      name: 'course'
-    //   children: [
-    //     {
-    //       path: 'display/:courseId',
-    //       component: CourseDisplay
-    //     },
-    //     {
-    //       path: 'list',
-    //       component: CourseList
-    //     },
-    //     {
-    //       path: 'add',
-    //       component: CourseAdd
-    //     }
-    //   ]
+      name: 'course',
+      meta: {
+        scrollTop: 0
+      }
+      //   children: [
+      //     {
+      //       path: 'display/:courseId',
+      //       component: CourseDisplay
+      //     },
+      //     {
+      //       path: 'list',
+      //       component: CourseList
+      //     },
+      //     {
+      //       path: 'add',
+      //       component: CourseAdd
+      //     }
+      //   ]
     },
     {
       path: '/manage',
@@ -97,32 +115,49 @@ export default new Router({
           name: 'manage-afterclass',
           component: ManageAfterclass
         }
+      ],
+      meta: {
+        scrollTop: 0
+      }
+    },
+    {
+      path: '/bbs',
+      component: Forum,
+      name: 'bbs',
+      children: [
+        {
+          path: '/',
+          component: ForumList,
+          name: 'forumList'
+        }, {
+          path: 'forum/:forumId',
+          component: ForumDetail,
+          name: 'forumDetail'
+        }, {
+          path: 'post/:postId',
+          component: PostDetail,
+          name: 'postDetail'
+        }
       ]
     },
-    // {
-    //   path: '/bbs',
-    //   component: Forum,
-    //   name: 'bbs',
-    //   children: [
-    //     {
-    //       path: '/',
-    //       component: ForumList,
-    //       name: 'forumList'
-    //     }, {
-    //       path: 'forum/:forumId',
-    //       component: ForumDetail,
-    //       name: 'forumDetail'
-    //     }, {
-    //       path: 'post/:postId',
-    //       component: PostDetail,
-    //       name: 'postDetail'
-    //     }
-    //   ]
-    // },
     {
       path: '*',
       name: 'notfound',
-      component: Notfound
+      component: Notfound,
+      meta: {
+        scrollTop: 0
+      }
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  from.meta.scrollTop = window.scrollY
+  next()
+})
+
+router.afterEach((to, from) => {
+  window.scrollTo(0, to.meta.scrollTop)
+})
+
+export default router
