@@ -1,2 +1,0 @@
-webpackJsonp([8],{230:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=n(284),u=n(285),a=n(3),i=a(r.a,u.a,!1,null,null,null);t.default=i.exports},284:function(e,t,n){"use strict";t.a={name:"forum",data:function(){return{minHeight:0}}}},285:function(e,t,n){"use strict";var r=function(){var e=this,t=e.$createElement;return(e._self._c||t)("router-view",{attrs:{id:"forum"}})},u=[],a={render:r,staticRenderFns:u};t.a=a}});
-//# sourceMappingURL=8.551e7b127fbbfae1725b.js.map
